@@ -118,23 +118,13 @@
       <div class="ticker-items" id="ticker-items">
         <div class="ticker-item">
           <span class="ticker-name">금 (Gold)</span>
-          <span class="ticker-price" id="gold-price">₩125,430/g</span>
-          <span class="ticker-change up" id="gold-change">+0.42%</span>
+          <span class="ticker-price" id="gold-price">로딩중...</span>
+          <span class="ticker-change up" id="gold-change">실시간</span>
         </div>
         <div class="ticker-item">
           <span class="ticker-name">국제 금 현물</span>
-          <span class="ticker-price" id="xau-price">$2,387.50/oz</span>
-          <span class="ticker-change up" id="xau-change">+0.38%</span>
-        </div>
-        <div class="ticker-item">
-          <span class="ticker-name">은 (Silver)</span>
-          <span class="ticker-price" id="silver-price">₩1,420/g</span>
-          <span class="ticker-change down" id="silver-change">-0.12%</span>
-        </div>
-        <div class="ticker-item">
-          <span class="ticker-name">백금 (Platinum)</span>
-          <span class="ticker-price">₩42,100/g</span>
-          <span class="ticker-change up">+0.65%</span>
+          <span class="ticker-price" id="xau-price">로딩중...</span>
+          <span class="ticker-change up" id="xau-change">실시간</span>
         </div>
       </div>
     </div>
@@ -157,7 +147,7 @@
       <div class="products-grid" id="products-grid">
 
         <!-- American Eagle -->
-        <div class="product-card" data-category="investment">
+        <div class="product-card" data-category="investment" data-premium="1.032">
           <div class="product-badge">BESTSELLER</div>
           <div class="product-img-wrap">
             <div class="product-coin-wrap">
@@ -173,15 +163,14 @@
             <p class="product-desc">미국 최고 권위의 금화. 리걸 텐더 보증.</p>
             <div class="product-pricing">
               <div class="product-spot">현물 기준가</div>
-              <div class="product-price">₩4,850,000</div>
-              <div class="product-premium">프리미엄 +3.2%</div>
+              <div class="product-price card-price">계산중...</div>
             </div>
-            <button class="btn-add-cart" onclick="addToCart(this, '아메리칸 이글 1oz', 4850000)">장바구니 담기</button>
+            <button class="btn-add-cart" onclick="addToCart(this, '아메리칸 이글 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
 
         <!-- Maple Leaf -->
-        <div class="product-card" data-category="investment">
+        <div class="product-card" data-category="investment" data-premium="1.026">
           <div class="product-img-wrap">
             <div class="product-coin-wrap">
               <img src="https://hyattcoins.com/cdn/shop/files/2024-canadian-gold-maple-leaf-1-oz.jpg" alt="Canadian Maple Leaf Gold Coin 2026" onerror="this.outerHTML='<div class=\'coin-fallback\'><span class=\'cv-symbol\'>🍁</span><span class=\'cv-text\'>MAPLE LEAF</span><span class=\'cv-year\'>2026</span></div>'">
@@ -196,15 +185,14 @@
             <p class="product-desc">세계 최고 순도 99.99% 캐나다 왕실 조폐국.</p>
             <div class="product-pricing">
               <div class="product-spot">현물 기준가</div>
-              <div class="product-price">₩4,820,000</div>
-              <div class="product-premium">프리미엄 +2.6%</div>
+              <div class="product-price card-price">계산중...</div>
             </div>
-            <button class="btn-add-cart" onclick="addToCart(this, '메이플 리프 1oz', 4820000)">장바구니 담기</button>
+            <button class="btn-add-cart" onclick="addToCart(this, '메이플 리프 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
 
         <!-- Britannia -->
-        <div class="product-card featured" data-category="collector">
+        <div class="product-card featured" data-category="collector" data-premium="1.058">
           <div class="product-badge badge-limited">LIMITED</div>
           <div class="product-img-wrap">
             <div class="product-coin-wrap">
@@ -220,15 +208,14 @@
             <p class="product-desc">영국 왕실 조폐국의 상징. 2026 특별 한정 발행.</p>
             <div class="product-pricing">
               <div class="product-spot">현물 기준가</div>
-              <div class="product-price">₩5,100,000</div>
-              <div class="product-premium">프리미엄 +5.8%</div>
+              <div class="product-price card-price">계산중...</div>
             </div>
-            <button class="btn-add-cart" onclick="addToCart(this, '브리타니아 1oz', 5100000)">장바구니 담기</button>
+            <button class="btn-add-cart" onclick="addToCart(this, '브리타니아 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
 
         <!-- Krugerrand -->
-        <div class="product-card" data-category="investment">
+        <div class="product-card" data-category="investment" data-premium="1.018">
           <div class="product-img-wrap">
             <div class="product-coin-wrap">
               <img src="https://hyattcoins.com/cdn/shop/files/2024-south-african-krugerrand-1oz-gold.jpg" alt="Krugerrand Gold Coin 2026" onerror="this.outerHTML='<div class=\'coin-fallback\'><span class=\'cv-symbol\'>🌿</span><span class=\'cv-text\'>KRUGERRAND</span><span class=\'cv-year\'>2026</span></div>'">
@@ -243,15 +230,14 @@
             <p class="product-desc">세계 최초 투자용 금화. 1967년부터의 전통.</p>
             <div class="product-pricing">
               <div class="product-spot">현물 기준가</div>
-              <div class="product-price">₩4,780,000</div>
-              <div class="product-premium">프리미엄 +1.8%</div>
+              <div class="product-price card-price">계산중...</div>
             </div>
-            <button class="btn-add-cart" onclick="addToCart(this, '크루거란드 1oz', 4780000)">장바구니 담기</button>
+            <button class="btn-add-cart" onclick="addToCart(this, '크루거란드 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
 
         <!-- Panda -->
-        <div class="product-card" data-category="collector">
+        <div class="product-card" data-category="collector" data-premium="1.041" data-grams="30">
           <div class="product-img-wrap">
             <div class="product-coin-wrap">
               <img src="https://www.tavex.fi/img/coins/tavex-china-gold-panda-2024-30g-1.jpg" alt="Chinese Gold Panda Coin 2026" onerror="this.outerHTML='<div class=\'coin-fallback\'><span class=\'cv-symbol\'>🐼</span><span class=\'cv-text\'>PANDA</span><span class=\'cv-year\'>2026</span></div>'">
@@ -266,15 +252,14 @@
             <p class="product-desc">매년 디자인이 바뀌는 중국 판다 시리즈.</p>
             <div class="product-pricing">
               <div class="product-spot">현물 기준가</div>
-              <div class="product-price">₩4,920,000</div>
-              <div class="product-premium">프리미엄 +4.1%</div>
+              <div class="product-price card-price">계산중...</div>
             </div>
-            <button class="btn-add-cart" onclick="addToCart(this, '판다 골드 30g', 4920000)">장바구니 담기</button>
+            <button class="btn-add-cart" onclick="addToCart(this, '판다 골드 30g', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
 
         <!-- Kangaroo -->
-        <div class="product-card" data-category="limited">
+        <div class="product-card" data-category="limited" data-premium="1.030">
           <div class="product-badge badge-new">NEW</div>
           <div class="product-img-wrap">
             <div class="product-coin-wrap">
@@ -290,10 +275,9 @@
             <p class="product-desc">호주 퍼스 조폐국의 프리미엄 2026 신규 발행.</p>
             <div class="product-pricing">
               <div class="product-spot">현물 기준가</div>
-              <div class="product-price">₩4,890,000</div>
-              <div class="product-premium">프리미엄 +3.0%</div>
+              <div class="product-price card-price">계산중...</div>
             </div>
-            <button class="btn-add-cart" onclick="addToCart(this, '캥거루 1oz', 4890000)">장바구니 담기</button>
+            <button class="btn-add-cart" onclick="addToCart(this, '캥거루 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
 
@@ -341,7 +325,7 @@
           <div class="price-chart-preview">
             <div class="chart-header">
               <span>금 현물가 추이 (3개월)</span>
-              <span class="chart-price">$2,387.50</span>
+              <span class="chart-price" id="chart-price">$--</span>
             </div>
             <svg class="sparkline" viewBox="0 0 300 80" preserveAspectRatio="none">
               <defs>
