@@ -129,7 +129,7 @@ let currentKrwPerOz = 0;
 
 async function updatePrices() {
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=계산`;
     const res = await fetch(url);
     const text = await res.text();
     const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
@@ -144,7 +144,6 @@ async function updatePrices() {
       if (xauEl) xauEl.textContent = `$${Number(xauPrice).toFixed(2)}/oz`;
       if (xauChange) { xauChange.textContent = '실시간'; xauChange.className = 'ticker-change up'; }
 
-      // 차트 가격 업데이트
       const chartPrice = document.getElementById('chart-price');
       if (chartPrice) chartPrice.textContent = `$${Number(xauPrice).toFixed(2)}`;
     }
@@ -158,7 +157,6 @@ async function updatePrices() {
       if (goldEl) goldEl.textContent = `₩${pricePerGram.toLocaleString()}/g`;
       if (goldChange) { goldChange.textContent = '실시간'; goldChange.className = 'ticker-change up'; }
 
-      // 상품 카드 가격 업데이트
       updateCardPrices(krwPrice);
     }
 
@@ -175,10 +173,8 @@ function updateCardPrices(krwPerOz) {
     let price;
 
     if (grams) {
-      // 30g 판다처럼 g단위 상품
       price = Math.round((krwPerOz / OZ) * grams * premium);
     } else {
-      // 1oz 상품
       price = Math.round(krwPerOz * premium);
     }
 
@@ -187,7 +183,6 @@ function updateCardPrices(krwPerOz) {
   });
 }
 
-// 페이지 로드 시 즉시 실행 + 30초마다 업데이트
 updatePrices();
 setInterval(updatePrices, 30000);
 
