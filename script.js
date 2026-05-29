@@ -197,9 +197,7 @@ function updateCardPrices(krwPerOz) {
 updatePrices();
 setInterval(updatePrices, 30000);
 
-// 티커 무한 스크롤
-const tickerItems = document.getElementById('ticker-items');
-if (tickerItems) tickerItems.innerHTML += tickerItems.innerHTML;
+
 
 // ===== CONTACT FORM =====
 function handleSubmit(e) {
