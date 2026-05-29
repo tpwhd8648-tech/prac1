@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURUM — 금화 전문점</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #B8963E;
+    --gold-light: #D4AF6A;
+    --gold-pale: #F5EDD6;
+    --black: #1A1A1A;
+    --gray: #6B6B6B;
+    --gray-light: #E8E8E8;
+    --white: #FAFAFA;
+    --serif: 'Cormorant Garamond', serif;
+    --sans: 'Noto Sans KR', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--white);
+    color: var(--black);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(250,250,250,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-light);
+  }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    color: var(--black);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    color: var(--gray);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+  }
+
+  .nav-cart {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .nav-cart:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 4rem 6rem 4rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--black);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-desc {
+    font-size: 0.9rem;
+    color: var(--gray);
+    max-width: 420px;
+    margin-bottom: 3rem;
+    line-height: 1.9;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn-primary {
+    background: var(--black);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.25s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--gold); }
+
+  .btn-ghost {
+    background: none;
+    color: var(--black);
+    border: 1px solid var(--gray-light);
+    padding: 1rem 2rem;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 0.25s, color 0.25s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-right {
+    background: var(--gold-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-coin-display {
+    position: relative;
+    width: 340px;
+    height: 340px;
+  }
+
+  .coin-main {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #F0D070, #B8963E 55%, #8B6914);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow:
+      inset -8px -8px 20px rgba(0,0,0,0.25),
+      inset 4px 4px 12px rgba(255,255,255,0.3),
+      0 20px 60px rgba(184,150,62,0.35);
+    animation: coinFloat 4s ease-in-out infinite;
+  }
+
+  .coin-main::after {
+    content: '金';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--serif);
+    font-size: 5rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.35);
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .coin-ring {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 1px solid rgba(184,150,62,0.3);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: coinFloat 4s ease-in-out infinite 0.2s;
+  }
+
+  .coin-ring2 {
+    width: 330px;
+    height: 330px;
+    border-radius: 50%;
+    border: 1px dashed rgba(184,150,62,0.15);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: coinFloat 4s ease-in-out infinite 0.4s;
+  }
+
+  @keyframes coinFloat {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+    50% { transform: translate(-50%, -50%) translateY(-12px); }
+  }
+
+  .hero-stat {
+    position: absolute;
+    background: white;
+    padding: 1rem 1.4rem;
+    border-left: 2px solid var(--gold);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  .hero-stat.s1 { bottom: 15%; left: 6%; }
+  .hero-stat.s2 { top: 18%; right: 6%; }
+
+  .stat-val {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--black);
+    line-height: 1;
+  }
+
+  .stat-lbl {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 0.2rem;
+  }
+
+  /* TICKER */
+  .ticker {
+    background: var(--black);
+    color: white;
+    padding: 0.75rem 0;
+    overflow: hidden;
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 4rem;
+    animation: ticker 20s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+
+  .ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  .ticker-name { color: rgba(255,255,255,0.5); text-transform: uppercase; }
+  .ticker-price { color: white; font-weight: 400; }
+  .ticker-change { color: #6FCF97; }
+  .ticker-change.down { color: #EB5757; }
+  .ticker-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--gold); }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* SECTION BASE */
+  section { padding: 7rem 4rem; }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 1.5rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* PRODUCTS */
+  .products { background: white; }
+
+  .products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3.5rem;
+  }
+
+  .products-filter {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .filter-btn {
+    background: none;
+    border: none;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gray);
+    cursor: pointer;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .filter-btn.active, .filter-btn:hover {
+    color: var(--black);
+    border-bottom-color: var(--gold);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .product-card {
+    background: var(--white);
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-card:hover { background: var(--gold-pale); }
+
+  .product-img {
+    aspect-ratio: 1;
+    background: var(--gold-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-coin {
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #F0D070, #B8963E 55%, #8B6914);
+    box-shadow:
+      inset -5px -5px 12px rgba(0,0,0,0.2),
+      inset 3px 3px 8px rgba(255,255,255,0.3),
+      0 8px 24px rgba(184,150,62,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s ease;
+  }
+
+  .product-card:hover .product-coin { transform: scale(1.05) rotate(5deg); }
+
+  .product-coin span {
+    font-family: var(--serif);
+    font-weight: 600;
+    color: rgba(255,255,255,0.4);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  }
+
+  .coin-lg { width: 160px; height: 160px; }
+  .coin-lg span { font-size: 3rem; }
+  .coin-md { width: 120px; height: 120px; }
+  .coin-md span { font-size: 2.2rem; }
+  .coin-sm { width: 90px; height: 90px; }
+  .coin-sm span { font-size: 1.6rem; }
+
+  .product-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--black);
+    color: white;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .product-badge.gold-badge { background: var(--gold); }
+
+  .product-info {
+    padding: 1.4rem;
+    border-top: 1px solid var(--gray-light);
+  }
+
+  .product-origin {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+
+  .product-name {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--black);
+    margin-bottom: 0.3rem;
+  }
+
+  .product-spec {
+    font-size: 0.72rem;
+    color: var(--gray);
+    margin-bottom: 1rem;
+  }
+
+  .product-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .product-price {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--black);
+  }
+
+  .product-price small {
+    font-size: 0.7rem;
+    color: var(--gray);
+    font-family: var(--sans);
+  }
+
+  .add-btn {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--gray-light);
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    color: var(--gray);
+    transition: all 0.2s;
+  }
+
+  .add-btn:hover {
+    background: var(--black);
+    color: white;
+    border-color: var(--black);
+  }
+
+  /* FEATURED */
+  .featured {
+    background: var(--black);
+    color: white;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    padding: 0;
+  }
+
+  .featured-content {
+    padding: 7rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .featured .section-label { color: var(--gold-light); }
+  .featured .section-label::before { background: var(--gold-light); }
+
+  .featured .section-title { color: white; }
+
+  .featured-desc {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.55);
+    max-width: 380px;
+    margin-bottom: 2.5rem;
+    line-height: 1.9;
+  }
+
+  .featured-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 2rem;
+  }
+
+  .spec-item {}
+  .spec-key {
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 0.3rem;
+  }
+  .spec-val {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    color: white;
+  }
+
+  .featured-visual {
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 500px;
+    position: relative;
+  }
+
+  .featured-coin {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #F0D070, #B8963E 55%, #6B4E0E);
+    box-shadow:
+      inset -10px -10px 25px rgba(0,0,0,0.4),
+      inset 5px 5px 15px rgba(255,255,255,0.25),
+      0 0 80px rgba(184,150,62,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: coinFloat 4s ease-in-out infinite;
+  }
+
+  .featured-coin-text {
+    text-align: center;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .featured-coin-text .big {
+    font-family: var(--serif);
+    font-size: 3.5rem;
+    font-weight: 600;
+    display: block;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+  }
+
+  .featured-coin-text .sub {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: block;
+  }
+
+  .featured-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(184,150,62,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* WHY */
+  .why {
+    background: var(--white);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+    margin-top: 4rem;
+  }
+
+  .why-item {}
+
+  .why-num {
+    font-family: var(--serif);
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--gold-pale);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .why-title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-bottom: 0.6rem;
+  }
+
+  .why-desc {
+    font-size: 0.82rem;
+    color: var(--gray);
+    line-height: 1.8;
+  }
+
+  /* PRICE TABLE */
+  .price-section {
+    background: var(--gold-pale);
+    padding: 6rem 4rem;
+  }
+
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 3rem;
+    background: white;
+  }
+
+  .price-table th {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    font-weight: 400;
+    padding: 1.2rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--gray-light);
+    background: var(--white);
+  }
+
+  .price-table td {
+    padding: 1.2rem 1.5rem;
+    font-size: 0.88rem;
+    border-bottom: 1px solid var(--gray-light);
+    vertical-align: middle;
+  }
+
+  .price-table tr:last-child td { border-bottom: none; }
+
+  .price-table tr:hover td { background: var(--gold-pale); }
+
+  .td-name {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--black);
+  }
+
+  .td-origin {
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+
+  .td-price {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    color: var(--black);
+    white-space: nowrap;
+  }
+
+  .td-change { font-size: 0.8rem; }
+  .td-change.up { color: #27AE60; }
+  .td-change.dn { color: #EB5757; }
+
+  .td-buy {
+    text-align: right;
+  }
+
+  .buy-btn {
+    background: var(--black);
+    color: white;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .buy-btn:hover { background: var(--gold); }
+
+  /* CTA */
+  .cta-section {
+    text-align: center;
+    padding: 8rem 4rem;
+    background: white;
+  }
+
+  .cta-section .section-label { justify-content: center; }
+  .cta-section .section-label::before { display: none; }
+
+  .cta-section .section-title {
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    margin-bottom: 1.2rem;
+  }
+
+  .cta-desc {
+    font-size: 0.9rem;
+    color: var(--gray);
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    line-height: 1.9;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    color: rgba(255,255,255,0.45);
+    padding: 4rem;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 2rem;
+  }
+
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: white;
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  .footer-logo span { color: var(--gold); }
+
+  .footer-tagline {
+    font-size: 0.8rem;
+    line-height: 1.8;
+    max-width: 240px;
+  }
+
+  .footer-col-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-links a {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+  }
+
+  .footer-legal { display: flex; gap: 1.5rem; }
+  .footer-legal a { color: rgba(255,255,255,0.3); text-decoration: none; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: white;
+    width: min(700px, 90vw);
+    max-height: 85vh;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .modal-img {
+    background: var(--gold-pale);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 350px;
+  }
+
+  .modal-body {
+    padding: 2.5rem;
+  }
+
+  .modal-origin {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-name {
+    font-family: var(--serif);
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-bottom: 0.4rem;
+  }
+
+  .modal-spec {
+    font-size: 0.78rem;
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-price {
+    font-family: var(--serif);
+    font-size: 2rem;
+    color: var(--black);
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-price small {
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    color: var(--gray);
+  }
+
+  .modal-desc {
+    font-size: 0.83rem;
+    color: var(--gray);
+    line-height: 1.9;
+    margin-bottom: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--gray-light);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: var(--gray);
+    line-height: 1;
+  }
+
+  .modal-overlay { position: relative; }
+
+  .qty-control {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .qty-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--gray-light);
+    background: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .qty-btn:hover { border-color: var(--black); }
+
+  .qty-num {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    min-width: 2rem;
+    text-align: center;
+  }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--black);
+    color: white;
+    padding: 1rem 1.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    z-index: 999;
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    border-left: 3px solid var(--gold);
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">AUR<span>U</span>M</a>
+  <ul class="nav-links">
+    <li><a href="#products">상품</a></li>
+    <li><a href="#featured">추천</a></li>
+    <li><a href="#price">시세</a></li>
+    <li><a href="#about">소개</a></li>
+  </ul>
+  <div class="nav-right">
+    <span>KRW ₩</span>
+    <span class="nav-cart" onclick="alert('장바구니 기능은 별도 구현이 필요합니다.')">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      장바구니
+    </span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">금화 전문 거래소</div>
+    <h1 class="hero-title">순도 99.99%<br><em>프리미엄</em><br>금화 컬렉션</h1>
+    <p class="hero-desc">세계 각국의 공식 주조 금화를 최저 스프레드로 제공합니다. 메이플리프, 아메리칸이글, 크루거란드 등 검증된 금화를 안전하게 거래하세요.</p>
+    <div class="hero-cta">
+      <a href="#products" class="btn-primary">상품 보기</a>
+      <a href="#price" class="btn-ghost">오늘의 시세</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-coin-display">
+      <div class="coin-ring2"></div>
+      <div class="coin-ring"></div>
+      <div class="coin-main"></div>
+    </div>
+    <div class="hero-stat s1">
+      <div class="stat-val" id="live-price">₩121,800</div>
+      <div class="stat-lbl">금 1g 현재가</div>
+    </div>
+    <div class="hero-stat s2">
+      <div class="stat-val">99.99%</div>
+      <div class="stat-lbl">순도 보증</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="ticker-item"><span class="ticker-name">금 (Au) 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩3,783,000</span><span class="ticker-change">▲ +0.42%</span></div>
+    <div class="ticker-item"><span class="ticker-name">은 (Ag) 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩47,200</span><span class="ticker-change down">▼ -0.18%</span></div>
+    <div class="ticker-item"><span class="ticker-name">메이플리프 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩3,891,000</span><span class="ticker-change">▲ +0.38%</span></div>
+    <div class="ticker-item"><span class="ticker-name">크루거란드 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩3,870,000</span><span class="ticker-change">▲ +0.41%</span></div>
+    <div class="ticker-item"><span class="ticker-name">아메리칸이글 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩3,920,000</span><span class="ticker-change">▲ +0.44%</span></div>
+    <div class="ticker-item"><span class="ticker-name">브리타니아 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩3,905,000</span><span class="ticker-change down">▼ -0.05%</span></div>
+    <!-- duplicate for seamless loop -->
+    <div class="ticker-item"><span class="ticker-name">금 (Au) 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩3,783,000</span><span class="ticker-change">▲ +0.42%</span></div>
+    <div class="ticker-item"><span class="ticker-name">은 (Ag) 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩47,200</span><span class="ticker-change down">▼ -0.18%</span></div>
+    <div class="ticker-item"><span class="ticker-name">메이플리프 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩3,891,000</span><span class="ticker-change">▲ +0.38%</span></div>
+    <div class="ticker-item"><span class="ticker-name">크루거란드 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩3,870,000</span><span class="ticker-change">▲ +0.41%</span></div>
+    <div class="ticker-item"><span class="ticker-name">아메리칸이글 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩3,920,000</span><span class="ticker-change">▲ +0.44%</span></div>
+    <div class="ticker-item"><span class="ticker-name">브리타니아 1oz</span><span class="ticker-dot"></span><span class="ticker-price">₩3,905,000</span><span class="ticker-change down">▼ -0.05%</span></div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="products-header fade-up">
+    <div>
+      <div class="section-label">컬렉션</div>
+      <h2 class="section-title">인기 <em>금화</em></h2>
+    </div>
+    <div class="products-filter">
+      <button class="filter-btn active" onclick="filterProducts('all', this)">전체</button>
+      <button class="filter-btn" onclick="filterProducts('1oz', this)">1 oz</button>
+      <button class="filter-btn" onclick="filterProducts('half', this)">1/2 oz</button>
+      <button class="filter-btn" onclick="filterProducts('quarter', this)">1/4 oz</button>
+    </div>
+  </div>
+  <div class="products-grid" id="product-grid">
+
+    <div class="product-card fade-up" data-size="1oz" onclick="openModal(0)">
+      <div class="product-img">
+        <div class="product-coin coin-lg"><span>🍁</span></div>
+        <div class="product-badge gold-badge">베스트셀러</div>
+      </div>
+      <div class="product-info">
+        <div class="product-origin">캐나다 · 왕립 조폐국</div>
+        <div class="product-name">메이플리프 금화 1 oz</div>
+        <div class="product-spec">순도 99.99% · 31.1g · 2024년</div>
+        <div class="product-footer">
+          <div class="product-price">₩3,891,000 <small>/개</small></div>
+          <button class="add-btn" onclick="event.stopPropagation(); addToCart('메이플리프 1oz')">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up" data-size="1oz" onclick="openModal(1)">
+      <div class="product-img">
+        <div class="product-coin coin-lg"><span>🦅</span></div>
+        <div class="product-badge">신규입고</div>
+      </div>
+      <div class="product-info">
+        <div class="product-origin">미국 · 미국 조폐국</div>
+        <div class="product-name">아메리칸이글 금화 1 oz</div>
+        <div class="product-spec">순도 91.67% · 33.93g · 2024년</div>
+        <div class="product-footer">
+          <div class="product-price">₩3,920,000 <small>/개</small></div>
+          <button class="add-btn" onclick="event.stopPropagation(); addToCart('아메리칸이글 1oz')">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up" data-size="1oz" onclick="openModal(2)">
+      <div class="product-img">
+        <div class="product-coin coin-lg"><span>🌿</span></div>
+      </div>
+      <div class="product-info">
+        <div class="product-origin">남아공 · 남아프리카 조폐국</div>
+        <div class="product-name">크루거란드 금화 1 oz</div>
+        <div class="product-spec">순도 91.67% · 33.93g · 2024년</div>
+        <div class="product-footer">
+          <div class="product-price">₩3,870,000 <small>/개</small></div>
+          <button class="add-btn" onclick="event.stopPropagation(); addToCart('크루거란드 1oz')">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up" data-size="half" onclick="openModal(3)">
+      <div class="product-img">
+        <div class="product-coin coin-md"><span>🦁</span></div>
+      </div>
+      <div class="product-info">
+        <div class="product-origin">영국 · 왕립 조폐국</div>
+        <div class="product-name">브리타니아 금화 1/2 oz</div>
+        <div class="product-spec">순도 99.99% · 15.55g · 2024년</div>
+        <div class="product-footer">
+          <div class="product-price">₩2,010,000 <small>/개</small></div>
+          <button class="add-btn" onclick="event.stopPropagation(); addToCart('브리타니아 1/2oz')">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up" data-size="half" onclick="openModal(4)">
+      <div class="product-img">
+        <div class="product-coin coin-md"><span>🦘</span></div>
+        <div class="product-badge gold-badge">한정판</div>
+      </div>
+      <div class="product-info">
+        <div class="product-origin">호주 · 퍼스 조폐국</div>
+        <div class="product-name">오스트레일리아 캥거루 1/2 oz</div>
+        <div class="product-spec">순도 99.99% · 15.55g · 2024년</div>
+        <div class="product-footer">
+          <div class="product-price">₩1,985,000 <small>/개</small></div>
+          <button class="add-btn" onclick="event.stopPropagation(); addToCart('캥거루 1/2oz')">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card fade-up" data-size="quarter" onclick="openModal(5)">
+      <div class="product-img">
+        <div class="product-coin coin-sm"><span>🍁</span></div>
+      </div>
+      <div class="product-info">
+        <div class="product-origin">캐나다 · 왕립 조폐국</div>
+        <div class="product-name">메이플리프 금화 1/4 oz</div>
+        <div class="product-spec">순도 99.99% · 7.78g · 2024년</div>
+        <div class="product-footer">
+          <div class="product-price">₩1,002,000 <small>/개</small></div>
+          <button class="add-btn" onclick="event.stopPropagation(); addToCart('메이플리프 1/4oz')">+</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="featured" id="featured">
+  <div class="featured-content fade-up">
+    <div class="section-label">이달의 추천</div>
+    <h2 class="section-title">2024 메이플리프<br><em>한정판 세트</em></h2>
+    <p class="featured-desc">캐나다 왕립 조폐국이 발행하는 세계 최고 순도의 금화. 99.99% 순금으로 제작되어 투자와 수집 양면에서 완벽한 선택입니다.</p>
+    <div class="featured-specs">
+      <div class="spec-item">
+        <div class="spec-key">순도</div>
+        <div class="spec-val">99.99% Fine Gold</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-key">중량</div>
+        <div class="spec-val">31.1g (1 Troy oz)</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-key">발행처</div>
+        <div class="spec-val">캐나다 왕립 조폐국</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-key">액면가</div>
+        <div class="spec-val">CAD 50</div>
+      </div>
+    </div>
+    <div style="display:flex; gap: 1rem;">
+      <button class="btn-primary" style="background:white;color:black;" onmouseover="this.style.background='#B8963E';this.style.color='white'" onmouseout="this.style.background='white';this.style.color='black'" onclick="addToCart('메이플리프 한정판 세트')">구매하기</button>
+      <button class="btn-ghost" style="border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.6);" onclick="openModal(0)">자세히 보기</button>
+    </div>
+  </div>
+  <div class="featured-visual">
+    <div class="featured-glow"></div>
+    <div class="featured-coin">
+      <div class="featured-coin-text">
+        <span class="big">🍁</span>
+        <span class="sub">Maple Leaf</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why" id="about">
+  <div class="fade-up">
+    <div class="section-label">왜 AURUM인가</div>
+    <h2 class="section-title">신뢰할 수 있는 <em>거래</em></h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-item fade-up">
+      <div class="why-num">01</div>
+      <div class="why-title">공인 딜러</div>
+      <div class="why-desc">세계 주요 조폐국 공식 인증 딜러로서 위조품 걱정 없이 안심하고 구매하실 수 있습니다.</div>
+    </div>
+    <div class="why-item fade-up">
+      <div class="why-num">02</div>
+      <div class="why-title">최저 스프레드</div>
+      <div class="why-desc">국내 최저 수준의 매매 스프레드를 보장합니다. 투명한 가격으로 합리적인 거래를 제공합니다.</div>
+    </div>
+    <div class="why-item fade-up">
+      <div class="why-num">03</div>
+      <div class="why-title">안전 배송</div>
+      <div class="why-desc">전용 보안 패키지와 완전 보험으로 배송됩니다. 전국 당일·익일 배송 가능합니다.</div>
+    </div>
+    <div class="why-item fade-up">
+      <div class="why-num">04</div>
+      <div class="why-title">전문 상담</div>
+      <div class="why-desc">귀금속 투자 전문가가 상담해드립니다. 처음 투자하시는 분도 안심하고 시작하실 수 있습니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE TABLE -->
+<section class="price-section" id="price">
+  <div class="fade-up">
+    <div class="section-label">실시간 시세</div>
+    <h2 class="section-title">오늘의 <em>금화 가격</em></h2>
+  </div>
+  <table class="price-table">
+    <thead>
+      <tr>
+        <th>상품명</th>
+        <th>중량</th>
+        <th>순도</th>
+        <th>매입가</th>
+        <th>매도가</th>
+        <th>전일 대비</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><div class="td-name">메이플리프 금화</div><div class="td-origin">캐나다 왕립 조폐국</div></td>
+        <td>1 oz</td><td>99.99%</td>
+        <td>₩3,801,000</td><td class="td-price">₩3,891,000</td>
+        <td class="td-change up">▲ +16,000</td>
+        <td class="td-buy"><button class="buy-btn" onclick="addToCart('메이플리프 1oz')">구매</button></td>
+      </tr>
+      <tr>
+        <td><div class="td-name">아메리칸이글 금화</div><div class="td-origin">미국 조폐국</div></td>
+        <td>1 oz</td><td>91.67%</td>
+        <td>₩3,826,000</td><td class="td-price">₩3,920,000</td>
+        <td class="td-change up">▲ +17,000</td>
+        <td class="td-buy"><button class="buy-btn" onclick="addToCart('아메리칸이글 1oz')">구매</button></td>
+      </tr>
+      <tr>
+        <td><div class="td-name">크루거란드 금화</div><div class="td-origin">남아프리카 조폐국</div></td>
+        <td>1 oz</td><td>91.67%</td>
+        <td>₩3,778,000</td><td class="td-price">₩3,870,000</td>
+        <td class="td-change up">▲ +15,500</td>
+        <td class="td-buy"><button class="buy-btn" onclick="addToCart('크루거란드 1oz')">구매</button></td>
+      </tr>
+      <tr>
+        <td><div class="td-name">브리타니아 금화</div><div class="td-origin">영국 왕립 조폐국</div></td>
+        <td>1 oz</td><td>99.99%</td>
+        <td>₩3,810,000</td><td class="td-price">₩3,905,000</td>
+        <td class="td-change dn">▼ -2,000</td>
+        <td class="td-buy"><button class="buy-btn" onclick="addToCart('브리타니아 1oz')">구매</button></td>
+      </tr>
+      <tr>
+        <td><div class="td-name">캥거루 금화</div><div class="td-origin">호주 퍼스 조폐국</div></td>
+        <td>1/2 oz</td><td>99.99%</td>
+        <td>₩1,935,000</td><td class="td-price">₩1,985,000</td>
+        <td class="td-change up">▲ +8,000</td>
+        <td class="td-buy"><button class="buy-btn" onclick="addToCart('캥거루 1/2oz')">구매</button></td>
+      </tr>
+      <tr>
+        <td><div class="td-name">메이플리프 금화</div><div class="td-origin">캐나다 왕립 조폐국</div></td>
+        <td>1/4 oz</td><td>99.99%</td>
+        <td>₩975,000</td><td class="td-price">₩1,002,000</td>
+        <td class="td-change up">▲ +4,000</td>
+        <td class="td-buy"><button class="buy-btn" onclick="addToCart('메이플리프 1/4oz')">구매</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.72rem; color:var(--gray); margin-top:1rem;">※ 시세는 실시간 금 현물가격을 기준으로 하며, 실제 구매 시 최종 가격이 달라질 수 있습니다.</p>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-label">문의하기</div>
+  <h2 class="section-title">처음이신가요?<br><em>전문가</em>와 상담하세요</h2>
+  <p class="cta-desc">귀금속 투자가 처음이시더라도 걱정하지 마세요. 전담 전문가가 여러분의 투자 목적에 맞는 금화를 추천해드립니다.</p>
+  <div style="display:flex; gap:1rem; justify-content:center;">
+    <a href="tel:02-0000-0000" class="btn-primary">전화 상담</a>
+    <a href="mailto:info@aurum.kr" class="btn-ghost">이메일 문의</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">AUR<span>U</span>M</div>
+      <div class="footer-tagline">세계 최고 품질의 금화를 가장 합리적인 가격으로. 신뢰와 투명성을 바탕으로 한 귀금속 거래.</div>
+    </div>
+    <div>
+      <div class="footer-col-title">상품</div>
+      <ul class="footer-links">
+        <li><a href="#">금화 1 oz</a></li>
+        <li><a href="#">금화 1/2 oz</a></li>
+        <li><a href="#">금화 1/4 oz</a></li>
+        <li><a href="#">한정판 세트</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">정보</div>
+      <ul class="footer-links">
+        <li><a href="#">실시간 시세</a></li>
+        <li><a href="#">투자 가이드</a></li>
+        <li><a href="#">진품 감정</a></li>
+        <li><a href="#">회사 소개</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">고객지원</div>
+      <ul class="footer-links">
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">배송 안내</a></li>
+        <li><a href="#">반품 정책</a></li>
+        <li><a href="#">1:1 문의</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 AURUM. All rights reserved.</span>
+    <div class="footer-legal">
+      <a href="#">개인정보처리방침</a>
+      <a href="#">이용약관</a>
+      <a href="#">사업자정보</a>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal" style="position:relative;">
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
+    <div class="modal-img">
+      <div class="product-coin coin-lg" id="modal-coin" style="width:180px;height:180px;"><span id="modal-icon" style="font-size:3.5rem;">🍁</span></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-origin" id="modal-origin">캐나다 · 왕립 조폐국</div>
+      <div class="modal-name" id="modal-name">메이플리프 금화 1 oz</div>
+      <div class="modal-spec" id="modal-spec">순도 99.99% · 31.1g · 2024년</div>
+      <div class="modal-price" id="modal-price">₩3,891,000 <small>/개</small></div>
+      <div class="qty-control">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <span class="qty-num" id="qty">1</span>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+        <span style="font-size:0.78rem; color:var(--gray);">개</span>
+      </div>
+      <div class="modal-desc" id="modal-desc">세계에서 가장 순도 높은 금화 중 하나로, 캐나다 왕립 조폐국이 1979년부터 발행해왔습니다. 99.99% 순금으로 제작되어 투자 및 수집 목적 모두에 적합하며, 전 세계 어디서나 인정받는 명품 금화입니다.</div>
+      <button class="btn-primary" style="width:100%;" onclick="addToCartFromModal()">장바구니 담기</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">장바구니에 담겼습니다</div>
+
+<script>
+const products = [
+  { icon:'🍁', origin:'캐나다 · 왕립 조폐국', name:'메이플리프 금화 1 oz', spec:'순도 99.99% · 31.1g · 2024년', price:'₩3,891,000', desc:'세계에서 가장 순도 높은 금화 중 하나로, 캐나다 왕립 조폐국이 1979년부터 발행해왔습니다. 99.99% 순금으로 제작되어 투자 및 수집 목적 모두에 적합하며, 전 세계 어디서나 인정받는 명품 금화입니다.' },
+  { icon:'🦅', origin:'미국 · 미국 조폐국', name:'아메리칸이글 금화 1 oz', spec:'순도 91.67% · 33.93g · 2024년', price:'₩3,920,000', desc:'미국 정부가 보증하는 유일한 공식 금화입니다. 황금빛 대머리독수리 디자인이 인상적이며, 미국 내 개인 은퇴계좌(IRA) 투자 승인 금화입니다.' },
+  { icon:'🌿', origin:'남아공 · 남아프리카 조폐국', name:'크루거란드 금화 1 oz', spec:'순도 91.67% · 33.93g · 2024년', price:'₩3,870,000', desc:'세계 최초의 현대식 투자용 금화로 1967년 첫 발행되었습니다. 반세기 이상의 역사를 가진 가장 인지도 높은 금화 중 하나로, 전 세계 금화 거래량의 상당 부분을 차지합니다.' },
+  { icon:'🦁', origin:'영국 · 왕립 조폐국', name:'브리타니아 금화 1/2 oz', spec:'순도 99.99% · 15.55g · 2024년', price:'₩2,010,000', desc:'영국 왕립 조폐국이 발행하는 최고 순도의 금화입니다. 삼지창을 든 브리타니아 여신이 새겨진 디자인은 영국의 자부심을 상징하며, 99.99% 순도를 자랑합니다.' },
+  { icon:'🦘', origin:'호주 · 퍼스 조폐국', name:'오스트레일리아 캥거루 1/2 oz', spec:'순도 99.99% · 15.55g · 2024년', price:'₩1,985,000', desc:'호주 퍼스 조폐국의 캥거루 시리즈는 매년 디자인이 변경되어 수집가들에게도 인기 있는 금화입니다. 99.99% 순금과 독특한 캥거루 디자인이 특징입니다.' },
+  { icon:'🍁', origin:'캐나다 · 왕립 조폐국', name:'메이플리프 금화 1/4 oz', spec:'순도 99.99% · 7.78g · 2024년', price:'₩1,002,000', desc:'메이플리프 1/4 oz는 소액으로 금화 투자를 시작할 수 있는 최적의 선택입니다. 동일한 99.99% 순도와 캐나다 왕립 조폐국의 품질 보증을 받을 수 있습니다.' },
+];
+
+let qty = 1;
+let currentProduct = '';
+
+function openModal(i) {
+  const p = products[i];
+  document.getElementById('modal-icon').textContent = p.icon;
+  document.getElementById('modal-origin').textContent = p.origin;
+  document.getElementById('modal-name').textContent = p.name;
+  document.getElementById('modal-spec').textContent = p.spec;
+  document.getElementById('modal-price').innerHTML = p.price + ' <small>/개</small>';
+  document.getElementById('modal-desc').textContent = p.desc;
+  currentProduct = p.name;
+  qty = 1;
+  document.getElementById('qty').textContent = 1;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+  }
+}
+
+function changeQty(d) {
+  qty = Math.max(1, qty + d);
+  document.getElementById('qty').textContent = qty;
+}
+
+function addToCartFromModal() {
+  document.getElementById('modal').classList.remove('open');
+  addToCart(currentProduct);
+}
+
+function addToCart(name) {
+  const t = document.getElementById('toast');
+  t.textContent = name + '을(를) 장바구니에 담았습니다';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function filterProducts(size, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.style.display = (size === 'all' || card.dataset.size === size) ? 'block' : 'none';
+  });
+}
+
+// Scroll animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Simulated live price flicker
+function updatePrice() {
+  const base = 121800;
+  const delta = Math.floor((Math.random() - 0.5) * 100);
+  const el = document.getElementById('live-price');
+  if (el) el.textContent = '₩' + (base + delta).toLocaleString();
+}
+setInterval(updatePrice, 3000);
+</script>
+</body>
+</html>
