@@ -111,7 +111,7 @@
     </div>
   </section>
 
-  <!-- Spot Price Ticker -->
+  <!-- Spot Price Ticker (구글 시트 연동) -->
   <section class="ticker-bar" id="spot-price">
     <div class="ticker-label">LIVE</div>
     <div class="ticker-content">
@@ -134,6 +134,28 @@
       </div>
     </div>
   </section>
+
+  <!-- TradingView Ticker (비교용) -->
+  <div class="tradingview-ticker-wrap">
+    <div class="tradingview-widget-container">
+      <div class="tradingview-widget-container__widget"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+      {
+        "symbols": [
+          { "description": "금 현물 (USD)", "proName": "OANDA:XAUUSD" },
+          { "description": "금 현물 (KRW)", "proName": "FX_IDC:XAUKRW" },
+          { "description": "USD/KRW 환율", "proName": "FX_IDC:USDKRW" },
+          { "description": "은 현물 (USD)", "proName": "OANDA:XAGUSD" }
+        ],
+        "showSymbolLogo": false,
+        "isTransparent": true,
+        "displayMode": "adaptive",
+        "colorTheme": "dark",
+        "locale": "kr"
+      }
+      </script>
+    </div>
+  </div>
 
   <!-- Featured Products -->
   <section class="section products-section" id="products">
