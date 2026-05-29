@@ -135,9 +135,11 @@ async function updatePrices() {
     const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
     const row = json.table.rows[0].c;
 
-    const xauPrice = row[0]?.v;  // A2: 달러/oz
-    const krwPrice = row[3]?.v;  // D2: 원화/oz
+    const xauPrice = row[0]?.v;    // A2: 달러/oz
+    const exchangeRate = row[2]?.v; // C2: 환율
+    const krwPrice = row[3]?.v;    // D2: 원화/oz
 
+    // 국제 금 현물 (달러)
     if (xauPrice) {
       const xauEl = document.getElementById('xau-price');
       const xauChange = document.getElementById('xau-change');
@@ -148,6 +150,15 @@ async function updatePrices() {
       if (chartPrice) chartPrice.textContent = `$${Number(xauPrice).toFixed(2)}`;
     }
 
+    // 환율 (원/달러)
+    if (exchangeRate) {
+      const exEl = document.getElementById('exchange-rate');
+      const exChange = document.getElementById('exchange-change');
+      if (exEl) exEl.textContent = `₩${Number(exchangeRate).toLocaleString()}/$`;
+      if (exChange) { exChange.textContent = '실시간'; exChange.className = 'ticker-change up'; }
+    }
+
+    // 금 원화 가격 (g당)
     if (krwPrice) {
       currentKrwPerOz = krwPrice;
       const pricePerGram = Math.round(krwPrice / 31.1035);
