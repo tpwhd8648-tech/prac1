@@ -31,7 +31,6 @@
   <header class="header" id="header">
     <div class="header-inner">
       <a href="#" class="logo">
-        <!-- ✅ 새 로고 SVG -->
         <div class="logo-icon" style="display:flex;align-items:center;gap:10px;">
           <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="52" height="52" style="flex-shrink:0;">
             <defs>
@@ -45,12 +44,10 @@
                 <stop offset="100%" stop-color="#92400E" stop-opacity="0"/>
               </radialGradient>
             </defs>
-            <!-- Ambient glow -->
             <circle cx="40" cy="40" r="38" fill="url(#lgOuter)"/>
-            <!-- Rays -->
             <line x1="40" y1="4"  x2="40" y2="14" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
             <line x1="40" y1="66" x2="40" y2="76" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
-            <line x1="4"  cy1="40" x1="4"  y1="40" x2="14" y2="40" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+            <line x1="4"  y1="40" x2="14" y2="40" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
             <line x1="66" y1="40" x2="76" y2="40" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
             <line x1="57" y1="11" x2="52" y2="20" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
             <line x1="23" y1="11" x2="28" y2="20" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
@@ -60,24 +57,18 @@
             <line x1="69" y1="23" x2="60" y2="28" stroke="#EF9F27" stroke-width="1.5" stroke-linecap="round"/>
             <line x1="11" y1="57" x2="20" y2="52" stroke="#EF9F27" stroke-width="1.5" stroke-linecap="round"/>
             <line x1="69" y1="57" x2="60" y2="52" stroke="#EF9F27" stroke-width="1.5" stroke-linecap="round"/>
-            <!-- Outer ring -->
             <circle cx="40" cy="40" r="26" fill="none" stroke="#D97706" stroke-width="1.5"/>
             <circle cx="40" cy="40" r="24" fill="none" stroke="#FDE68A" stroke-width="0.5" opacity="0.5"/>
-            <!-- Dot ornaments -->
             <circle cx="40" cy="14" r="2" fill="#F59E0B"/>
             <circle cx="40" cy="66" r="2" fill="#F59E0B"/>
             <circle cx="14" cy="40" r="2" fill="#F59E0B"/>
             <circle cx="66" cy="40" r="2" fill="#F59E0B"/>
-            <!-- Center coin -->
             <circle cx="40" cy="40" r="18" fill="url(#lgCenter)"/>
             <circle cx="40" cy="40" r="18" fill="none" stroke="#92400E" stroke-width="1.2"/>
-            <!-- M emblem -->
             <circle cx="33" cy="33" r="2.5" fill="#7C2D12"/>
             <circle cx="40" cy="30" r="2.5" fill="#7C2D12"/>
             <circle cx="47" cy="33" r="2.5" fill="#7C2D12"/>
-            <polyline points="30,50 30,34 40,43 50,34 50,50"
-              fill="none" stroke="#7C2D12" stroke-width="3"
-              stroke-linejoin="round" stroke-linecap="round"/>
+            <polyline points="30,50 30,34 40,43 50,34 50,50" fill="none" stroke="#7C2D12" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
           </svg>
           <div class="logo-text-wrap">
             <span class="logo-main" style="font-family:'Cinzel Decorative',serif; font-size:18px; letter-spacing:2px; background:linear-gradient(135deg,#FDE68A,#F59E0B,#B45309); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1;">MIDAS BULLION</span>
@@ -121,25 +112,19 @@
         <li class="nav-item has-dropdown">
           <a href="#" class="nav-link">금 <span class="arrow">▾</span></a>
           <div class="dropdown">
-            <a href="#">금화</a>
-            <a href="#">금바</a>
-            <a href="#">국내 금바</a>
-            <a href="#">기타 금</a>
+            <a href="#">금화</a><a href="#">금바</a><a href="#">국내 금바</a><a href="#">기타 금</a>
           </div>
         </li>
         <li class="nav-item has-dropdown">
           <a href="#" class="nav-link">컬렉션 <span class="arrow">▾</span></a>
           <div class="dropdown">
-            <a href="#">수집용 코인</a>
-            <a href="#">한정판</a>
-            <a href="#">기념주화</a>
+            <a href="#">수집용 코인</a><a href="#">한정판</a><a href="#">기념주화</a>
           </div>
         </li>
         <li class="nav-item has-dropdown">
           <a href="#" class="nav-link">가격 동향 <span class="arrow">▾</span></a>
           <div class="dropdown">
-            <a href="#">금 시세</a>
-            <a href="#">은 시세</a>
+            <a href="#">금 시세</a><a href="#">은 시세</a>
           </div>
         </li>
         <li class="nav-item"><a href="#" class="nav-link">온라인 예약</a></li>
@@ -158,9 +143,11 @@
     </ul>
   </div>
 
-  <!-- Hero Slider -->
+  <!-- Hero Slider — 기존 3장 + 새 5장 = 총 8슬라이드 -->
   <section class="hero-slider" id="hero">
     <div class="slider-track" id="slider-track">
+
+      <!-- 슬라이드 1: 기존 - 성 조지와 용 -->
       <div class="slide slide-1">
         <div class="slide-content">
           <div class="slide-badge">THE ROYAL MINT® · THE ORIGINAL MAKER</div>
@@ -169,7 +156,9 @@
           <a href="#products" class="slide-btn">시리즈 상품 탐색 ›</a>
         </div>
       </div>
-      <div class="slide slide-2">
+
+      <!-- 슬라이드 2: 기존 - 메이플 리프 -->
+      <div class="slide slide-2" style="background-image:url('images/slide-maple.jpg'); background-size:cover; background-position:center;">
         <div class="slide-content">
           <div class="slide-badge">CANADIAN ROYAL MINT · 99.99% 순도</div>
           <h1 class="slide-title">메이플 리프<br>2026년 신규 발행</h1>
@@ -177,7 +166,9 @@
           <a href="#products" class="slide-btn">지금 구매하기 ›</a>
         </div>
       </div>
-      <div class="slide slide-3">
+
+      <!-- 슬라이드 3: 기존 - 아메리칸 이글 -->
+      <div class="slide slide-3" style="background-image:url('images/slide-eagle.jpg'); background-size:cover; background-position:center;">
         <div class="slide-content">
           <div class="slide-badge">US MINT · 아메리칸 이글</div>
           <h1 class="slide-title">아메리칸 이글<br>골드 코인 2026</h1>
@@ -185,11 +176,78 @@
           <a href="#products" class="slide-btn">상품 보기 ›</a>
         </div>
       </div>
+
+      <!-- 슬라이드 4: 신규 - 아메리칸 버팔로 -->
+      <div class="slide" style="background-image:url('images/slide-buffalo.jpg'); background-size:cover; background-position:center;">
+        <div class="slide-content">
+          <div class="slide-badge">US MINT · 99.99% 순금</div>
+          <h1 class="slide-title">아메리칸 버팔로<br>골드 코인 2026</h1>
+          <p class="slide-subtitle">미국 최고 순도의 투자용 금화<br>대평원의 위용을 담은 전설적 디자인</p>
+          <a href="#products" class="slide-btn">상품 보기 ›</a>
+        </div>
+      </div>
+
+      <!-- 슬라이드 5: 신규 - 브리타니아 -->
+      <div class="slide" style="background-image:url('images/slide-britannia.jpg'); background-size:cover; background-position:center;">
+        <div class="slide-content">
+          <div class="slide-badge">THE ROYAL MINT UK · 브리타니아</div>
+          <h1 class="slide-title">브리타니아<br>1oz 금화 2026</h1>
+          <p class="slide-subtitle">영국 왕실 조폐국의 상징<br>백절불굴의 브리타니아 여신</p>
+          <a href="#products" class="slide-btn">지금 구매하기 ›</a>
+        </div>
+      </div>
+
+      <!-- 슬라이드 6: 신규 - 캐나다 메이플 리프 (풍경) -->
+      <div class="slide" style="background-image:url('images/slide-maple-forest.jpg'); background-size:cover; background-position:center;">
+        <div class="slide-content">
+          <div class="slide-badge">ROYAL CANADIAN MINT · 단풍의 나라</div>
+          <h1 class="slide-title">캐나다 메이플 리프<br>가을 한정 에디션</h1>
+          <p class="slide-subtitle">캐나다 단풍의 아름다움을 담은<br>99.99% 순금 한정 금화</p>
+          <a href="#products" class="slide-btn">한정판 보기 ›</a>
+        </div>
+      </div>
+
+      <!-- 슬라이드 7: 신규 - 캥거루 -->
+      <div class="slide" style="background-image:url('images/slide-kangaroo.jpg'); background-size:cover; background-position:center;">
+        <div class="slide-content">
+          <div class="slide-badge">PERTH MINT AUSTRALIA · 캥거루</div>
+          <h1 class="slide-title">오스트레일리아 캥거루<br>골드 코인 2026</h1>
+          <p class="slide-subtitle">퍼스 민트의 정품 투자 금화<br>울루루의 대지가 품은 황금</p>
+          <a href="#products" class="slide-btn">상품 보기 ›</a>
+        </div>
+      </div>
+
+      <!-- 슬라이드 8: 신규 - 빈 필하모닉 -->
+      <div class="slide" style="background-image:url('images/slide-philharmonic.jpg'); background-size:cover; background-position:center;">
+        <div class="slide-content">
+          <div class="slide-badge">MÜNZE ÖSTERREICH · 오스트리아 조폐국</div>
+          <h1 class="slide-title">빈 필하모닉<br>골드 코인 2026</h1>
+          <p class="slide-subtitle">세계에서 가장 많이 팔리는 유럽 금화<br>비엔나 필하모닉의 선율을 담은 황금</p>
+          <a href="#products" class="slide-btn">상품 보기 ›</a>
+        </div>
+      </div>
+
+      <!-- 슬라이드 9: 신규 - 아메리칸 이글 (모뉴먼트 밸리) -->
+      <div class="slide" style="background-image:url('images/slide-eagle-canyon.jpg'); background-size:cover; background-position:center;">
+        <div class="slide-content">
+          <div class="slide-badge">US MINT · E PLURIBUS UNUM</div>
+          <h1 class="slide-title">아메리칸 이글<br>프리미엄 에디션</h1>
+          <p class="slide-subtitle">모뉴먼트 밸리의 장엄한 일몰<br>법정화폐 보증 투자형 금화</p>
+          <a href="#products" class="slide-btn">프리미엄 보기 ›</a>
+        </div>
+      </div>
+
     </div>
     <button class="slider-btn slider-prev" id="slider-prev">&#8592;</button>
     <button class="slider-btn slider-next" id="slider-next">&#8594;</button>
     <div class="slider-dots" id="slider-dots">
       <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
       <span class="dot"></span>
       <span class="dot"></span>
     </div>
@@ -199,24 +257,15 @@
   <section class="category-banners">
     <div class="cat-banner cat-gold">
       <div class="cat-overlay"></div>
-      <div class="cat-content">
-        <h3>금</h3>
-        <a href="#" class="cat-btn">구매하기</a>
-      </div>
+      <div class="cat-content"><h3>금</h3><a href="#" class="cat-btn">구매하기</a></div>
     </div>
     <div class="cat-banner cat-silver">
       <div class="cat-overlay"></div>
-      <div class="cat-content">
-        <h3>은</h3>
-        <a href="#" class="cat-btn">구매하기</a>
-      </div>
+      <div class="cat-content"><h3>은</h3><a href="#" class="cat-btn">구매하기</a></div>
     </div>
     <div class="cat-banner cat-collectible">
       <div class="cat-overlay"></div>
-      <div class="cat-content">
-        <h3>수집용 코인</h3>
-        <a href="#" class="cat-btn">구매하기</a>
-      </div>
+      <div class="cat-content"><h3>수집용 코인</h3><a href="#" class="cat-btn">구매하기</a></div>
     </div>
   </section>
 
@@ -236,21 +285,15 @@
         <button class="ptab" data-filter="merchandise">굿즈</button>
       </div>
       <div class="products-grid" id="products-grid">
-
         <div class="product-card" data-category="gold" data-premium="1.106">
-          <div class="product-img-area">
-            <img src="images/maple-2026.png" alt="메이플 리프">
-          </div>
+          <div class="product-img-area"><img src="images/maple-2026.png" alt="메이플 리프"></div>
           <div class="product-info">
             <p class="product-brand">Royal Canadian Mint</p>
             <h3 class="product-name">메이플 리프 1oz 금화 2026</h3>
-            <div class="product-price-wrap">
-              <span class="product-price card-price">로딩중...</span>
-            </div>
+            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
             <button class="btn-cart" onclick="addToCart(this, '메이플 리프 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
-
         <div class="product-card" data-category="gold" data-premium="1.107">
           <div class="product-img-area">
             <img src="images/britannia-2026.png" alt="브리타니아">
@@ -259,13 +302,10 @@
           <div class="product-info">
             <p class="product-brand">The Royal Mint UK</p>
             <h3 class="product-name">브리타니아 1oz 금화 2026</h3>
-            <div class="product-price-wrap">
-              <span class="product-price card-price">로딩중...</span>
-            </div>
+            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
             <button class="btn-cart" onclick="addToCart(this, '브리타니아 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
-
         <div class="product-card" data-category="gold" data-premium="1.104">
           <div class="product-img-area">
             <img src="images/kangaroo-2026.png" alt="캥거루">
@@ -274,13 +314,10 @@
           <div class="product-info">
             <p class="product-brand">Perth Mint Australia</p>
             <h3 class="product-name">캥거루 1oz 금화 2026</h3>
-            <div class="product-price-wrap">
-              <span class="product-price card-price">로딩중...</span>
-            </div>
+            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
             <button class="btn-cart" onclick="addToCart(this, '캥거루 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
-
         <div class="product-card" data-category="gold" data-premium="1.120">
           <div class="product-img-area">
             <img src="images/buffalo-2026.png" alt="버팔로">
@@ -289,41 +326,28 @@
           <div class="product-info">
             <p class="product-brand">US Mint</p>
             <h3 class="product-name">아메리칸 버팔로 1oz 금화 2026</h3>
-            <div class="product-price-wrap">
-              <span class="product-price card-price">로딩중...</span>
-            </div>
+            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
             <button class="btn-cart" onclick="addToCart(this, '아메리칸 버팔로 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
-
         <div class="product-card" data-category="gold" data-premium="1.118">
-          <div class="product-img-area">
-            <img src="images/eagle-2026.png" alt="아메리칸 이글">
-          </div>
+          <div class="product-img-area"><img src="images/eagle-2026.png" alt="아메리칸 이글"></div>
           <div class="product-info">
             <p class="product-brand">US Mint</p>
             <h3 class="product-name">아메리칸 이글 1oz 금화 2026</h3>
-            <div class="product-price-wrap">
-              <span class="product-price card-price">로딩중...</span>
-            </div>
+            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
             <button class="btn-cart" onclick="addToCart(this, '아메리칸 이글 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
-
         <div class="product-card" data-category="gold" data-premium="1.117">
-          <div class="product-img-area">
-            <img src="images/philharmonic-2026.png" alt="필하모닉">
-          </div>
+          <div class="product-img-area"><img src="images/philharmonic-2026.png" alt="필하모닉"></div>
           <div class="product-info">
             <p class="product-brand">Münze Österreich</p>
             <h3 class="product-name">빈 필하모닉 1oz 금화 2026</h3>
-            <div class="product-price-wrap">
-              <span class="product-price card-price">로딩중...</span>
-            </div>
+            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
             <button class="btn-cart" onclick="addToCart(this, '빈 필하모닉 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -359,39 +383,25 @@
       <div class="footer-col">
         <h4>카탈로그</h4>
         <ul>
-          <li><a href="#">› 금화</a></li>
-          <li><a href="#">› 금바</a></li>
-          <li><a href="#">› 국내 금바</a></li>
-          <li><a href="#">› 기타 금</a></li>
-          <li><a href="#">› 은화</a></li>
-          <li><a href="#">› 은바</a></li>
-          <li><a href="#">› MIDAS BULLION 브랜드</a></li>
-          <li><a href="#">› 기타 은</a></li>
-          <li><a href="#">› 수집용 코인</a></li>
-          <li><a href="#">› 플래티넘</a></li>
-          <li><a href="#">› 팔라듐</a></li>
-          <li><a href="#">› 악세서리</a></li>
-          <li><a href="#">› 굿즈</a></li>
+          <li><a href="#">› 금화</a></li><li><a href="#">› 금바</a></li><li><a href="#">› 국내 금바</a></li>
+          <li><a href="#">› 기타 금</a></li><li><a href="#">› 은화</a></li><li><a href="#">› 은바</a></li>
+          <li><a href="#">› MIDAS BULLION 브랜드</a></li><li><a href="#">› 기타 은</a></li>
+          <li><a href="#">› 수집용 코인</a></li><li><a href="#">› 플래티넘</a></li>
+          <li><a href="#">› 팔라듐</a></li><li><a href="#">› 악세서리</a></li><li><a href="#">› 굿즈</a></li>
         </ul>
         <h4 style="margin-top:1.5rem">기타 서비스</h4>
       </div>
       <div class="footer-col">
         <h4>회원 정보</h4>
         <ul>
-          <li><a href="#">› 내 계정</a></li>
-          <li><a href="#">› 주문 내역</a></li>
-          <li><a href="#">› 고객센터</a></li>
+          <li><a href="#">› 내 계정</a></li><li><a href="#">› 주문 내역</a></li><li><a href="#">› 고객센터</a></li>
         </ul>
         <h4 style="margin-top:1.5rem">관련 정보</h4>
         <ul>
-          <li><a href="#">› 회사 소개</a></li>
-          <li><a href="#">› 온라인 예약</a></li>
-          <li><a href="#">› 거래 안내</a></li>
-          <li><a href="#">› 오시는 길</a></li>
-          <li><a href="#">› 귀금속 투명성</a></li>
-          <li><a href="#">› 정품 인증</a></li>
-          <li><a href="#">› 서비스 약관</a></li>
-          <li><a href="#">› 자주 묻는 질문</a></li>
+          <li><a href="#">› 회사 소개</a></li><li><a href="#">› 온라인 예약</a></li>
+          <li><a href="#">› 거래 안내</a></li><li><a href="#">› 오시는 길</a></li>
+          <li><a href="#">› 귀금속 투명성</a></li><li><a href="#">› 정품 인증</a></li>
+          <li><a href="#">› 서비스 약관</a></li><li><a href="#">› 자주 묻는 질문</a></li>
         </ul>
       </div>
       <div class="footer-locations">
@@ -451,10 +461,7 @@
     </div>
   </div>
 
-  <!-- Toast -->
   <div class="toast" id="toast"></div>
-
-  <!-- LINE Float Button -->
   <a href="#" class="line-float">LINE</a>
 
   <script src="script.js"></script>
