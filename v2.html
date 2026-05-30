@@ -22,13 +22,11 @@ img { max-width: 100%; display: block; }
 
 /* ===== CSS VARIABLES ===== */
 :root {
-  /* 골드 컬러 완전 통일 */
   --gold:          #C9981A;
   --gold-light:    #E0B030;
   --gold-dark:     #8B6914;
   --gold-pale:     #fdf8ee;
   --gold-glow:     rgba(201,152,26,0.15);
-
   --dark:          #1a1a1a;
   --dark-nav:      #2a2a2a;
   --gray:          #666;
@@ -41,14 +39,21 @@ img { max-width: 100%; display: block; }
 .top-bar { background: var(--dark); color: #ccc; font-size: 12px; padding: 6px 0; overflow: hidden; }
 .top-bar-inner { max-width: 1300px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .top-bar-prices { display: flex; gap: 20px; align-items: center; overflow: hidden; }
-/* 모바일: marquee 효과 */
 .price-ticker { display: flex; gap: 28px; white-space: nowrap; }
-.price-item { display: flex; align-items: center; gap: 6px; }
-.price-val { font-weight: 600; font-family: 'Cinzel', serif; font-size: 11px; }
+.price-item { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+
+/* [개선1] 시세 플래시 애니메이션 */
+@keyframes flash-up   { 0%{background:rgba(34,197,94,0.25)} 100%{background:transparent} }
+@keyframes flash-down { 0%{background:rgba(239,68,68,0.25)}  100%{background:transparent} }
+.price-val { font-weight: 600; font-family: 'Cinzel', serif; font-size: 11px; padding: 1px 4px; border-radius: 2px; transition: color 0.3s; }
 .price-val.gold     { color: var(--gold-light); }
 .price-val.silver   { color: #C0C0C0; }
 .price-val.platinum { color: #E5E4E2; }
 .price-val.palladium{ color: #CED0DD; }
+.price-val.flash-up   { animation: flash-up   0.8s ease-out; }
+.price-val.flash-down { animation: flash-down 0.8s ease-out; }
+.price-unit { font-size: 9px; color: #777; font-family: 'Noto Sans KR', sans-serif; }
+
 .top-bar-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
 .anti-fraud { color: #888; font-size: 11px; }
 .lang-select { cursor: pointer; color: #bbb; font-size: 11px; }
@@ -87,30 +92,18 @@ img { max-width: 100%; display: block; }
 .icon-btn { background: none; border: none; cursor: pointer; position: relative; padding: 8px; color: #444; transition: color 0.2s; }
 .icon-btn:hover { color: var(--gold); }
 .cart-count { position: absolute; top: 2px; right: 2px; background: var(--gold); color: #fff; font-size: 9px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-
-/* 모바일 검색 토글 버튼 */
 .search-toggle-btn { display: none; }
-
 .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
 .hamburger span { display: block; width: 22px; height: 2px; background: #333; border-radius: 2px; transition: all 0.3s; }
 
 /* ===== MOBILE SEARCH BAR ===== */
-.mobile-search-bar {
-  display: none;
-  background: #fff;
-  border-bottom: 1px solid var(--border);
-  padding: 10px 16px;
-}
+.mobile-search-bar { display: none; background: #fff; border-bottom: 1px solid var(--border); padding: 10px 16px; }
 .mobile-search-bar.open { display: flex; gap: 0; }
 .mobile-search-bar input { flex: 1; border: 1px solid var(--border); border-right: none; padding: 10px 14px; font-size: 14px; outline: none; border-radius: 2px 0 0 2px; }
 .mobile-search-bar button { background: var(--gold); color: #fff; border: none; padding: 10px 18px; font-size: 13px; border-radius: 0 2px 2px 0; cursor: pointer; }
 
 /* ===== MAIN NAV ===== */
-.main-nav {
-  background: var(--dark-nav);
-  border-bottom: 2px solid var(--gold);
-  position: sticky; top: 69px; z-index: 999;
-}
+.main-nav { background: var(--dark-nav); border-bottom: 2px solid var(--gold); position: sticky; top: 69px; z-index: 999; }
 .nav-inner { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
 .nav-list { display: flex; align-items: center; }
 .nav-item { position: relative; }
@@ -135,20 +128,11 @@ img { max-width: 100%; display: block; }
 .mobile-menu a:hover { color: var(--gold-light); padding-left: 8px; }
 
 /* ===== HERO SLIDER ===== */
-.hero-slider {
-  position: relative;
-  overflow: hidden;
-  height: clamp(380px, 55vw, 600px);
-  background: #111;
-}
+.hero-slider { position: relative; overflow: hidden; height: clamp(380px, 55vw, 600px); background: #111; }
 .slider-track { display: flex; height: 100%; transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
 .slide { min-width: 100%; height: 100%; position: relative; display: flex; align-items: center; padding-left: clamp(24px, 8%, 120px); }
 
-/* 슬라이드 배경들 */
-.slide-1 {
-  background: linear-gradient(105deg, rgba(0,0,0,0.88) 42%, rgba(0,0,0,0.25) 100%),
-    url('https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1400&q=80') center/cover no-repeat;
-}
+.slide-1 { background: linear-gradient(105deg, rgba(0,0,0,0.88) 42%, rgba(0,0,0,0.25) 100%), url('https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1400&q=80') center/cover no-repeat; }
 .slide-2 { background: linear-gradient(105deg, rgba(0,0,0,0.88) 42%, rgba(0,0,0,0.25) 100%), url('images/Screenshot_20260530-164945.png') center/cover no-repeat; }
 .slide-3 { background: linear-gradient(105deg, rgba(0,0,0,0.88) 42%, rgba(0,0,0,0.25) 100%), url('images/slide-eagle.jpg') center/cover no-repeat; background-color: #1a1208; }
 .slide-4 { background: linear-gradient(105deg, rgba(0,0,0,0.88) 42%, rgba(0,0,0,0.25) 100%), url('images/slide-buffalo.jpg') center/cover no-repeat; background-color: #1a1208; }
@@ -159,53 +143,14 @@ img { max-width: 100%; display: block; }
 .slide-9 { background: linear-gradient(105deg, rgba(0,0,0,0.88) 42%, rgba(0,0,0,0.25) 100%), url('images/slide-eagle.jpg') center/cover no-repeat; background-color: #1a1208; }
 
 .slide-content { max-width: 560px; }
-.slide-badge {
-  display: inline-block;
-  font-size: 10px;
-  letter-spacing: 2.5px;
-  color: var(--gold-light);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  font-family: 'Cinzel', serif;
-  border-left: 2px solid var(--gold);
-  padding-left: 10px;
-}
-.slide-title {
-  font-family: 'Noto Serif KR', serif;
-  font-size: clamp(24px, 3.5vw, 46px);
-  color: #fff;
-  line-height: 1.3;
-  margin-bottom: 14px;
-  font-weight: 600;
-}
-.slide-subtitle { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.9; margin-bottom: 28px; }
-.slide-btn {
-  display: inline-block;
-  background: rgba(201,152,26,0.12);
-  border: 1px solid var(--gold);
-  color: var(--gold-light);
-  padding: 12px 30px;
-  font-size: 13px;
-  font-family: 'Noto Serif KR', serif;
-  letter-spacing: 1.5px;
-  transition: all 0.3s;
-}
+.slide-badge { display: inline-block; font-size: 10px; letter-spacing: 2.5px; color: var(--gold-light); text-transform: uppercase; margin-bottom: 16px; font-family: 'Cinzel', serif; border-left: 2px solid var(--gold); padding-left: 10px; }
+.slide-title { font-family: 'Noto Serif KR', serif; font-size: clamp(24px, 3.5vw, 46px); color: #fff; line-height: 1.3; margin-bottom: 14px; font-weight: 600; text-shadow: 0 2px 12px rgba(0,0,0,0.5); }
+/* [개선3] 슬라이드 서브타이틀 가독성 향상 */
+.slide-subtitle { font-size: 14px; color: rgba(255,255,255,0.88); line-height: 1.9; margin-bottom: 28px; text-shadow: 0 1px 6px rgba(0,0,0,0.7); background: rgba(0,0,0,0.18); display: inline-block; padding: 8px 14px; border-radius: 2px; }
+.slide-btn { display: inline-block; background: rgba(201,152,26,0.12); border: 1px solid var(--gold); color: var(--gold-light); padding: 12px 30px; font-size: 13px; font-family: 'Noto Serif KR', serif; letter-spacing: 1.5px; transition: all 0.3s; }
 .slide-btn:hover { background: var(--gold); color: #fff; }
 
-/* 슬라이더 버튼 — 원형 */
-.slider-btn {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  background: rgba(0,0,0,0.35);
-  border: 1px solid rgba(201,152,26,0.4);
-  color: #fff;
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.25s;
-  z-index: 10;
-  display: flex; align-items: center; justify-content: center;
-}
+.slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.35); border: 1px solid rgba(201,152,26,0.4); color: #fff; width: 48px; height: 48px; border-radius: 50%; font-size: 16px; cursor: pointer; transition: all 0.25s; z-index: 10; display: flex; align-items: center; justify-content: center; }
 .slider-btn:hover { background: var(--gold); border-color: var(--gold); }
 .slider-prev { left: 20px; }
 .slider-next { right: 20px; }
@@ -216,30 +161,10 @@ img { max-width: 100%; display: block; }
 /* ===== CATEGORY BANNERS ===== */
 .category-banners { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
 .cat-banner { position: relative; height: 280px; overflow: hidden; cursor: pointer; }
-
-/* 카테고리 배너 — 모두 어두운 중성 톤 통일 */
-.cat-gold {
-  background: linear-gradient(135deg, #5a3d00, #a87400),
-    url('https://images.unsplash.com/photo-1573408301185-9519f94815b7?w=600&q=80') center/cover no-repeat;
-  background-blend-mode: multiply;
-}
-.cat-silver {
-  background: linear-gradient(135deg, #2e2e2e, #666),
-    url('https://images.unsplash.com/photo-1600348759986-c53b6a9b5b14?w=600&q=80') center/cover no-repeat;
-  background-blend-mode: multiply;
-}
-.cat-collectible {
-  /* 초록 제거 → 어두운 브론즈/갈색 계열로 통일 */
-  background: linear-gradient(135deg, #3d2800, #7a5200),
-    url('https://images.unsplash.com/photo-1611095562057-14cc9e1fa7c5?w=600&q=80') center/cover no-repeat;
-  background-blend-mode: multiply;
-}
-.cat-banner::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: rgba(0,0,0,0.28);
-  transition: background 0.35s;
-}
+.cat-gold { background: linear-gradient(135deg, #5a3d00, #a87400), url('https://images.unsplash.com/photo-1573408301185-9519f94815b7?w=600&q=80') center/cover no-repeat; background-blend-mode: multiply; }
+.cat-silver { background: linear-gradient(135deg, #2e2e2e, #666), url('https://images.unsplash.com/photo-1600348759986-c53b6a9b5b14?w=600&q=80') center/cover no-repeat; background-blend-mode: multiply; }
+.cat-collectible { background: linear-gradient(135deg, #3d2800, #7a5200), url('https://images.unsplash.com/photo-1611095562057-14cc9e1fa7c5?w=600&q=80') center/cover no-repeat; background-blend-mode: multiply; }
+.cat-banner::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.28); transition: background 0.35s; }
 .cat-banner:hover::after { background: rgba(0,0,0,0.1); }
 .cat-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; z-index: 1; }
 .cat-content h3 { color: #fff; font-family: 'Noto Serif KR', serif; font-size: 28px; font-weight: 600; letter-spacing: 3px; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
@@ -248,6 +173,8 @@ img { max-width: 100%; display: block; }
 
 /* ===== SECTIONS ===== */
 .section { padding: 64px 0; }
+/* [개선2] 상품 섹션 배경 골드페일로 구분 */
+.products-section { background: var(--gold-pale); }
 .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
 .section-header-truney { text-align: center; margin-bottom: 40px; position: relative; }
 .section-header-truney h2 { font-family: 'Noto Serif KR', serif; font-size: 26px; font-weight: 600; color: #1a1a1a; margin-bottom: 14px; letter-spacing: 1px; }
@@ -268,7 +195,7 @@ img { max-width: 100%; display: block; }
 .product-card { background: #fff; border: 1px solid var(--border); transition: box-shadow 0.3s, transform 0.3s, border-color 0.2s; cursor: pointer; }
 .product-card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.09); transform: translateY(-4px); border-color: #d4c090; }
 
-/* 상품 이미지 배경 — 연한 골드 페일 */
+/* [개선2] 이미지 placeholder & fallback */
 .product-img-area {
   position: relative;
   background: var(--gold-pale);
@@ -280,27 +207,54 @@ img { max-width: 100%; display: block; }
 .product-img-area img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.4s; }
 .product-card:hover .product-img-area img { transform: scale(1.07); }
 
+/* fallback 아이콘 (이미지 로드 실패시 표시) */
+.coin-fallback {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+.coin-fallback svg { width: 72px; height: 72px; opacity: 0.35; }
+.coin-fallback span { font-size: 10px; color: var(--gold-dark); font-family: 'Cinzel', serif; letter-spacing: 1px; opacity: 0.6; }
+.product-img-area img.broken + .coin-fallback { display: flex; }
+
+/* [개선1] 상품 가격 + 부가정보 */
 .product-info { padding: 14px 16px; }
 .product-brand { font-size: 10px; color: var(--gold); letter-spacing: 1.5px; margin-bottom: 5px; text-transform: uppercase; font-family: 'Cinzel', serif; }
 .product-name { font-size: 14px; color: #1a1a1a; margin-bottom: 10px; line-height: 1.5; font-family: 'Noto Serif KR', serif; }
-.product-price-wrap { min-height: 28px; margin-bottom: 12px; display: flex; align-items: center; }
+.product-price-wrap { min-height: 44px; margin-bottom: 12px; }
+.product-price-row { display: flex; align-items: baseline; gap: 6px; }
 .product-price { font-size: 17px; font-weight: 700; color: var(--gold); font-family: 'Cinzel', serif; }
 .product-price.loading { font-size: 13px; color: #bbb; font-family: 'Noto Sans KR', sans-serif; font-weight: 400; }
+/* 가격 로딩 skeleton */
+.price-skeleton {
+  display: inline-block;
+  width: 120px; height: 20px;
+  background: linear-gradient(90deg, #f0ead8 25%, #fdf8ee 50%, #f0ead8 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s infinite;
+  border-radius: 3px;
+  margin-bottom: 4px;
+}
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+/* 부가 정보 태그 */
+.product-meta { display: flex; gap: 6px; margin-top: 5px; flex-wrap: wrap; }
+.meta-tag { font-size: 10px; color: var(--gold-dark); background: rgba(201,152,26,0.08); border: 1px solid rgba(201,152,26,0.2); padding: 2px 7px; border-radius: 2px; font-family: 'Cinzel', serif; letter-spacing: 0.5px; }
 .btn-cart { width: 100%; background: var(--dark); color: #fff; border: none; padding: 11px; font-size: 12px; font-family: 'Noto Serif KR', serif; cursor: pointer; transition: background 0.2s; letter-spacing: 1.5px; }
 .btn-cart:hover { background: var(--gold); }
 
 /* ===== BRAND SECTION ===== */
 .brand-section { background: #fafaf7; }
 .brand-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.brand-card {
-  border: 1px solid var(--border);
-  background: #fff;
-  min-height: 80px;
-  display: flex; align-items: center; justify-content: center;
-  padding: 18px 20px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  cursor: pointer;
-}
+.brand-card { border: 1px solid var(--border); background: #fff; min-height: 80px; display: flex; align-items: center; justify-content: center; padding: 18px 20px; transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer; }
 .brand-card:hover { border-color: var(--gold); box-shadow: 0 4px 14px var(--gold-glow); }
 .brand-card img { max-height: 52px; object-fit: contain; filter: grayscale(20%) opacity(0.85); transition: filter 0.2s; }
 .brand-card:hover img { filter: none; }
@@ -321,13 +275,28 @@ img { max-width: 100%; display: block; }
 .location-notice { font-size: 11px; color: #777; margin-bottom: 20px; }
 .social-section h4, .lang-section h4 { color: #f0ead8; font-size: 12px; font-family: 'Cinzel', serif; letter-spacing: 1px; margin-bottom: 10px; margin-top: 22px; }
 .social-icons { display: flex; gap: 8px; flex-wrap: wrap; }
-.social-icon { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; transition: opacity 0.2s, transform 0.2s; }
+/* [개선3] 소셜 아이콘 통일 */
+.social-icon {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700;
+  color: #fff;
+  transition: opacity 0.2s, transform 0.2s;
+  text-decoration: none;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
 .social-icon:hover { opacity: 0.85; transform: translateY(-2px); }
-.facebook { background: #1877F2; }
+.facebook  { background: #1877F2; }
 .instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-.youtube { background: #FF0000; }
-.line { background: #00C300; font-size: 10px; }
-.kakao { background: #FEE500; color: #3C1E1E; }
+.youtube   { background: #FF0000; }
+.line      { background: #00C300; font-size: 11px; letter-spacing: -0.5px; }
+.kakao     { background: #FEE500; color: #3C1E1E; }
+/* 소셜 아이콘 내부 SVG */
+.social-icon svg { width: 17px; height: 17px; fill: currentColor; }
+
 .lang-options { display: flex; gap: 8px; flex-wrap: wrap; }
 .lang-opt { font-size: 11px; color: #aaa; padding: 4px 12px; border: 1px solid #4a4a44; transition: all 0.2s; font-family: 'Cinzel', serif; letter-spacing: 1px; }
 .lang-opt.active, .lang-opt:hover { color: var(--gold-light); border-color: var(--gold); }
@@ -357,32 +326,11 @@ img { max-width: 100%; display: block; }
 .btn-checkout:hover { background: var(--gold-light); }
 
 /* ===== TOAST ===== */
-.toast {
-  position: fixed;
-  /* kakao float 위로 — bottom 겹침 방지 */
-  bottom: 140px;
-  left: 50%; transform: translateX(-50%) translateY(30px);
-  background: var(--dark); color: #fff;
-  padding: 11px 24px; border-radius: 3px;
-  font-size: 13px; opacity: 0;
-  transition: all 0.3s; z-index: 5000;
-  white-space: nowrap;
-  border-left: 3px solid var(--gold);
-}
+.toast { position: fixed; bottom: 140px; left: 50%; transform: translateX(-50%) translateY(30px); background: var(--dark); color: #fff; padding: 11px 24px; border-radius: 3px; font-size: 13px; opacity: 0; transition: all 0.3s; z-index: 5000; white-space: nowrap; border-left: 3px solid var(--gold); }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ===== KAKAO FLOAT ===== */
-.kakao-float {
-  position: fixed; right: 20px; bottom: 80px;
-  width: 50px; height: 50px;
-  background: #FEE500; color: #3C1E1E;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px; font-weight: 700;
-  z-index: 2000;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  transition: transform 0.2s;
-}
+.kakao-float { position: fixed; right: 20px; bottom: 80px; width: 50px; height: 50px; background: #FEE500; color: #3C1E1E; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; z-index: 2000; box-shadow: 0 4px 16px rgba(0,0,0,0.2); transition: transform 0.2s; }
 .kakao-float:hover { transform: scale(1.1); }
 
 /* ===== RESPONSIVE ===== */
@@ -391,7 +339,6 @@ img { max-width: 100%; display: block; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
   .footer-locations { grid-column: 1 / -1; }
 }
-
 @media (max-width: 768px) {
   .header-search { display: none; }
   .search-toggle-btn { display: flex; }
@@ -411,7 +358,6 @@ img { max-width: 100%; display: block; }
   .main-nav { top: 57px; }
   .slider-btn { width: 38px; height: 38px; font-size: 14px; }
 }
-
 @media (max-width: 480px) {
   .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .brand-grid { grid-template-columns: repeat(2, 1fr); }
@@ -430,10 +376,26 @@ img { max-width: 100%; display: block; }
     <div class="top-bar-inner">
       <div class="top-bar-prices">
         <div class="price-ticker">
-          <span class="price-item">금 <span class="price-val gold" id="tb-gold">로딩중</span></span>
-          <span class="price-item">백은 <span class="price-val silver" id="tb-silver">—</span></span>
-          <span class="price-item">백금 <span class="price-val platinum" id="tb-platinum">—</span></span>
-          <span class="price-item">파라듐 <span class="price-val palladium" id="tb-palladium">—</span></span>
+          <span class="price-item">
+            금
+            <span class="price-val gold" id="tb-gold">로딩중</span>
+            <span class="price-unit" id="tb-gold-unit"></span>
+          </span>
+          <span class="price-item">
+            백은
+            <span class="price-val silver" id="tb-silver">—</span>
+            <span class="price-unit" id="tb-silver-unit"></span>
+          </span>
+          <span class="price-item">
+            백금
+            <span class="price-val platinum" id="tb-platinum">—</span>
+            <span class="price-unit" id="tb-platinum-unit"></span>
+          </span>
+          <span class="price-item">
+            파라듐
+            <span class="price-val palladium" id="tb-palladium">—</span>
+            <span class="price-unit" id="tb-palladium-unit"></span>
+          </span>
         </div>
       </div>
       <div class="top-bar-right">
@@ -498,7 +460,6 @@ img { max-width: 100%; display: block; }
       </div>
 
       <div class="header-icons">
-        <!-- 모바일 검색 토글 -->
         <button class="icon-btn search-toggle-btn" aria-label="검색" onclick="toggleMobileSearch()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </button>
@@ -517,8 +478,6 @@ img { max-width: 100%; display: block; }
         </button>
       </div>
     </div>
-
-    <!-- 모바일 검색바 -->
     <div class="mobile-search-bar" id="mobile-search-bar">
       <input type="text" placeholder="상품 검색...">
       <button onclick="handleSearch()">검색</button>
@@ -553,7 +512,7 @@ img { max-width: 100%; display: block; }
     </div>
   </nav>
 
-  <!-- Mobile Menu — 명시적 닫기 버튼 추가 -->
+  <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobile-menu">
     <div class="mobile-menu-header">
       <span>MIDAS BULLION</span>
@@ -681,60 +640,163 @@ img { max-width: 100%; display: block; }
         <button class="ptab" data-filter="merchandise">굿즈</button>
       </div>
       <div class="products-grid" id="products-grid">
-        <div class="product-card" data-category="gold" data-premium="1.106">
-          <div class="product-img-area"><img src="images/maple-2026.png" alt="메이플 리프"></div>
+
+        <!-- 상품카드: data-purity, data-weight 추가 → 부가정보 태그에 사용 -->
+        <div class="product-card" data-category="gold" data-premium="1.106" data-purity="99.99%" data-weight="1oz">
+          <div class="product-img-area">
+            <img src="images/maple-2026.png" alt="메이플 리프" onerror="this.classList.add('broken')">
+            <div class="coin-fallback">
+              <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="36" stroke="#C9981A" stroke-width="2.5"/>
+                <circle cx="40" cy="40" r="28" stroke="#C9981A" stroke-width="1.2" stroke-dasharray="3 3"/>
+                <circle cx="40" cy="40" r="18" fill="#C9981A" fill-opacity="0.12" stroke="#C9981A" stroke-width="1.5"/>
+                <text x="40" y="44" text-anchor="middle" font-size="14" fill="#C9981A" font-family="serif" font-weight="bold">Au</text>
+              </svg>
+              <span>이미지 준비중</span>
+            </div>
+          </div>
           <div class="product-info">
             <p class="product-brand">Royal Canadian Mint</p>
             <h3 class="product-name">메이플 리프 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price loading">로딩중...</span></div>
+            <div class="product-price-wrap">
+              <div class="product-price-row">
+                <span class="product-price loading"><span class="price-skeleton"></span></span>
+              </div>
+              <div class="product-meta">
+                <span class="meta-tag">1oz</span>
+                <span class="meta-tag">99.99%</span>
+                <span class="meta-tag">투자형</span>
+              </div>
+            </div>
             <button class="btn-cart" onclick="addToCart(this, '메이플 리프 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
-        <div class="product-card" data-category="gold" data-premium="1.107">
-          <div class="product-img-area"><img src="images/britannia-2026.png" alt="브리타니아"></div>
+
+        <div class="product-card" data-category="gold" data-premium="1.107" data-purity="99.99%" data-weight="1oz">
+          <div class="product-img-area">
+            <img src="images/britannia-2026.png" alt="브리타니아" onerror="this.classList.add('broken')">
+            <div class="coin-fallback">
+              <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="36" stroke="#C9981A" stroke-width="2.5"/><circle cx="40" cy="40" r="28" stroke="#C9981A" stroke-width="1.2" stroke-dasharray="3 3"/><circle cx="40" cy="40" r="18" fill="#C9981A" fill-opacity="0.12" stroke="#C9981A" stroke-width="1.5"/><text x="40" y="44" text-anchor="middle" font-size="14" fill="#C9981A" font-family="serif" font-weight="bold">Au</text></svg>
+              <span>이미지 준비중</span>
+            </div>
+          </div>
           <div class="product-info">
             <p class="product-brand">The Royal Mint UK</p>
             <h3 class="product-name">브리타니아 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price loading">로딩중...</span></div>
+            <div class="product-price-wrap">
+              <div class="product-price-row">
+                <span class="product-price loading"><span class="price-skeleton"></span></span>
+              </div>
+              <div class="product-meta">
+                <span class="meta-tag">1oz</span>
+                <span class="meta-tag">99.99%</span>
+                <span class="meta-tag">투자형</span>
+              </div>
+            </div>
             <button class="btn-cart" onclick="addToCart(this, '브리타니아 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
-        <div class="product-card" data-category="gold" data-premium="1.104">
-          <div class="product-img-area"><img src="images/kangaroo-2026.png" alt="캥거루"></div>
+
+        <div class="product-card" data-category="gold" data-premium="1.104" data-purity="99.99%" data-weight="1oz">
+          <div class="product-img-area">
+            <img src="images/kangaroo-2026.png" alt="캥거루" onerror="this.classList.add('broken')">
+            <div class="coin-fallback">
+              <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="36" stroke="#C9981A" stroke-width="2.5"/><circle cx="40" cy="40" r="28" stroke="#C9981A" stroke-width="1.2" stroke-dasharray="3 3"/><circle cx="40" cy="40" r="18" fill="#C9981A" fill-opacity="0.12" stroke="#C9981A" stroke-width="1.5"/><text x="40" y="44" text-anchor="middle" font-size="14" fill="#C9981A" font-family="serif" font-weight="bold">Au</text></svg>
+              <span>이미지 준비중</span>
+            </div>
+          </div>
           <div class="product-info">
             <p class="product-brand">Perth Mint Australia</p>
             <h3 class="product-name">캥거루 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price loading">로딩중...</span></div>
+            <div class="product-price-wrap">
+              <div class="product-price-row">
+                <span class="product-price loading"><span class="price-skeleton"></span></span>
+              </div>
+              <div class="product-meta">
+                <span class="meta-tag">1oz</span>
+                <span class="meta-tag">99.99%</span>
+                <span class="meta-tag">투자형</span>
+              </div>
+            </div>
             <button class="btn-cart" onclick="addToCart(this, '캥거루 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
-        <div class="product-card" data-category="gold" data-premium="1.120">
-          <div class="product-img-area"><img src="images/buffalo-2026.png" alt="버팔로"></div>
+
+        <div class="product-card" data-category="gold" data-premium="1.120" data-purity="99.99%" data-weight="1oz">
+          <div class="product-img-area">
+            <img src="images/buffalo-2026.png" alt="버팔로" onerror="this.classList.add('broken')">
+            <div class="coin-fallback">
+              <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="36" stroke="#C9981A" stroke-width="2.5"/><circle cx="40" cy="40" r="28" stroke="#C9981A" stroke-width="1.2" stroke-dasharray="3 3"/><circle cx="40" cy="40" r="18" fill="#C9981A" fill-opacity="0.12" stroke="#C9981A" stroke-width="1.5"/><text x="40" y="44" text-anchor="middle" font-size="14" fill="#C9981A" font-family="serif" font-weight="bold">Au</text></svg>
+              <span>이미지 준비중</span>
+            </div>
+          </div>
           <div class="product-info">
             <p class="product-brand">US Mint</p>
             <h3 class="product-name">아메리칸 버팔로 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price loading">로딩중...</span></div>
+            <div class="product-price-wrap">
+              <div class="product-price-row">
+                <span class="product-price loading"><span class="price-skeleton"></span></span>
+              </div>
+              <div class="product-meta">
+                <span class="meta-tag">1oz</span>
+                <span class="meta-tag">99.99%</span>
+                <span class="meta-tag">투자형</span>
+              </div>
+            </div>
             <button class="btn-cart" onclick="addToCart(this, '아메리칸 버팔로 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
-        <div class="product-card" data-category="gold" data-premium="1.118">
-          <div class="product-img-area"><img src="images/eagle-2026.png" alt="아메리칸 이글"></div>
+
+        <div class="product-card" data-category="gold" data-premium="1.118" data-purity="91.67%" data-weight="1oz">
+          <div class="product-img-area">
+            <img src="images/eagle-2026.png" alt="아메리칸 이글" onerror="this.classList.add('broken')">
+            <div class="coin-fallback">
+              <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="36" stroke="#C9981A" stroke-width="2.5"/><circle cx="40" cy="40" r="28" stroke="#C9981A" stroke-width="1.2" stroke-dasharray="3 3"/><circle cx="40" cy="40" r="18" fill="#C9981A" fill-opacity="0.12" stroke="#C9981A" stroke-width="1.5"/><text x="40" y="44" text-anchor="middle" font-size="14" fill="#C9981A" font-family="serif" font-weight="bold">Au</text></svg>
+              <span>이미지 준비중</span>
+            </div>
+          </div>
           <div class="product-info">
             <p class="product-brand">US Mint</p>
             <h3 class="product-name">아메리칸 이글 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price loading">로딩중...</span></div>
+            <div class="product-price-wrap">
+              <div class="product-price-row">
+                <span class="product-price loading"><span class="price-skeleton"></span></span>
+              </div>
+              <div class="product-meta">
+                <span class="meta-tag">1oz</span>
+                <span class="meta-tag">91.67%</span>
+                <span class="meta-tag">투자형</span>
+              </div>
+            </div>
             <button class="btn-cart" onclick="addToCart(this, '아메리칸 이글 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
-        <div class="product-card" data-category="gold" data-premium="1.117">
-          <div class="product-img-area"><img src="images/philharmonic-2026.png" alt="필하모닉"></div>
+
+        <div class="product-card" data-category="gold" data-premium="1.117" data-purity="99.99%" data-weight="1oz">
+          <div class="product-img-area">
+            <img src="images/philharmonic-2026.png" alt="필하모닉" onerror="this.classList.add('broken')">
+            <div class="coin-fallback">
+              <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="36" stroke="#C9981A" stroke-width="2.5"/><circle cx="40" cy="40" r="28" stroke="#C9981A" stroke-width="1.2" stroke-dasharray="3 3"/><circle cx="40" cy="40" r="18" fill="#C9981A" fill-opacity="0.12" stroke="#C9981A" stroke-width="1.5"/><text x="40" y="44" text-anchor="middle" font-size="14" fill="#C9981A" font-family="serif" font-weight="bold">Au</text></svg>
+              <span>이미지 준비중</span>
+            </div>
+          </div>
           <div class="product-info">
             <p class="product-brand">Münze Österreich</p>
             <h3 class="product-name">빈 필하모닉 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price loading">로딩중...</span></div>
+            <div class="product-price-wrap">
+              <div class="product-price-row">
+                <span class="product-price loading"><span class="price-skeleton"></span></span>
+              </div>
+              <div class="product-meta">
+                <span class="meta-tag">1oz</span>
+                <span class="meta-tag">99.99%</span>
+                <span class="meta-tag">투자형</span>
+              </div>
+            </div>
             <button class="btn-cart" onclick="addToCart(this, '빈 필하모닉 1oz', getCardPrice(this))">장바구니 담기</button>
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -809,11 +871,18 @@ img { max-width: 100%; display: block; }
         <div class="social-section">
           <h4>소셜 미디어</h4>
           <div class="social-icons">
-            <a href="#" class="social-icon facebook">f</a>
-            <a href="#" class="social-icon instagram">📷</a>
-            <a href="#" class="social-icon youtube">▶</a>
-            <a href="#" class="social-icon line">LINE</a>
-            <a href="#" class="social-icon kakao">K</a>
+            <!-- [개선3] 소셜 아이콘 전체 통일: 동일 크기 원형 + SVG 아이콘 -->
+            <a href="#" class="social-icon facebook" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href="#" class="social-icon instagram" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="white" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="white" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.2" fill="white"/></svg>
+            </a>
+            <a href="#" class="social-icon youtube" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#FF0000"/></svg>
+            </a>
+            <a href="#" class="social-icon line" aria-label="LINE" style="font-size:11px;font-family:'Noto Sans KR',sans-serif;font-weight:700;letter-spacing:-0.5px;">LINE</a>
+            <a href="#" class="social-icon kakao" aria-label="KakaoTalk" style="font-size:13px;font-family:'Noto Sans KR',sans-serif;font-weight:700;color:#3C1E1E;">K</a>
           </div>
         </div>
         <div class="lang-section">
@@ -855,12 +924,10 @@ img { max-width: 100%; display: block; }
 // ===== HAMBURGER MENU =====
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobile-menu');
-
 hamburger.addEventListener('click', () => {
   mobileMenu.classList.toggle('open');
   document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
 });
-
 function closeMobileMenu() {
   mobileMenu.classList.remove('open');
   document.body.style.overflow = '';
@@ -872,7 +939,6 @@ function toggleMobileSearch() {
   bar.classList.toggle('open');
   if (bar.classList.contains('open')) bar.querySelector('input').focus();
 }
-
 function handleSearch() {
   const val = document.getElementById('search-input')?.value || document.querySelector('.mobile-search-bar input')?.value || '';
   if (val.trim()) showToast(`"${val.trim()}" 검색 중...`);
@@ -884,23 +950,19 @@ const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.dot');
 const track = document.getElementById('slider-track');
 const totalSlides = slides.length;
-
 function goToSlide(n) {
   currentSlide = (n + totalSlides) % totalSlides;
   track.style.transform = `translateX(-${currentSlide * 100}%)`;
   dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
 }
-
 document.getElementById('slider-prev').addEventListener('click', () => goToSlide(currentSlide - 1));
 document.getElementById('slider-next').addEventListener('click', () => goToSlide(currentSlide + 1));
 dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
-
 let autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
 document.querySelector('.hero-slider').addEventListener('mouseenter', () => clearInterval(autoSlide));
 document.querySelector('.hero-slider').addEventListener('mouseleave', () => {
   autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
 });
-
 let touchStartX = 0;
 document.querySelector('.hero-slider').addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
 document.querySelector('.hero-slider').addEventListener('touchend', e => {
@@ -922,7 +984,6 @@ document.querySelectorAll('.ptab').forEach(tab => {
 
 // ===== CART =====
 let cart = [];
-
 function openCart() {
   document.getElementById('cart-sidebar').classList.add('open');
   document.getElementById('cart-overlay').classList.add('open');
@@ -933,7 +994,6 @@ function closeCart() {
   document.getElementById('cart-overlay').classList.remove('open');
   document.body.style.overflow = '';
 }
-
 function getCardPrice(btn) {
   const card = btn.closest('.product-card');
   const priceEl = card.querySelector('.product-price');
@@ -941,26 +1001,16 @@ function getCardPrice(btn) {
   const raw = priceEl.textContent.replace(/[₩,]/g, '').trim();
   return parseInt(raw) || 0;
 }
-
 function addToCart(btn, name, price) {
-  if (!price || price === 0) {
-    showToast('가격 로딩 중입니다. 잠시 후 다시 시도해주세요.');
-    return;
-  }
+  if (!price || price === 0) { showToast('가격 로딩 중입니다. 잠시 후 다시 시도해주세요.'); return; }
   const existing = cart.find(i => i.name === name);
-  if (existing) { existing.qty++; }
-  else { cart.push({ name, price, qty: 1 }); }
+  if (existing) { existing.qty++; } else { cart.push({ name, price, qty: 1 }); }
   updateCartUI();
   showToast(`${name} 장바구니에 담겼습니다`);
   btn.textContent = '✓ 담겼습니다';
   setTimeout(() => { btn.textContent = '장바구니 담기'; }, 2000);
 }
-
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  updateCartUI();
-}
-
+function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
 function updateCartUI() {
   const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
   const count = cart.reduce((sum, i) => sum + i.qty, 0);
@@ -990,8 +1040,29 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-// ===== 구글 시트 연동 =====
+// ===== [개선1] 구글 시트 + 시세 플래시 =====
 const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
+const prevPrices = {};  // 이전 시세 기억 → 등락 판단
+
+function flashPriceEl(el, newVal, prevVal) {
+  if (prevVal === undefined || prevVal === newVal) return;
+  const cls = newVal > prevVal ? 'flash-up' : 'flash-down';
+  el.classList.remove('flash-up', 'flash-down');
+  void el.offsetWidth; // reflow
+  el.classList.add(cls);
+  el.addEventListener('animationend', () => el.classList.remove(cls), { once: true });
+}
+
+function setTickerValue(id, value, unitText) {
+  const el = document.getElementById(id);
+  const unitEl = document.getElementById(id + '-unit');
+  if (!el) return;
+  const numVal = parseFloat(value);
+  flashPriceEl(el, numVal, prevPrices[id]);
+  prevPrices[id] = numVal;
+  el.textContent = typeof value === 'number' ? value.toLocaleString() : value;
+  if (unitEl && unitText) unitEl.textContent = unitText;
+}
 
 async function updatePrices() {
   try {
@@ -1001,13 +1072,14 @@ async function updatePrices() {
     const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
     const row = json.table.rows[0].c;
 
-    const xauPrice  = row[0]?.v;
-    const krwPrice  = row[3]?.v;
+    const xauPrice = row[0]?.v;
+    const krwPrice = row[3]?.v;
 
     if (xauPrice) {
-      document.getElementById('tb-gold').textContent = `$${Number(xauPrice).toFixed(2)}`;
+      setTickerValue('tb-gold', `$${Number(xauPrice).toFixed(2)}`, '/oz');
     }
     if (krwPrice) {
+      setTickerValue('tb-silver', `₩${Math.round(krwPrice * 0.0124).toLocaleString()}`, '/oz');
       updateCardPrices(krwPrice);
     }
   } catch (e) {
@@ -1028,7 +1100,8 @@ function updateCardPrices(krwPerOz) {
     }
     const priceEl = card.querySelector('.product-price');
     if (priceEl) {
-      priceEl.textContent = `₩${price.toLocaleString()}`;
+      // 스켈레톤 제거 후 가격 표시
+      priceEl.innerHTML = `₩${price.toLocaleString()}`;
       priceEl.classList.remove('loading');
     }
   });
@@ -1057,7 +1130,6 @@ const observer = new IntersectionObserver((entries) => {
     }
   });
 }, { threshold: 0.08 });
-
 document.querySelectorAll('.product-card, .brand-card, .cat-banner').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(18px)';
