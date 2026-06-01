@@ -1,20 +1,9 @@
-// ===== CONFIG (한 곳에서만 관리) =====
-const CONFIG = {
-  SHEET_ID: '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w',
-  REFRESH_MS: 30000,
-};
-
 // ===== HAMBURGER MENU =====
-// nav.js가 #hamburger, #nav-mobile을 주입한 뒤 실행되므로
-// DOMContentLoaded 대신 document.addEventListener('click') 위임 방식 사용
-document.addEventListener('click', function (e) {
-  const btn = e.target.closest('#hamburger');
-  if (!btn) return;
-  const menu = document.getElementById('nav-mobile');
-  if (menu) {
-    menu.classList.toggle('open');
-    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
-  }
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
 });
 
 // ===== HERO SLIDER =====
@@ -30,27 +19,24 @@ function goToSlide(n) {
   dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
 }
 
-if (track && totalSlides > 0) {
-  document.getElementById('slider-prev')?.addEventListener('click', () => goToSlide(currentSlide - 1));
-  document.getElementById('slider-next')?.addEventListener('click', () => goToSlide(currentSlide + 1));
-  dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
+document.getElementById('slider-prev').addEventListener('click', () => goToSlide(currentSlide - 1));
+document.getElementById('slider-next').addEventListener('click', () => goToSlide(currentSlide + 1));
+dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
 
-  let autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
-  const heroSlider = document.querySelector('.hero-slider');
-  if (heroSlider) {
-    heroSlider.addEventListener('mouseenter', () => clearInterval(autoSlide));
-    heroSlider.addEventListener('mouseleave', () => {
-      autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
-    });
+let autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
+document.querySelector('.hero-slider').addEventListener('mouseenter', () => clearInterval(autoSlide));
+document.querySelector('.hero-slider').addEventListener('mouseleave', () => {
+  autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
+});
 
-    let touchStartX = 0;
-    heroSlider.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
-    heroSlider.addEventListener('touchend', e => {
-      const diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) goToSlide(diff > 0 ? currentSlide + 1 : currentSlide - 1);
-    });
-  }
-}
+let touchStartX = 0;
+document.querySelector('.hero-slider').addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+});
+document.querySelector('.hero-slider').addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) goToSlide(diff > 0 ? currentSlide + 1 : currentSlide - 1);
+});
 
 // ===== PRODUCT TABS =====
 document.querySelectorAll('.ptab').forEach(tab => {
@@ -139,6 +125,8 @@ function showToast(msg) {
 }
 
 // ===== 상품명 → 이미지 파일명 매핑 =====
+// 상품명에 키워드가 포함되면 해당 이미지 사용
+// 새 상품 추가 시 여기에 추가하거나, images/ 폴더에 같은 이름으로 업로드
 const IMAGE_MAP = [
   { keywords: ['메이플', 'maple'],           file: 'maple-2026.png' },
   { keywords: ['브리타니아', 'britannia'],    file: 'britannia-2026.png' },
@@ -159,9 +147,10 @@ function getImageForProduct(name) {
       return `images/${entry.file}`;
     }
   }
-  return null;
+  return null; // 매칭 없으면 null → 텍스트 플레이스홀더 사용
 }
 
+// 카테고리 코드 → 탭 filter 값 매핑
 function getCategoryFilter(category) {
   const map = {
     'gold_1oz': 'gold',
@@ -198,8 +187,10 @@ function createProductCard(product, krwPrice) {
   const isAvailable = available === 'TRUE' || available === true;
   const isSameDay   = same_day === 'TRUE' || same_day === true;
 
+  // 배지
   const badges = [];
 
+  // 버튼
   let btnHTML;
   if (!isAvailable) {
     btnHTML = `<button class="btn-cart btn-soldout" disabled>품절</button>`;
@@ -231,41 +222,46 @@ function createProductCard(product, krwPrice) {
 }
 
 // ===== 구글 시트 연동 =====
+const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
 let currentKrwPrice = null;
 let productsData = [];
 
+// 상품 탭에서 상품 목록 불러오기
 async function loadProducts() {
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/gviz/tq?tqx=out:json&sheet=상품`;
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=상품`;
     const res = await fetch(url);
     const text = await res.text();
     const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
 
-    productsData = json.table.rows.map(row => ({
+    const rows = json.table.rows;
+    productsData = rows.map(row => ({
       name:      row.c[0]?.v || '',
       brand:     row.c[1]?.v || '',
       category:  row.c[2]?.v || 'gold',
       premium:   parseFloat(row.c[3]?.v) || 1.03,
       available: String(row.c[4]?.v).toUpperCase(),
       same_day:  String(row.c[5]?.v).toUpperCase(),
-    })).filter(p => p.name);
+    })).filter(p => p.name); // 빈 행 제거
 
     renderProducts();
   } catch (e) {
     console.error('상품 목록 로딩 오류:', e);
-    const grid = document.getElementById('products-grid');
-    if (grid) grid.innerHTML = '<p style="color:#888;text-align:center;padding:2rem;">상품을 불러오는 중 오류가 발생했습니다.</p>';
+    document.getElementById('products-grid').innerHTML =
+      '<p style="color:#888;text-align:center;padding:2rem;">상품을 불러오는 중 오류가 발생했습니다.</p>';
   }
 }
 
+// 상품 카드 렌더링
 function renderProducts() {
   const grid = document.getElementById('products-grid');
-  if (!grid || !productsData.length) return;
+  if (!productsData.length) return;
 
   grid.innerHTML = productsData
     .map(p => createProductCard(p, currentKrwPrice))
     .join('');
 
+  // 현재 활성 탭 필터 적용
   const activeTab = document.querySelector('.ptab.active');
   if (activeTab) {
     const filter = activeTab.dataset.filter;
@@ -274,9 +270,11 @@ function renderProducts() {
     });
   }
 
+  // 스크롤 애니메이션 재적용
   applyScrollAnimation(document.querySelectorAll('.product-card'));
 }
 
+// 가격 업데이트 (카드 재렌더링 없이 가격만 교체)
 function updateCardPricesFromSheet(krwPerOz) {
   currentKrwPrice = krwPerOz;
   document.querySelectorAll('.product-card').forEach(card => {
@@ -287,10 +285,10 @@ function updateCardPricesFromSheet(krwPerOz) {
   });
 }
 
-// ===== 시세 업데이트 (Top Bar + 카드 가격 통합) =====
+// 시세/환율 불러오기 (계산 탭)
 async function updatePrices() {
   try {
-    const url = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/gviz/tq?tqx=out:json&sheet=계산`;
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=계산`;
     const res = await fetch(url);
     const text = await res.text();
     const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
@@ -302,30 +300,26 @@ async function updatePrices() {
     const exchangeRate = row[4]?.v;
     const krwPrice     = (goldPrice && exchangeRate) ? goldPrice * exchangeRate : null;
 
-    const tbGold = document.getElementById('tb-gold');
-    const tbSilver = document.getElementById('tb-silver');
-    const tbPlat = document.getElementById('tb-platinum');
-    const tbRate = document.getElementById('tb-rate');
+    if (goldPrice)    document.getElementById('tb-gold')?.textContent     = `$${Number(goldPrice).toFixed(2)}`;
+    if (silverPrice)  document.getElementById('tb-silver')?.textContent   = `$${Number(silverPrice).toFixed(2)}`;
+    if (platPrice)    document.getElementById('tb-platinum')?.textContent = `$${Number(platPrice).toFixed(2)}`;
+    if (exchangeRate) document.getElementById('tb-rate')?.textContent     = `${Number(exchangeRate).toLocaleString()}원`;
 
-    if (tbGold)   tbGold.textContent   = goldPrice    ? `$${Number(goldPrice).toFixed(2)}`            : '-';
-    if (tbSilver) tbSilver.textContent = silverPrice  ? `$${Number(silverPrice).toFixed(2)}`          : '-';
-    if (tbPlat)   tbPlat.textContent   = platPrice    ? `$${Number(platPrice).toFixed(2)}`            : '-';
-    if (tbRate)   tbRate.textContent   = exchangeRate ? `${Number(exchangeRate).toLocaleString()}원`  : '-';
+    // gold-price.html 카드 업데이트
+    if (goldPrice)    document.getElementById('gold-val')?.textContent   = `$${Number(goldPrice).toFixed(2)}`;
+    if (silverPrice)  document.getElementById('silver-val')?.textContent = `$${Number(silverPrice).toFixed(2)}`;
+    if (exchangeRate) document.getElementById('rate-val')?.textContent   = `${Number(exchangeRate).toLocaleString()}`;
 
     if (krwPrice) updateCardPricesFromSheet(krwPrice);
 
   } catch (e) {
     console.error('시세 연동 오류:', e);
-    ['tb-gold', 'tb-silver', 'tb-platinum', 'tb-rate'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = '-';
-    });
   }
 }
 
-// 초기 로딩
+// 초기 로딩: 상품 목록 → 시세 순서로
 loadProducts().then(() => updatePrices());
-setInterval(updatePrices, CONFIG.REFRESH_MS);
+setInterval(updatePrices, 30000);
 
 // ===== SCROLL ANIMATIONS =====
 function applyScrollAnimation(els) {
@@ -349,16 +343,19 @@ function applyScrollAnimation(els) {
   });
 }
 
+document.querySelectorAll('.brand-card, .cat-banner').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s, border-color 0.2s';
+});
 applyScrollAnimation(document.querySelectorAll('.brand-card, .cat-banner'));
 
 // ===== HEADER SCROLL SHADOW =====
 window.addEventListener('scroll', () => {
-  const header = document.getElementById('nav-header');
-  if (header) {
-    header.style.boxShadow = window.scrollY > 10
-      ? '0 4px 16px rgba(0,0,0,0.12)'
-      : '0 2px 8px rgba(0,0,0,0.06)';
-  }
+  const header = document.getElementById('header');
+  header.style.boxShadow = window.scrollY > 10
+    ? '0 4px 16px rgba(0,0,0,0.12)'
+    : '0 2px 8px rgba(0,0,0,0.06)';
 }, { passive: true });
 
 // ===== SMOOTH ANCHOR SCROLL =====
