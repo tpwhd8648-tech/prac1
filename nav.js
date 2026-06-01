@@ -78,13 +78,6 @@
           <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
         </div>
       </div>`;
-
-    // 스크롤 그림자
-    window.addEventListener('scroll', () => {
-      header.style.boxShadow = window.scrollY > 10
-        ? '0 4px 16px rgba(0,0,0,0.12)'
-        : '0 2px 8px rgba(0,0,0,0.06)';
-    }, { passive: true });
   }
 
   /* ── Main Nav ── */
@@ -113,36 +106,5 @@
       </ul>`;
   }
 
-  /* ── 햄버거 이벤트 ── */
-  document.addEventListener('click', function (e) {
-    const btn = e.target.closest('#hamburger');
-    if (!btn) return;
-    const menu = document.getElementById('nav-mobile');
-    if (menu) {
-      menu.classList.toggle('open');
-      document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
-    }
-  });
-
-  /* ── 시세 업데이트 ── */
-  const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
-  async function updatePrices() {
-    try {
-      const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=계산`;
-      const res = await fetch(url);
-      const text = await res.text();
-      const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
-      const row = json.table.rows[0].c;
-      const goldPrice    = row[0]?.v;
-      const silverPrice  = row[1]?.v;
-      const platPrice    = row[2]?.v;
-      const exchangeRate = row[4]?.v;
-      if (goldPrice)    document.getElementById('tb-gold').textContent    = `$${Number(goldPrice).toFixed(2)}`;
-      if (silverPrice)  document.getElementById('tb-silver').textContent  = `$${Number(silverPrice).toFixed(2)}`;
-      if (platPrice)    document.getElementById('tb-platinum').textContent = `$${Number(platPrice).toFixed(2)}`;
-      if (exchangeRate) document.getElementById('tb-rate').textContent    = `${Number(exchangeRate).toLocaleString()}원`;
-    } catch(e) { console.error(e); }
-  }
-  updatePrices();
-  setInterval(updatePrices, 30000);
 })();
+// ↑ 햄버거 이벤트, updatePrices, setInterval, 스크롤 그림자는 script.js에서 처리
