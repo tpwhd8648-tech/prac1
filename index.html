@@ -8,6 +8,43 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── NEW LOGO STYLES ── */
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .logo-symbol {
+      flex-shrink: 0;
+      width: 54px;
+      height: 54px;
+    }
+    .logo-text-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .logo-brand {
+      font-family: 'Cinzel', serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      line-height: 1;
+      background: linear-gradient(135deg, #C8A84B 0%, #F5E090 40%, #C8A84B 60%, #9A7B2E 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .logo-sub-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #B8960C;
+      font-weight: 400;
+    }
+  </style>
 </head>
 <body>
 
@@ -30,51 +67,88 @@
   <!-- Header -->
   <header class="header" id="header">
     <div class="header-inner">
-      <a href="#" class="logo">
-        <div class="logo-icon" style="display:flex;align-items:center;gap:10px;">
-          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="52" height="52" style="flex-shrink:0;">
-            <defs>
-              <radialGradient id="lgCenter" cx="50%" cy="40%" r="55%">
-                <stop offset="0%" stop-color="#FEF3C7"/>
-                <stop offset="50%" stop-color="#F59E0B"/>
-                <stop offset="100%" stop-color="#92400E"/>
-              </radialGradient>
-              <radialGradient id="lgOuter" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#FDE68A" stop-opacity="0.2"/>
-                <stop offset="100%" stop-color="#92400E" stop-opacity="0"/>
-              </radialGradient>
-            </defs>
-            <circle cx="40" cy="40" r="38" fill="url(#lgOuter)"/>
-            <line x1="40" y1="4"  x2="40" y2="14" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
-            <line x1="40" y1="66" x2="40" y2="76" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
-            <line x1="4"  y1="40" x2="14" y2="40" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
-            <line x1="66" y1="40" x2="76" y2="40" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
-            <line x1="57" y1="11" x2="52" y2="20" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
-            <line x1="23" y1="11" x2="28" y2="20" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
-            <line x1="57" y1="69" x2="52" y2="60" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
-            <line x1="23" y1="69" x2="28" y2="60" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
-            <line x1="11" y1="23" x2="20" y2="28" stroke="#EF9F27" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="69" y1="23" x2="60" y2="28" stroke="#EF9F27" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="11" y1="57" x2="20" y2="52" stroke="#EF9F27" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="69" y1="57" x2="60" y2="52" stroke="#EF9F27" stroke-width="1.5" stroke-linecap="round"/>
-            <circle cx="40" cy="40" r="26" fill="none" stroke="#D97706" stroke-width="1.5"/>
-            <circle cx="40" cy="40" r="24" fill="none" stroke="#FDE68A" stroke-width="0.5" opacity="0.5"/>
-            <circle cx="40" cy="14" r="2" fill="#F59E0B"/>
-            <circle cx="40" cy="66" r="2" fill="#F59E0B"/>
-            <circle cx="14" cy="40" r="2" fill="#F59E0B"/>
-            <circle cx="66" cy="40" r="2" fill="#F59E0B"/>
-            <circle cx="40" cy="40" r="18" fill="url(#lgCenter)"/>
-            <circle cx="40" cy="40" r="18" fill="none" stroke="#92400E" stroke-width="1.2"/>
-            <circle cx="33" cy="33" r="2.5" fill="#7C2D12"/>
-            <circle cx="40" cy="30" r="2.5" fill="#7C2D12"/>
-            <circle cx="47" cy="33" r="2.5" fill="#7C2D12"/>
-            <polyline points="30,50 30,34 40,43 50,34 50,50" fill="none" stroke="#7C2D12" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
-          </svg>
-          <div class="logo-text-wrap">
-            <span class="logo-main" style="font-family:'Cinzel Decorative',serif; font-size:18px; letter-spacing:2px; background:linear-gradient(135deg,#FDE68A,#F59E0B,#B45309); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1;">MIDAS BULLION</span>
-          </div>
+
+      <!-- ══════════════════════════════════
+           NEW LOGO — 겹치는 꽃잎 심볼 + 골드 세리프
+           LPM·TRUNEY 스타일 참조
+      ══════════════════════════════════ -->
+      <a href="#" class="logo-wrap">
+        <!-- SVG Symbol: 6개 꽃잎이 중심에서 겹치며 방사형으로 퍼지는 구조 -->
+        <svg class="logo-symbol" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- 꽃잎 공통 골드 그라데이션 -->
+            <radialGradient id="petal1" cx="50%" cy="20%" r="70%">
+              <stop offset="0%"   stop-color="#F5E090"/>
+              <stop offset="50%"  stop-color="#C8A84B"/>
+              <stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/>
+            </radialGradient>
+            <radialGradient id="petal2" cx="80%" cy="20%" r="70%">
+              <stop offset="0%"   stop-color="#F5E090"/>
+              <stop offset="50%"  stop-color="#C8A84B"/>
+              <stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/>
+            </radialGradient>
+            <radialGradient id="petal3" cx="80%" cy="80%" r="70%">
+              <stop offset="0%"   stop-color="#F5E090"/>
+              <stop offset="50%"  stop-color="#C8A84B"/>
+              <stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/>
+            </radialGradient>
+            <radialGradient id="petal4" cx="50%" cy="80%" r="70%">
+              <stop offset="0%"   stop-color="#F5E090"/>
+              <stop offset="50%"  stop-color="#C8A84B"/>
+              <stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/>
+            </radialGradient>
+            <radialGradient id="petal5" cx="20%" cy="80%" r="70%">
+              <stop offset="0%"   stop-color="#F5E090"/>
+              <stop offset="50%"  stop-color="#C8A84B"/>
+              <stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/>
+            </radialGradient>
+            <radialGradient id="petal6" cx="20%" cy="20%" r="70%">
+              <stop offset="0%"   stop-color="#F5E090"/>
+              <stop offset="50%"  stop-color="#C8A84B"/>
+              <stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/>
+            </radialGradient>
+            <!-- 중앙 빛 -->
+            <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#FFFDE0"/>
+              <stop offset="60%"  stop-color="#F5E090"/>
+              <stop offset="100%" stop-color="#C8A84B"/>
+            </radialGradient>
+          </defs>
+
+          <!-- 6개 꽃잎: 각각 타원을 중심(27,27) 기준으로 60° 간격 회전
+               각 꽃잎은 중심으로부터 약간 바깥으로 shift된 타원 -->
+
+          <!-- 꽃잎 0° (위) -->
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal1)" opacity="0.85"
+            transform="rotate(0 27 27)"/>
+          <!-- 꽃잎 60° -->
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal2)" opacity="0.85"
+            transform="rotate(60 27 27)"/>
+          <!-- 꽃잎 120° -->
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal3)" opacity="0.85"
+            transform="rotate(120 27 27)"/>
+          <!-- 꽃잎 180° -->
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal4)" opacity="0.85"
+            transform="rotate(180 27 27)"/>
+          <!-- 꽃잎 240° -->
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal5)" opacity="0.85"
+            transform="rotate(240 27 27)"/>
+          <!-- 꽃잎 300° -->
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal6)" opacity="0.85"
+            transform="rotate(300 27 27)"/>
+
+          <!-- 중앙 원형 하이라이트 -->
+          <circle cx="27" cy="27" r="8" fill="url(#centerGlow)"/>
+          <circle cx="27" cy="27" r="8" fill="none" stroke="#C8A84B" stroke-width="0.8" opacity="0.6"/>
+        </svg>
+
+        <div class="logo-text-block">
+          <span class="logo-brand">MIDAS BULLION</span>
+          <span class="logo-sub-kr">귀금속 전문점</span>
         </div>
       </a>
+      <!-- ══ END NEW LOGO ══ -->
+
       <div class="header-search">
         <div class="search-category">
           <select>
@@ -146,8 +220,6 @@
   <!-- Hero Slider -->
   <section class="hero-slider" id="hero">
     <div class="slider-track" id="slider-track">
-
-      <!-- 슬라이드 1: 성 조지와 용 -->
       <div class="slide slide-1">
         <div class="slide-content">
           <div class="slide-badge">THE ROYAL MINT® · THE ORIGINAL MAKER</div>
@@ -156,8 +228,6 @@
           <a href="#products" class="slide-btn">시리즈 상품 탐색 ›</a>
         </div>
       </div>
-
-      <!-- 슬라이드 2: 메이플 리프 -->
       <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/Screenshot_20260530-164945.png') center/cover no-repeat;">
         <div class="slide-content">
           <div class="slide-badge">CANADIAN ROYAL MINT · 99.99% 순도</div>
@@ -166,8 +236,6 @@
           <a href="#products" class="slide-btn">지금 구매하기 ›</a>
         </div>
       </div>
-
-      <!-- 슬라이드 3: 아메리칸 이글 -->
       <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/slide-eagle.jpg') center/cover no-repeat;">
         <div class="slide-content">
           <div class="slide-badge">US MINT · 아메리칸 이글</div>
@@ -176,8 +244,6 @@
           <a href="#products" class="slide-btn">상품 보기 ›</a>
         </div>
       </div>
-
-      <!-- 슬라이드 4: 아메리칸 버팔로 -->
       <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/slide-buffalo.jpg') center/cover no-repeat;">
         <div class="slide-content">
           <div class="slide-badge">US MINT · 99.99% 순금</div>
@@ -186,8 +252,6 @@
           <a href="#products" class="slide-btn">상품 보기 ›</a>
         </div>
       </div>
-
-      <!-- 슬라이드 5: 브리타니아 -->
       <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/Screenshot_20260530-164958.png') center/cover no-repeat;">
         <div class="slide-content">
           <div class="slide-badge">THE ROYAL MINT UK · 브리타니아</div>
@@ -196,8 +260,6 @@
           <a href="#products" class="slide-btn">지금 구매하기 ›</a>
         </div>
       </div>
-
-      <!-- 슬라이드 6: 캐나다 메이플 리프 (가을 한정) -->
       <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/Screenshot_20260530-164945.png') center/cover no-repeat;">
         <div class="slide-content">
           <div class="slide-badge">ROYAL CANADIAN MINT · 단풍의 나라</div>
@@ -206,8 +268,6 @@
           <a href="#products" class="slide-btn">한정판 보기 ›</a>
         </div>
       </div>
-
-      <!-- 슬라이드 7: 캥거루 -->
       <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/slide-kangaroo.jpg') center/cover no-repeat;">
         <div class="slide-content">
           <div class="slide-badge">PERTH MINT AUSTRALIA · 캥거루</div>
@@ -216,8 +276,6 @@
           <a href="#products" class="slide-btn">상품 보기 ›</a>
         </div>
       </div>
-
-      <!-- 슬라이드 8: 빈 필하모닉 -->
       <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/slide-philharmonic.jpg') center/cover no-repeat;">
         <div class="slide-content">
           <div class="slide-badge">MÜNZE ÖSTERREICH · 오스트리아 조폐국</div>
@@ -226,8 +284,6 @@
           <a href="#products" class="slide-btn">상품 보기 ›</a>
         </div>
       </div>
-
-      <!-- 슬라이드 9: 아메리칸 이글 프리미엄 -->
       <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/slide-eagle.jpg') center/cover no-repeat;">
         <div class="slide-content">
           <div class="slide-badge">US MINT · E PLURIBUS UNUM</div>
@@ -236,20 +292,13 @@
           <a href="#products" class="slide-btn">프리미엄 보기 ›</a>
         </div>
       </div>
-
     </div>
     <button class="slider-btn slider-prev" id="slider-prev">&#8592;</button>
     <button class="slider-btn slider-next" id="slider-next">&#8594;</button>
     <div class="slider-dots" id="slider-dots">
-      <span class="dot active"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
+      <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
     </div>
   </section>
 
@@ -295,9 +344,7 @@
           </div>
         </div>
         <div class="product-card" data-category="gold" data-premium="1.107">
-          <div class="product-img-area">
-            <img src="images/britannia-2026.png" alt="브리타니아">
-          </div>
+          <div class="product-img-area"><img src="images/britannia-2026.png" alt="브리타니아"></div>
           <div class="product-info">
             <p class="product-brand">The Royal Mint UK</p>
             <h3 class="product-name">브리타니아 1oz 금화 2026</h3>
@@ -306,9 +353,7 @@
           </div>
         </div>
         <div class="product-card" data-category="gold" data-premium="1.104">
-          <div class="product-img-area">
-            <img src="images/kangaroo-2026.png" alt="캥거루">
-          </div>
+          <div class="product-img-area"><img src="images/kangaroo-2026.png" alt="캥거루"></div>
           <div class="product-info">
             <p class="product-brand">Perth Mint Australia</p>
             <h3 class="product-name">캥거루 1oz 금화 2026</h3>
@@ -317,9 +362,7 @@
           </div>
         </div>
         <div class="product-card" data-category="gold" data-premium="1.120">
-          <div class="product-img-area">
-            <img src="images/buffalo-2026.png" alt="버팔로">
-          </div>
+          <div class="product-img-area"><img src="images/buffalo-2026.png" alt="버팔로"></div>
           <div class="product-info">
             <p class="product-brand">US Mint</p>
             <h3 class="product-name">아메리칸 버팔로 1oz 금화 2026</h3>
@@ -358,7 +401,24 @@
         <a href="#" class="check-all-btn">전체 브랜드 보기</a>
       </div>
       <div class="brand-grid">
-        <div class="brand-card"><div class="brand-logo-text gold-text">⬡ MIDAS BULLION<br><small>금화 전문점</small></div></div>
+        <div class="brand-card">
+          <!-- 브랜드 카드 안에도 새 로고 심볼 사용 -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <svg width="32" height="32" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="bp1" cx="50%" cy="20%" r="70%"><stop offset="0%" stop-color="#F5E090"/><stop offset="50%" stop-color="#C8A84B"/><stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/></radialGradient>
+              </defs>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(0 27 27)"/>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(60 27 27)"/>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(120 27 27)"/>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(180 27 27)"/>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(240 27 27)"/>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(300 27 27)"/>
+              <circle cx="27" cy="27" r="8" fill="#F5E090"/>
+            </svg>
+            <span style="font-family:'Cinzel',serif;font-size:11px;color:#B8960C;letter-spacing:2px;text-align:center;">MIDAS BULLION<br><span style="font-family:'Noto Serif KR',serif;font-size:9px;letter-spacing:1px;">귀금속 전문점</span></span>
+          </div>
+        </div>
         <div class="brand-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/United_States_Mint_-_logo.svg/200px-United_States_Mint_-_logo.svg.png" alt="US Mint" onerror="this.parentElement.innerHTML='<div class=brand-logo-text>UNITED STATES MINT</div>'"></div>
         <div class="brand-card"><div class="brand-logo-text">🍁 Royal Canadian Mint</div></div>
         <div class="brand-card"><div class="brand-logo-text">THE PERTH MINT<br><small>Australia</small></div></div>
@@ -437,7 +497,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2026 MIDAS BULLION 금화 전문점. 사업자등록번호: 123-45-67890</p>
+      <p>© 2026 MIDAS BULLION 귀금속 전문점. 사업자등록번호: 123-45-67890</p>
       <p>귀금속은 투자 위험이 있습니다. 투자 전 충분한 검토를 권장합니다.</p>
     </div>
   </footer>
