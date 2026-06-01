@@ -127,6 +127,7 @@ function showToast(msg) {
 }
 
 // ===== 구글 시트 연동 =====
+// 시트 구조: A=Gold_USD, B=Silver_USD, C=Platinum_USD, D=Update_Time, E=Exchange_Rate
 const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
 
 async function updatePrices() {
@@ -137,19 +138,19 @@ async function updatePrices() {
     const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
     const row = json.table.rows[0].c;
 
-    const xauPrice = row[0]?.v;     // A2: 달러/oz
-    const exchangeRate = row[2]?.v;  // C2: 환율
-    const krwPrice = row[3]?.v;     // D2: 원화/oz
+    const goldPrice    = row[0]?.v;  // A2: 금 USD/oz
+    const silverPrice  = row[1]?.v;  // B2: 은 USD/oz
+    const platPrice    = row[2]?.v;  // C2: 백금 USD/oz
+    const exchangeRate = row[4]?.v;  // E2: 환율 (USD→KRW)
+    const krwPrice     = (goldPrice && exchangeRate) ? goldPrice * exchangeRate : null;
 
-    // 탑바 황금 가격 업데이트
-    if (xauPrice) {
-      document.getElementById('tb-gold').textContent = Number(xauPrice).toFixed(2);
-    }
+    // 탑바 업데이트
+    if (goldPrice)   document.getElementById('tb-gold').textContent     = `$${Number(goldPrice).toFixed(2)}`;
+    if (silverPrice) document.getElementById('tb-silver').textContent   = `$${Number(silverPrice).toFixed(2)}`;
+    if (platPrice)   document.getElementById('tb-platinum').textContent = `$${Number(platPrice).toFixed(2)}`;
 
     // 상품 카드 가격 업데이트
-    if (krwPrice) {
-      updateCardPrices(krwPrice);
-    }
+    if (krwPrice) updateCardPrices(krwPrice);
 
   } catch (e) {
     console.error('구글 시트 연동 오류:', e);
