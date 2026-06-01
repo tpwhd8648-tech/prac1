@@ -1,5 +1,0 @@
-.logo-wrap { display:flex; align-items:center; gap:14px; text-decoration:none; }
-.logo-symbol { flex-shrink:0; width:54px; height:54px; }
-.logo-text-block { display:flex; flex-direction:column; gap:2px; }
-.logo-brand { font-family:'Cinzel',serif; font-size:22px; font-weight:700; letter-spacing:4px; line-height:1; background:linear-gradient(135deg,#C8A84B 0%,#F5E090 40%,#C8A84B 60%,#9A7B2E 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.logo-sub-kr { font-family:'Noto Serif KR',serif; font-size:10px; letter-spacing:3px; color:#B8960C; font-weight:400; }
