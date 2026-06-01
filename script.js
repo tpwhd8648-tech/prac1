@@ -245,8 +245,8 @@ async function loadProducts() {
       brand:     row.c[1]?.v || '',
       category:  row.c[2]?.v || 'gold',
       premium:   parseFloat(row.c[3]?.v) || 1.03,
-      available: String(row.c[4]?.v),
-      same_day:  String(row.c[5]?.v),
+      available: String(row.c[4]?.v).toUpperCase(),
+      same_day:  String(row.c[5]?.v).toUpperCase(),
     })).filter(p => p.name); // 빈 행 제거
 
     renderProducts();
