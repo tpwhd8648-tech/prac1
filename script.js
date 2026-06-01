@@ -184,24 +184,44 @@ function createProductCard(product, krwPrice) {
       <span>${name.substring(0, 6)}</span>
     </div>`;
 
+  const isAvailable = available === 'TRUE' || available === true;
+  const isSameDay   = same_day === 'TRUE' || same_day === true;
+
+  // 배지
   const badges = [];
-  if (available === 'TRUE' || available === true) badges.push('<span class="badge badge-stock">재고있음</span>');
-  if (same_day === 'TRUE' || same_day === true) badges.push('<span class="badge badge-sameday">당일출고</span>');
+  if (isSameDay) badges.push('<span class="badge badge-sameday">당일출고</span>');
+
+  // 버튼
+  let btnHTML;
+  if (!isAvailable) {
+    btnHTML = `<button class="btn-cart btn-soldout" disabled>품절</button>`;
+  } else if (isSameDay) {
+    btnHTML = `
+      <button class="btn-cart btn-sameday" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">
+        ⚡ 지금 구매하기
+      </button>
+      <span class="btn-sameday-label">당일출고 가능</span>`;
+  } else {
+    btnHTML = `<button class="btn-cart btn-buy" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">구매하기</button>`;
+  }
 
   return `
-    <div class="product-card" data-category="${filterCategory}" data-premium="${premium}">
+    <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}">
       <div class="product-img-area">
         ${imgHTML}
         ${placeholderHTML}
         ${badges.length ? `<div class="product-badges">${badges.join('')}</div>` : ''}
+        ${!isAvailable ? '<div class="soldout-overlay"><span>SOLD OUT</span></div>' : ''}
       </div>
       <div class="product-info">
         <p class="product-brand">${brand}</p>
         <h3 class="product-name">${name}</h3>
         <div class="product-price-wrap">
-          <span class="product-price card-price">${price}</span>
+          <span class="product-price card-price">${isAvailable ? price : '품절'}</span>
         </div>
-        <button class="btn-cart" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">장바구니 담기</button>
+        <div class="btn-cart-wrap">
+          ${btnHTML}
+        </div>
       </div>
     </div>`;
 }
