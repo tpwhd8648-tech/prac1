@@ -14,6 +14,70 @@
     .logo-text-block { display:flex; flex-direction:column; gap:2px; }
     .logo-brand { font-family:'Cinzel',serif; font-size:22px; font-weight:700; letter-spacing:4px; line-height:1; background:linear-gradient(135deg,#C8A84B 0%,#F5E090 40%,#C8A84B 60%,#9A7B2E 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
     .logo-sub-kr { font-family:'Noto Serif KR',serif; font-size:10px; letter-spacing:3px; color:#B8960C; font-weight:400; }
+
+    /* 상품 로딩 스피너 */
+    .products-loading {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4rem 0;
+      color: #888;
+      gap: 1rem;
+    }
+    .loading-spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid #2a2a2a;
+      border-top-color: #C8A84B;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 이미지 없는 상품 플레이스홀더 */
+    .product-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      color: #C8A84B;
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* 재고/당일출고 배지 */
+    .product-badges {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    .badge-stock {
+      background: rgba(200, 168, 75, 0.15);
+      color: #C8A84B;
+      border: 1px solid rgba(200, 168, 75, 0.3);
+    }
+    .badge-sameday {
+      background: rgba(100, 200, 100, 0.12);
+      color: #7ecb7e;
+      border: 1px solid rgba(100, 200, 100, 0.25);
+    }
   </style>
 </head>
 <body>
@@ -233,62 +297,15 @@
         <button class="ptab" data-filter="accessories">악세서리</button>
         <button class="ptab" data-filter="merchandise">굿즈</button>
       </div>
+
+      <!-- 상품 그리드: 구글 시트에서 자동 로딩 -->
       <div class="products-grid" id="products-grid">
-        <div class="product-card" data-category="gold" data-premium="1.106">
-          <div class="product-img-area"><img src="images/maple-2026.png" alt="메이플 리프"></div>
-          <div class="product-info">
-            <p class="product-brand">Royal Canadian Mint</p>
-            <h3 class="product-name">메이플 리프 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
-            <button class="btn-cart" onclick="addToCart(this, '메이플 리프 1oz', getCardPrice(this))">장바구니 담기</button>
-          </div>
-        </div>
-        <div class="product-card" data-category="gold" data-premium="1.107">
-          <div class="product-img-area"><img src="images/britannia-2026.png" alt="브리타니아"></div>
-          <div class="product-info">
-            <p class="product-brand">The Royal Mint UK</p>
-            <h3 class="product-name">브리타니아 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
-            <button class="btn-cart" onclick="addToCart(this, '브리타니아 1oz', getCardPrice(this))">장바구니 담기</button>
-          </div>
-        </div>
-        <div class="product-card" data-category="gold" data-premium="1.104">
-          <div class="product-img-area"><img src="images/kangaroo-2026.png" alt="캥거루"></div>
-          <div class="product-info">
-            <p class="product-brand">Perth Mint Australia</p>
-            <h3 class="product-name">캥거루 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
-            <button class="btn-cart" onclick="addToCart(this, '캥거루 1oz', getCardPrice(this))">장바구니 담기</button>
-          </div>
-        </div>
-        <div class="product-card" data-category="gold" data-premium="1.120">
-          <div class="product-img-area"><img src="images/buffalo-2026.png" alt="버팔로"></div>
-          <div class="product-info">
-            <p class="product-brand">US Mint</p>
-            <h3 class="product-name">아메리칸 버팔로 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
-            <button class="btn-cart" onclick="addToCart(this, '아메리칸 버팔로 1oz', getCardPrice(this))">장바구니 담기</button>
-          </div>
-        </div>
-        <div class="product-card" data-category="gold" data-premium="1.118">
-          <div class="product-img-area"><img src="images/eagle-2026.png" alt="아메리칸 이글"></div>
-          <div class="product-info">
-            <p class="product-brand">US Mint</p>
-            <h3 class="product-name">아메리칸 이글 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
-            <button class="btn-cart" onclick="addToCart(this, '아메리칸 이글 1oz', getCardPrice(this))">장바구니 담기</button>
-          </div>
-        </div>
-        <div class="product-card" data-category="gold" data-premium="1.117">
-          <div class="product-img-area"><img src="images/philharmonic-2026.png" alt="필하모닉"></div>
-          <div class="product-info">
-            <p class="product-brand">Münze Österreich</p>
-            <h3 class="product-name">빈 필하모닉 1oz 금화 2026</h3>
-            <div class="product-price-wrap"><span class="product-price card-price">로딩중...</span></div>
-            <button class="btn-cart" onclick="addToCart(this, '빈 필하모닉 1oz', getCardPrice(this))">장바구니 담기</button>
-          </div>
+        <div class="products-loading">
+          <div class="loading-spinner"></div>
+          <p>상품을 불러오는 중...</p>
         </div>
       </div>
+
     </div>
   </section>
 
