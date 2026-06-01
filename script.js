@@ -195,7 +195,7 @@ function createProductCard(product, krwPrice) {
   if (!isAvailable) {
     btnHTML = `<button class="btn-cart btn-soldout" disabled>품절</button>`;
   } else if (isSameDay) {
-    btnHTML = `<button class="btn-cart btn-buy" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">당일수령 가능</button>`;
+    btnHTML = `<button class="btn-cart btn-sameday-buy" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">당일수령 가능</button>`;
   } else {
     btnHTML = `<button class="btn-cart btn-buy" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">구매하기</button>`;
   }
