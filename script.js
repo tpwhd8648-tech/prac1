@@ -145,9 +145,10 @@ async function updatePrices() {
     const krwPrice     = (goldPrice && exchangeRate) ? goldPrice * exchangeRate : null;
 
     // 탑바 업데이트
-    if (goldPrice)   document.getElementById('tb-gold').textContent     = `$${Number(goldPrice).toFixed(2)}`;
-    if (silverPrice) document.getElementById('tb-silver').textContent   = `$${Number(silverPrice).toFixed(2)}`;
-    if (platPrice)   document.getElementById('tb-platinum').textContent = `$${Number(platPrice).toFixed(2)}`;
+    if (goldPrice)    document.getElementById('tb-gold').textContent     = `$${Number(goldPrice).toFixed(2)}`;
+    if (silverPrice)  document.getElementById('tb-silver').textContent   = `$${Number(silverPrice).toFixed(2)}`;
+    if (platPrice)    document.getElementById('tb-platinum').textContent = `$${Number(platPrice).toFixed(2)}`;
+    if (exchangeRate) document.getElementById('tb-rate').textContent     = `${Number(exchangeRate).toLocaleString()}원`;
 
     // 상품 카드 가격 업데이트
     if (krwPrice) updateCardPrices(krwPrice);
