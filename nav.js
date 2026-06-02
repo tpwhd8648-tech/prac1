@@ -65,7 +65,12 @@
         </a>
         <div class="header-search">
           <div class="search-category">
-            <select><option>전체</option><option>금화</option><option>은화</option><option>금바</option></select>
+            <select id="nav-select" onchange="if(this.value) { location.href=this.value; this.value=''; }">
+              <option value="">메뉴 선택</option>
+              <option value="coins.html">금화 보기</option>
+              <option value="gold-price.html">금 시세</option>
+              <option value="contact.html">구매 문의</option>
+            </select>
           </div>
           <input type="text" placeholder="상품 검색..." class="search-input">
           <button class="search-btn">검색</button>
