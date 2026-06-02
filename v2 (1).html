@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIDAS BULLION | 금화 전문점</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+/* =============================================================
+   MIDAS BULLION v2 — 통합 스타일시트 (style.css + nav.js 스타일 병합)
+   ============================================================= */
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Noto Sans KR', sans-serif; color: #222; background: #fff; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+/* ===== CSS VARIABLES ===== */
+:root {
+  --gold: #B8860B;
+  --gold-light: #D4A017;
+  --gold-pale: #f5f0e0;
+  --dark: #1a1a1a;
+  --dark-nav: #2d2d2d;
+  --gray: #666;
+  --light-gray: #f5f5f5;
+  --border: #e0e0e0;
+  --white: #fff;
+}
+
+/* ===== LOGO (nav.js 스타일 병합) ===== */
+.logo-wrap { display: flex; align-items: center; gap: 14px; text-decoration: none; flex-shrink: 0; }
+.logo-symbol { flex-shrink: 0; width: 54px; height: 54px; }
+.logo-text-block { display: flex; flex-direction: column; gap: 2px; }
+.logo-brand { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700; letter-spacing: 4px; line-height: 1; background: linear-gradient(135deg, #C8A84B 0%, #F5E090 40%, #C8A84B 60%, #9A7B2E 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.logo-sub-kr { font-family: 'Noto Serif KR', serif; font-size: 10px; letter-spacing: 3px; color: #B8960C; font-weight: 400; }
+
+/* ===== TOP BAR ===== */
+.top-bar { background: var(--dark); color: #ccc; font-size: 12px; padding: 6px 0; }
+.top-bar-inner { max-width: 1300px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.top-bar-prices { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+.price-item { display: flex; align-items: center; gap: 6px; }
+.price-val { font-weight: 600; }
+.price-val.gold { color: #FFD700; }
+.price-val.silver { color: #C0C0C0; }
+.price-val.platinum { color: #E5E4E2; }
+
+/* ===== HEADER ===== */
+.header { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.header-inner { max-width: 1300px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 20px; }
+.header-search { flex: 1; display: flex; border: 1px solid var(--border); border-radius: 2px; overflow: hidden; max-width: 700px; }
+.search-category select { border: none; border-right: 1px solid var(--border); padding: 0 12px; font-size: 13px; background: #f9f9f9; color: #444; outline: none; cursor: pointer; height: 44px; }
+.search-input { flex: 1; border: none; padding: 0 16px; font-size: 14px; outline: none; height: 44px; }
+.search-btn { background: var(--gold); color: #fff; border: none; padding: 0 24px; font-size: 14px; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; height: 44px; transition: background 0.2s; }
+.search-btn:hover { background: var(--gold-light); }
+.header-icons { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.icon-btn { background: none; border: none; cursor: pointer; position: relative; padding: 8px; color: #333; transition: color 0.2s; }
+.icon-btn:hover { color: var(--gold); }
+.cart-count { position: absolute; top: 2px; right: 2px; background: var(--gold); color: #fff; font-size: 10px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: #333; }
+
+/* ===== MAIN NAV ===== */
+.main-nav { background: var(--dark-nav); border-bottom: 2px solid var(--gold); position: sticky; top: 73px; z-index: 999; }
+.nav-inner { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+.nav-list { display: flex; align-items: center; }
+.nav-item { position: relative; }
+.nav-link { display: block; padding: 14px 18px; color: #ddd; font-size: 14px; font-family: 'Noto Serif KR', serif; transition: color 0.2s, background 0.2s; white-space: nowrap; }
+.nav-link:hover, .nav-link.active { color: var(--gold-light); background: rgba(255,255,255,0.05); }
+
+/* ===== MOBILE MENU ===== */
+.mobile-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--dark); z-index: 2000; padding: 60px 30px 30px; }
+.mobile-menu.open { display: block; }
+.mobile-menu ul { display: flex; flex-direction: column; gap: 0; }
+.mobile-menu a { display: block; padding: 16px 0; color: #ddd; font-size: 18px; border-bottom: 1px solid #333; font-family: 'Noto Serif KR', serif; }
+
+/* ===== HERO SLIDER ===== */
+.hero-slider { position: relative; overflow: hidden; height: 580px; background: #111; }
+.slider-track { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.slide { min-width: 100%; height: 100%; position: relative; display: flex; align-items: center; padding-left: 8%; }
+.slide-1 {
+  background: linear-gradient(105deg, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.3) 100%),
+    url('https://images.unsplash.com/photo-1610375461246-83df859d849d?w=1400&q=80') center/cover no-repeat;
+}
+.slide-content { max-width: 580px; }
+.slide-badge { font-size: 11px; letter-spacing: 2px; color: var(--gold-light); text-transform: uppercase; margin-bottom: 16px; font-family: 'Cinzel', serif; }
+.slide-title { font-family: 'Noto Serif KR', serif; font-size: clamp(28px, 4vw, 48px); color: #fff; line-height: 1.3; margin-bottom: 16px; font-weight: 600; }
+.slide-subtitle { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.8; margin-bottom: 28px; }
+.slide-btn { display: inline-block; background: transparent; border: 1px solid var(--gold); color: var(--gold-light); padding: 12px 28px; font-size: 14px; font-family: 'Noto Serif KR', serif; letter-spacing: 1px; transition: all 0.3s; }
+.slide-btn:hover { background: var(--gold); color: #fff; }
+.slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: #fff; width: 48px; height: 48px; font-size: 18px; cursor: pointer; transition: background 0.2s; z-index: 10; }
+.slider-btn:hover { background: rgba(255,255,255,0.25); }
+.slider-prev { left: 16px; }
+.slider-next { right: 16px; }
+.slider-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); cursor: pointer; transition: background 0.3s; }
+.dot.active { background: var(--gold); }
+
+/* ===== CATEGORY BANNERS ===== */
+.category-banners { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.cat-banner { position: relative; height: 280px; overflow: hidden; cursor: pointer; }
+.cat-gold { background: linear-gradient(135deg, #8B6914, #D4A017), url('https://images.unsplash.com/photo-1573408301185-9519f94815b7?w=600&q=80') center/cover no-repeat; background-blend-mode: multiply; }
+.cat-silver { background: linear-gradient(135deg, #555, #aaa), url('https://images.unsplash.com/photo-1600348759986-c53b6a9b5b14?w=600&q=80') center/cover no-repeat; background-blend-mode: multiply; }
+.cat-collectible { background: linear-gradient(135deg, #1a6b4a, #2ecc71), url('https://images.unsplash.com/photo-1611095562057-14cc9e1fa7c5?w=600&q=80') center/cover no-repeat; background-blend-mode: multiply; }
+.cat-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); transition: background 0.3s; }
+.cat-banner:hover .cat-overlay { background: rgba(0,0,0,0.15); }
+.cat-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.cat-content h3 { color: #fff; font-family: 'Noto Serif KR', serif; font-size: 28px; font-weight: 600; letter-spacing: 2px; }
+.cat-btn { display: inline-block; background: transparent; border: 1px solid #fff; color: #fff; padding: 8px 24px; font-size: 13px; letter-spacing: 1px; transition: all 0.3s; }
+.cat-btn:hover { background: #fff; color: #333; }
+
+/* ===== SECTIONS ===== */
+.section { padding: 60px 0; }
+.container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+.section-header-truney { text-align: center; margin-bottom: 40px; position: relative; }
+.section-header-truney h2 { font-family: 'Noto Serif KR', serif; font-size: 28px; font-weight: 600; color: #222; margin-bottom: 12px; }
+.section-divider { display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--gold); }
+.section-divider::before, .section-divider::after { content: ''; display: block; width: 80px; height: 1px; background: var(--gold); }
+.section-line { width: 60px; height: 2px; background: var(--gold); margin: 10px auto 0; }
+.check-all-btn { position: absolute; right: 0; top: 8px; border: 1px solid var(--gold); color: var(--gold); padding: 6px 16px; font-size: 13px; transition: all 0.2s; }
+.check-all-btn:hover { background: var(--gold); color: #fff; }
+
+/* ===== PRODUCT TABS ===== */
+.product-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 32px; flex-wrap: wrap; }
+.ptab { background: none; border: none; padding: 10px 22px; font-size: 14px; font-family: 'Noto Sans KR', sans-serif; color: #666; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+.ptab.active, .ptab:hover { color: var(--gold); border-bottom-color: var(--gold); font-weight: 600; }
+
+/* ===== PRODUCT GRID ===== */
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; }
+.product-card { background: #fff; border: 1px solid var(--border); transition: box-shadow 0.3s, transform 0.3s; cursor: pointer; }
+.product-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); transform: translateY(-3px); }
+.product-img-area { position: relative; background: var(--white); padding: 20px; aspect-ratio: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.product-img-area img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.4s; }
+.product-card:hover .product-img-area img { transform: scale(1.05); }
+.product-info { padding: 14px; }
+.product-brand { font-size: 11px; color: var(--gold); letter-spacing: 1px; margin-bottom: 4px; text-transform: uppercase; }
+.product-name { font-size: 14px; color: #222; margin-bottom: 10px; line-height: 1.4; font-family: 'Noto Serif KR', serif; }
+.product-price-wrap { margin-bottom: 12px; }
+.product-price { font-size: 16px; font-weight: 700; color: var(--gold); }
+.btn-cart { width: 100%; background: var(--dark); color: #fff; border: none; padding: 10px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: background 0.2s; letter-spacing: 1px; }
+.btn-cart:hover { background: var(--gold); }
+
+/* ===== 상품 로딩 스피너 ===== */
+.products-loading { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; padding: 4rem 0; color: #888; gap: 1rem; }
+.loading-spinner { width: 36px; height: 36px; border: 3px solid #2a2a2a; border-top-color: #C8A84B; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== 이미지 플레이스홀더 ===== */
+.product-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); color: #C8A84B; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px; text-align: center; padding: 1rem; }
+
+/* ===== 배지 ===== */
+.product-badges { position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; gap: 4px; }
+.badge { font-size: 10px; padding: 2px 7px; border-radius: 3px; font-family: 'Noto Sans KR', sans-serif; font-weight: 500; letter-spacing: 0.5px; }
+.badge-stock { background: rgba(200,168,75,0.15); color: #C8A84B; border: 1px solid rgba(200,168,75,0.3); }
+.badge-sameday { background: rgba(100,200,100,0.12); color: #7ecb7e; border: 1px solid rgba(100,200,100,0.25); }
+
+/* ===== 버튼 래퍼 ===== */
+.btn-cart-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 5px; margin-top: 10px; }
+.btn-sameday-buy { width: 100%; background: #C8A84B; color: #fff; border: none; padding: 10px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: background 0.2s; letter-spacing: 1px; }
+.btn-sameday-buy:hover { background: #F5E090; color: #1a1200; }
+.btn-buy { width: 100%; background: #C8A84B; color: #fff; border: none; padding: 10px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: background 0.2s, color 0.2s; letter-spacing: 1px; }
+.btn-buy:hover { background: #F5E090; color: #1a1200; }
+.btn-soldout { background: #2a2a2a; color: #555; border: 1px solid #333; padding: 10px 16px; font-size: 13px; letter-spacing: 2px; cursor: not-allowed; border-radius: 3px; }
+
+/* ===== 품절 ===== */
+.card-soldout { opacity: 0.6; }
+.soldout-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; }
+.soldout-overlay span { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 4px; color: #fff; border: 1px solid #fff; padding: 6px 14px; opacity: 0.8; }
+
+/* ===== BRAND SECTION ===== */
+.brand-section { background: #fafafa; }
+.brand-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.brand-card { border: 1px solid var(--border); background: #fff; aspect-ratio: 2/1; display: flex; align-items: center; justify-content: center; padding: 20px; transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer; }
+.brand-card:hover { border-color: var(--gold); box-shadow: 0 4px 12px rgba(184,134,11,0.1); }
+.brand-card img { max-height: 60px; object-fit: contain; filter: grayscale(30%); transition: filter 0.2s; }
+.brand-card:hover img { filter: none; }
+.brand-logo-text { font-family: 'Cinzel', serif; font-size: 13px; color: var(--gold); text-align: center; line-height: 1.5; }
+.brand-logo-text small { font-size: 10px; color: #888; font-family: 'Noto Sans KR', sans-serif; display: block; }
+
+/* ===== FOOTER ===== */
+.footer { background: #3a3a3a; color: #ccc; padding: 50px 0 0; }
+.footer-inner { max-width: 1300px; margin: 0 auto; padding: 0 20px 40px; display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 40px; }
+.footer-col h4 { color: #fff; font-size: 15px; font-family: 'Cinzel', serif; letter-spacing: 1px; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid #555; }
+.footer-col ul { display: flex; flex-direction: column; gap: 8px; }
+.footer-col a { font-size: 13px; color: #aaa; transition: color 0.2s; }
+.footer-col a:hover { color: var(--gold-light); }
+.footer-locations h4 { color: #fff; font-family: 'Cinzel', serif; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid #555; }
+.location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 14px; }
+.location-item strong { color: #fff; font-size: 13px; display: block; margin-bottom: 6px; }
+.location-item p { font-size: 12px; color: #aaa; line-height: 1.7; margin-bottom: 6px; }
+.location-notice { font-size: 12px; color: #888; margin-bottom: 20px; }
+.social-section h4, .lang-section h4 { color: #fff; font-size: 13px; font-family: 'Cinzel', serif; margin-bottom: 10px; margin-top: 20px; }
+.social-icons { display: flex; gap: 10px; flex-wrap: wrap; }
+.social-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #fff; transition: opacity 0.2s; }
+.social-icon:hover { opacity: 0.8; }
+.facebook { background: #1877F2; }
+.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.youtube { background: #FF0000; }
+.line { background: #00C300; font-size: 10px; letter-spacing: 0; }
+.kakao { background: #FEE500; color: #333; }
+.lang-options { display: flex; gap: 10px; flex-wrap: wrap; }
+.lang-opt { font-size: 12px; color: #aaa; padding: 4px 10px; border: 1px solid #555; transition: all 0.2s; }
+.lang-opt.active, .lang-opt:hover { color: var(--gold); border-color: var(--gold); }
+.footer-bottom { border-top: 1px solid #4a4a4a; padding: 20px; text-align: center; }
+.footer-bottom p { font-size: 12px; color: #888; line-height: 1.8; }
+
+/* ===== CART ===== */
+.cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 3000; }
+.cart-overlay.open { display: block; }
+.cart-sidebar { position: fixed; top: 0; right: -400px; width: 380px; height: 100vh; background: #fff; z-index: 3001; transition: right 0.3s; display: flex; flex-direction: column; box-shadow: -4px 0 20px rgba(0,0,0,0.15); }
+.cart-sidebar.open { right: 0; }
+.cart-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.cart-header h3 { font-family: 'Noto Serif KR', serif; font-size: 18px; }
+.cart-header button { background: none; border: none; font-size: 18px; cursor: pointer; color: #666; }
+.cart-items { flex: 1; overflow-y: auto; padding: 16px; }
+.cart-empty { text-align: center; padding: 40px 20px; color: #999; }
+.cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; gap: 8px; }
+.cart-item-name { font-size: 14px; flex: 1; }
+.cart-item-price { font-size: 14px; font-weight: 600; color: var(--gold); white-space: nowrap; }
+.cart-item-remove { background: none; border: none; cursor: pointer; color: #999; font-size: 14px; }
+.cart-footer { padding: 16px; border-top: 1px solid var(--border); }
+.cart-total { display: flex; justify-content: space-between; font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+.btn-checkout { width: 100%; background: var(--gold); color: #fff; border: none; padding: 14px; font-size: 15px; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; transition: background 0.2s; }
+.btn-checkout:hover { background: var(--gold-light); }
+
+/* ===== TOAST ===== */
+.toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px); background: var(--dark); color: #fff; padding: 12px 24px; border-radius: 4px; font-size: 14px; opacity: 0; transition: all 0.3s; z-index: 5000; white-space: nowrap; }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ===== KAKAO FLOAT ===== */
+.kakao-float { position: fixed; right: 20px; bottom: 80px; width: 54px; height: 54px; background: #FEE500; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2000; box-shadow: 0 0 0 3px #C8A84B, 0 4px 16px rgba(0,0,0,0.25); transition: transform 0.2s, box-shadow 0.2s; }
+.kakao-float:hover { transform: scale(1.1); box-shadow: 0 0 0 3px #F5E090, 0 6px 20px rgba(0,0,0,0.3); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .brand-grid { grid-template-columns: repeat(3, 1fr); }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .footer-locations { grid-column: 1 / -1; }
+}
+@media (max-width: 768px) {
+  .header-search { display: none; }
+  .nav-list { display: none; }
+  .hamburger { display: flex; }
+  .category-banners { grid-template-columns: 1fr; }
+  .cat-banner { height: 180px; }
+  .hero-slider { height: 400px; }
+  .slide-title { font-size: 24px; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .brand-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr; }
+  .location-grid { grid-template-columns: 1fr; }
+  .top-bar-prices { gap: 10px; font-size: 11px; }
+  .check-all-btn { position: static; display: block; margin-top: 10px; }
+}
+@media (max-width: 480px) {
+  .products-grid { grid-template-columns: 1fr; }
+  .brand-grid { grid-template-columns: repeat(2, 1fr); }
+  .product-tabs { gap: 0; }
+  .ptab { padding: 8px 12px; font-size: 12px; }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <div class="top-bar-prices">
+        <span class="price-item">금 <span class="price-val gold" id="tb-gold">로딩중</span></span>
+        <span class="price-item">은 <span class="price-val silver" id="tb-silver">로딩중</span></span>
+        <span class="price-item">백금 <span class="price-val platinum" id="tb-platinum">로딩중</span></span>
+        <span class="price-item">환율 <span class="price-val" id="tb-rate" style="color:#a0c4ff;">로딩중</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo-wrap">
+        <svg class="logo-symbol" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="petal1" cx="50%" cy="20%" r="70%"><stop offset="0%" stop-color="#F5E090"/><stop offset="50%" stop-color="#C8A84B"/><stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/></radialGradient>
+            <radialGradient id="petal2" cx="80%" cy="20%" r="70%"><stop offset="0%" stop-color="#F5E090"/><stop offset="50%" stop-color="#C8A84B"/><stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/></radialGradient>
+            <radialGradient id="petal3" cx="80%" cy="80%" r="70%"><stop offset="0%" stop-color="#F5E090"/><stop offset="50%" stop-color="#C8A84B"/><stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/></radialGradient>
+            <radialGradient id="petal4" cx="50%" cy="80%" r="70%"><stop offset="0%" stop-color="#F5E090"/><stop offset="50%" stop-color="#C8A84B"/><stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/></radialGradient>
+            <radialGradient id="petal5" cx="20%" cy="80%" r="70%"><stop offset="0%" stop-color="#F5E090"/><stop offset="50%" stop-color="#C8A84B"/><stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/></radialGradient>
+            <radialGradient id="petal6" cx="20%" cy="20%" r="70%"><stop offset="0%" stop-color="#F5E090"/><stop offset="50%" stop-color="#C8A84B"/><stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/></radialGradient>
+            <radialGradient id="centerGlow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#FFFDE0"/><stop offset="60%" stop-color="#F5E090"/><stop offset="100%" stop-color="#C8A84B"/></radialGradient>
+          </defs>
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal1)" opacity="0.85" transform="rotate(0 27 27)"/>
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal2)" opacity="0.85" transform="rotate(60 27 27)"/>
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal3)" opacity="0.85" transform="rotate(120 27 27)"/>
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal4)" opacity="0.85" transform="rotate(180 27 27)"/>
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal5)" opacity="0.85" transform="rotate(240 27 27)"/>
+          <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#petal6)" opacity="0.85" transform="rotate(300 27 27)"/>
+          <circle cx="27" cy="27" r="8" fill="url(#centerGlow)"/>
+          <circle cx="27" cy="27" r="8" fill="none" stroke="#C8A84B" stroke-width="0.8" opacity="0.6"/>
+        </svg>
+        <div class="logo-text-block">
+          <span class="logo-brand">MIDAS BULLION</span>
+          <span class="logo-sub-kr">금화는 미다스</span>
+        </div>
+      </a>
+      <div class="header-search">
+        <div class="search-category">
+          <select><option>전체</option><option>금화</option><option>은화</option><option>금바</option></select>
+        </div>
+        <input type="text" placeholder="상품 검색..." class="search-input">
+        <button class="search-btn">검색</button>
+      </div>
+      <div class="header-icons">
+        <button class="icon-btn" aria-label="장바구니" onclick="openCart()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-count">0</span>
+        </button>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Nav -->
+  <nav class="main-nav">
+    <div class="nav-inner">
+      <ul class="nav-list">
+        <li class="nav-item"><a href="coins.html" class="nav-link">금화 보기</a></li>
+        <li class="nav-item"><a href="gold-price.html" class="nav-link">금 시세</a></li>
+        <li class="nav-item"><a href="contact.html" class="nav-link">구매 문의</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="nav-mobile">
+    <ul>
+      <li><a href="coins.html">금화 보기</a></li>
+      <li><a href="gold-price.html">금 시세</a></li>
+      <li><a href="contact.html">구매 문의</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero Slider -->
+  <section class="hero-slider" id="hero">
+    <div class="slider-track" id="slider-track">
+      <div class="slide slide-1">
+        <div class="slide-content">
+          <div class="slide-badge">THE ROYAL MINT® · THE ORIGINAL MAKER</div>
+          <h1 class="slide-title">성 조지와 용<br>2026년 귀금속 시리즈</h1>
+          <p class="slide-subtitle">2026년 투자형 금은화 시리즈<br>영원히 새로운 용기의 상징<br>비범한 공예의 영원한 전승</p>
+          <a href="#products" class="slide-btn">시리즈 상품 탐색 ›</a>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/Screenshot_20260530-164945.png') center/cover no-repeat;">
+        <div class="slide-content">
+          <div class="slide-badge">CANADIAN ROYAL MINT · 99.99% 순도</div>
+          <h1 class="slide-title">메이플 리프<br>2026년 신규 발행</h1>
+          <p class="slide-subtitle">세계 최고 순도의 금화<br>캐나다 왕실 조폐국 정품</p>
+          <a href="#products" class="slide-btn">지금 구매하기 ›</a>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/slide-eagle.jpg') center/cover no-repeat;">
+        <div class="slide-content">
+          <div class="slide-badge">US MINT · 아메리칸 이글</div>
+          <h1 class="slide-title">아메리칸 이글<br>골드 코인 2026</h1>
+          <p class="slide-subtitle">미국 최고 권위의 투자용 금화<br>리걸 텐더 법정화폐 보증</p>
+          <a href="#products" class="slide-btn">상품 보기 ›</a>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/slide-buffalo.jpg') center/cover no-repeat;">
+        <div class="slide-content">
+          <div class="slide-badge">US MINT · 99.99% 순금</div>
+          <h1 class="slide-title">아메리칸 버팔로<br>골드 코인 2026</h1>
+          <p class="slide-subtitle">미국 최고 순도의 투자용 금화<br>대평원의 위용을 담은 전설적 디자인</p>
+          <a href="#products" class="slide-btn">상품 보기 ›</a>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/Screenshot_20260530-164958.png') center/cover no-repeat;">
+        <div class="slide-content">
+          <div class="slide-badge">THE ROYAL MINT UK · 브리타니아</div>
+          <h1 class="slide-title">브리타니아<br>1oz 금화 2026</h1>
+          <p class="slide-subtitle">영국 왕실 조폐국의 상징<br>백절불굴의 브리타니아 여신</p>
+          <a href="#products" class="slide-btn">지금 구매하기 ›</a>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/Screenshot_20260530-164945.png') center/cover no-repeat;">
+        <div class="slide-content">
+          <div class="slide-badge">ROYAL CANADIAN MINT · 단풍의 나라</div>
+          <h1 class="slide-title">캐나다 메이플 리프<br>가을 한정 에디션</h1>
+          <p class="slide-subtitle">캐나다 단풍의 아름다움을 담은<br>99.99% 순금 한정 금화</p>
+          <a href="#products" class="slide-btn">한정판 보기 ›</a>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/slide-kangaroo.jpg') center/cover no-repeat;">
+        <div class="slide-content">
+          <div class="slide-badge">PERTH MINT AUSTRALIA · 캥거루</div>
+          <h1 class="slide-title">오스트레일리아 캥거루<br>골드 코인 2026</h1>
+          <p class="slide-subtitle">퍼스 민트의 정품 투자 금화<br>울루루의 대지가 품은 황금</p>
+          <a href="#products" class="slide-btn">상품 보기 ›</a>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/slide-philharmonic.jpg') center/cover no-repeat;">
+        <div class="slide-content">
+          <div class="slide-badge">MÜNZE ÖSTERREICH · 오스트리아 조폐국</div>
+          <h1 class="slide-title">빈 필하모닉<br>골드 코인 2026</h1>
+          <p class="slide-subtitle">세계에서 가장 많이 팔리는 유럽 금화<br>비엔나 필하모닉의 선율을 담은 황금</p>
+          <a href="#products" class="slide-btn">상품 보기 ›</a>
+        </div>
+      </div>
+      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/slide-eagle.jpg') center/cover no-repeat;">
+        <div class="slide-content">
+          <div class="slide-badge">US MINT · E PLURIBUS UNUM</div>
+          <h1 class="slide-title">아메리칸 이글<br>프리미엄 에디션</h1>
+          <p class="slide-subtitle">모뉴먼트 밸리의 장엄한 일몰<br>법정화폐 보증 투자형 금화</p>
+          <a href="#products" class="slide-btn">프리미엄 보기 ›</a>
+        </div>
+      </div>
+    </div>
+    <button class="slider-btn slider-prev" id="slider-prev">&#8592;</button>
+    <button class="slider-btn slider-next" id="slider-next">&#8594;</button>
+    <div class="slider-dots" id="slider-dots">
+      <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+  </section>
+
+  <!-- Category Banners -->
+  <section class="category-banners">
+    <div class="cat-banner cat-gold">
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><h3>금화</h3><a href="#" class="cat-btn">구매하기</a></div>
+    </div>
+    <div class="cat-banner cat-silver">
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><h3>예정</h3><a href="#" class="cat-btn">알림 신청</a></div>
+    </div>
+    <div class="cat-banner cat-collectible">
+      <div class="cat-overlay"></div>
+      <div class="cat-content"><h3>문의</h3><a href="#" class="cat-btn">문의하기</a></div>
+    </div>
+  </section>
+
+  <!-- Newest Products -->
+  <section class="section products-section" id="products">
+    <div class="container">
+      <div class="section-header-truney">
+        <h2>최신 상품 확인하기</h2>
+        <div class="section-divider"><span>★</span></div>
+      </div>
+      <div class="product-tabs">
+        <button class="ptab active" data-filter="gold">금화</button>
+      </div>
+      <div class="products-grid" id="products-grid">
+        <div class="products-loading">
+          <div class="loading-spinner"></div>
+          <p>상품을 불러오는 중...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop By Brand -->
+  <section class="section brand-section">
+    <div class="container">
+      <div class="section-header-truney">
+        <h2>브랜드별 쇼핑</h2>
+        <div class="section-line"></div>
+        <a href="#" class="check-all-btn">전체 브랜드 보기</a>
+      </div>
+      <div class="brand-grid">
+        <div class="brand-card">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <svg width="32" height="32" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs><radialGradient id="bp1" cx="50%" cy="20%" r="70%"><stop offset="0%" stop-color="#F5E090"/><stop offset="50%" stop-color="#C8A84B"/><stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/></radialGradient></defs>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(0 27 27)"/>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(60 27 27)"/>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(120 27 27)"/>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(180 27 27)"/>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(240 27 27)"/>
+              <ellipse cx="27" cy="16" rx="9" ry="15" fill="url(#bp1)" opacity="0.85" transform="rotate(300 27 27)"/>
+              <circle cx="27" cy="27" r="8" fill="#F5E090"/>
+            </svg>
+            <span style="font-family:'Cinzel',serif;font-size:11px;color:#B8960C;letter-spacing:2px;text-align:center;">MIDAS BULLION<br><span style="font-family:'Noto Serif KR',serif;font-size:9px;letter-spacing:1px;">귀금속 전문점</span></span>
+          </div>
+        </div>
+        <div class="brand-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/United_States_Mint_-_logo.svg/200px-United_States_Mint_-_logo.svg.png" alt="US Mint" onerror="this.parentElement.innerHTML='<div class=brand-logo-text>UNITED STATES MINT</div>'"></div>
+        <div class="brand-card"><div class="brand-logo-text">🍁 Royal Canadian Mint</div></div>
+        <div class="brand-card"><div class="brand-logo-text">THE PERTH MINT<br><small>Australia</small></div></div>
+        <div class="brand-card"><div class="brand-logo-text">🦁 Scottsdale Mint</div></div>
+        <div class="brand-card"><div class="brand-logo-text">PAMP<br><small>Produits Artistiques Metaux Precieux</small></div></div>
+        <div class="brand-card"><div class="brand-logo-text">🇨🇳 중국인민은행<br><small>China Banknote Printing and Minting</small></div></div>
+        <div class="brand-card"><div class="brand-logo-text" style="background:#8B0000;color:#FFD700;">MÜNZE<br>ÖSTERREICH</div></div>
+        <div class="brand-card"><div class="brand-logo-text">🇿🇦 South African Mint</div></div>
+        <div class="brand-card"><div class="brand-logo-text">★★★<br>NEW ZEALAND MINT</div></div>
+        <div class="brand-card"><div class="brand-logo-text">Heraeus<br><small>賀利氏</small></div></div>
+        <div class="brand-card"><div class="brand-logo-text">👑 THE ROYAL MINT®<br><small>THE ORIGINAL MAKER</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>카탈로그</h4>
+        <ul>
+          <li><a href="#">› 금화</a></li><li><a href="#">› 금바</a></li><li><a href="#">› 국내 금바</a></li>
+          <li><a href="#">› 기타 금</a></li><li><a href="#">› 은화</a></li><li><a href="#">› 은바</a></li>
+          <li><a href="#">› MIDAS BULLION 브랜드</a></li><li><a href="#">› 기타 은</a></li>
+          <li><a href="#">› 수집용 코인</a></li><li><a href="#">› 플래티넘</a></li>
+          <li><a href="#">› 팔라듐</a></li><li><a href="#">› 악세서리</a></li><li><a href="#">› 굿즈</a></li>
+        </ul>
+        <h4 style="margin-top:1.5rem">기타 서비스</h4>
+      </div>
+      <div class="footer-col">
+        <h4>회원 정보</h4>
+        <ul>
+          <li><a href="#">› 내 계정</a></li><li><a href="#">› 주문 내역</a></li><li><a href="#">› 고객센터</a></li>
+        </ul>
+        <h4 style="margin-top:1.5rem">관련 정보</h4>
+        <ul>
+          <li><a href="#">› 회사 소개</a></li><li><a href="#">› 온라인 예약</a></li>
+          <li><a href="#">› 거래 안내</a></li><li><a href="#">› 오시는 길</a></li>
+          <li><a href="#">› 귀금속 투명성</a></li><li><a href="#">› 정품 인증</a></li>
+          <li><a href="#">› 서비스 약관</a></li><li><a href="#">› 자주 묻는 질문</a></li>
+        </ul>
+      </div>
+      <div class="footer-locations">
+        <h4>오시는 길</h4>
+        <div class="location-grid">
+          <div class="location-item">
+            <strong>서울 본점</strong>
+            <p>서울특별시 종로구 종로 1가 1번지<br>타임스퀘어 CBD<br>02-1234-5678</p>
+            <p>월 - 금 09:00 - 18:00<br>점심시간 12:00 - 13:00</p>
+          </div>
+          <div class="location-item">
+            <strong>강남 지점</strong>
+            <p>서울특별시 강남구 테헤란로 123<br>강남파이낸스센터 10층<br>02-9876-5432</p>
+            <p>월 - 금 13:00 - 17:00</p>
+          </div>
+        </div>
+        <p class="location-notice">원활한 서비스를 위해 방문 전 예약을 권장합니다</p>
+        <div class="social-section">
+          <h4>소셜 미디어</h4>
+          <div class="social-icons">
+            <a href="#" class="social-icon facebook">f</a>
+            <a href="#" class="social-icon instagram">📷</a>
+            <a href="#" class="social-icon youtube">▶</a>
+            <a href="#" class="social-icon line">LINE</a>
+            <a href="#" class="social-icon kakao">K</a>
+          </div>
+        </div>
+        <div class="lang-section">
+          <h4>언어</h4>
+          <div class="lang-options">
+            <a href="#" class="lang-opt active">한국어</a>
+            <a href="#" class="lang-opt">English</a>
+            <a href="#" class="lang-opt">繁體中文</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 MIDAS BULLION 귀금속 전문점. 사업자등록번호: 123-45-67890</p>
+      <p>귀금속은 투자 위험이 있습니다. 투자 전 충분한 검토를 권장합니다.</p>
+    </div>
+  </footer>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h3>장바구니</h3>
+      <button onclick="closeCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <div class="cart-empty"><p>장바구니가 비어있습니다</p></div>
+    </div>
+    <div class="cart-footer" id="cart-footer" style="display:none">
+      <div class="cart-total"><span>합계</span><span id="cart-total-price">₩0</span></div>
+      <button class="btn-checkout">구매 문의하기</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- 카카오 플로팅 -->
+  <a href="#" class="kakao-float">
+    <svg width="46" height="46" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 2C8.27 2 2 7.37 2 14c0 4.2 2.65 7.9 6.67 10.1L7.1 28.8a.6.6 0 0 0 .84.76l6.4-4.27c.54.05 1.09.08 1.66.08 7.73 0 14-5.37 14-12S23.73 2 16 2z" fill="#3C1E1E"/>
+      <text x="16" y="15.8" text-anchor="middle" font-family="'Arial', sans-serif" font-size="7" font-weight="900" fill="#FEE500" letter-spacing="0.3">KAKAO</text>
+    </svg>
+  </a>
+
+  <script>
+/* =============================================================
+   MIDAS BULLION v2 — 통합 스크립트
+   (nav.js + script.js 최신 버전 병합)
+   ============================================================= */
+
+// ===== 구글 시트 ID =====
+const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
+
+// ===== HAMBURGER MENU =====
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('nav-mobile');
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+});
+
+// ===== HERO SLIDER =====
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+const track = document.getElementById('slider-track');
+const totalSlides = slides.length;
+
+function goToSlide(n) {
+  currentSlide = (n + totalSlides) % totalSlides;
+  track.style.transform = `translateX(-${currentSlide * 100}%)`;
+  dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+}
+
+document.getElementById('slider-prev').addEventListener('click', () => goToSlide(currentSlide - 1));
+document.getElementById('slider-next').addEventListener('click', () => goToSlide(currentSlide + 1));
+dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
+
+let autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
+document.querySelector('.hero-slider').addEventListener('mouseenter', () => clearInterval(autoSlide));
+document.querySelector('.hero-slider').addEventListener('mouseleave', () => {
+  autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
+});
+
+let touchStartX = 0;
+document.querySelector('.hero-slider').addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.querySelector('.hero-slider').addEventListener('touchend', e => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) goToSlide(diff > 0 ? currentSlide + 1 : currentSlide - 1);
+});
+
+// ===== PRODUCT TABS =====
+document.querySelectorAll('.ptab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter = tab.dataset.filter;
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
+    });
+  });
+});
+
+// ===== CART =====
+let cart = [];
+
+function openCart() {
+  document.getElementById('cart-sidebar').classList.add('open');
+  document.getElementById('cart-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cart-sidebar').classList.remove('open');
+  document.getElementById('cart-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function getCardPrice(btn) {
+  const card = btn.closest('.product-card');
+  const priceEl = card.querySelector('.product-price');
+  const raw = priceEl.textContent.replace(/[₩,]/g, '').trim();
+  return parseInt(raw) || 0;
+}
+
+function addToCart(btn, name, price) {
+  if (!price || price === 0) {
+    showToast('가격 로딩 중입니다. 잠시 후 다시 시도해주세요.');
+    return;
+  }
+  const existing = cart.find(i => i.name === name);
+  if (existing) { existing.qty++; } else { cart.push({ name, price, qty: 1 }); }
+  updateCartUI();
+  showToast(`${name} 장바구니에 담겼습니다`);
+  btn.textContent = '✓ 담겼습니다';
+  setTimeout(() => { btn.textContent = '장바구니 담기'; }, 2000);
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  updateCartUI();
+}
+
+function updateCartUI() {
+  const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const count = cart.reduce((sum, i) => sum + i.qty, 0);
+  document.querySelector('.cart-count').textContent = count;
+  document.getElementById('cart-total-price').textContent = `₩${total.toLocaleString()}`;
+  const itemsEl = document.getElementById('cart-items');
+  const footerEl = document.getElementById('cart-footer');
+  if (cart.length === 0) {
+    itemsEl.innerHTML = `<div class="cart-empty"><p>장바구니가 비어있습니다</p></div>`;
+    footerEl.style.display = 'none';
+  } else {
+    itemsEl.innerHTML = cart.map((item, i) => `
+      <div class="cart-item">
+        <div class="cart-item-name">${item.name}${item.qty > 1 ? ` × ${item.qty}` : ''}</div>
+        <div class="cart-item-price">₩${(item.price * item.qty).toLocaleString()}</div>
+        <button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button>
+      </div>`).join('');
+    footerEl.style.display = 'block';
+  }
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// ===== 상품명 → 이미지 매핑 (script.js) =====
+const IMAGE_MAP = [
+  { keywords: ['메이플', 'maple'],           file: 'maple-2026.png' },
+  { keywords: ['브리타니아', 'britannia'],    file: 'britannia-2026.png' },
+  { keywords: ['캥거루', 'kangaroo'],         file: 'kangaroo-2026.png' },
+  { keywords: ['버팔로', 'buffalo'],          file: 'buffalo-2026.png' },
+  { keywords: ['이글', 'eagle'],             file: 'eagle-2026.png' },
+  { keywords: ['필하모닉', 'philharmonic'],   file: 'philharmonic-2026.png' },
+  { keywords: ['크루거', 'krugerrand'],       file: 'krugerrand-2026.png' },
+  { keywords: ['판다', 'panda'],             file: 'panda-2026.png' },
+  { keywords: ['코뿔소', 'rhino'],           file: 'rhino-2026.png' },
+  { keywords: ['성조지', '세인트조지', 'george'], file: 'george-2026.png' },
+];
+
+function getImageForProduct(name) {
+  const lower = name.toLowerCase();
+  for (const entry of IMAGE_MAP) {
+    if (entry.keywords.some(k => lower.includes(k))) return `images/${entry.file}`;
+  }
+  return null;
+}
+
+function getCategoryFilter(category) {
+  const map = { 'gold_1oz': 'gold', 'gold': 'gold', 'silver_1oz': 'silver', 'silver': 'silver', 'collectible': 'collectible', 'other': 'other', 'accessories': 'accessories', 'merchandise': 'merchandise' };
+  return map[category] || category;
+}
+
+// ===== 상품 카드 HTML 생성 (script.js) =====
+function createProductCard(product, krwPrice) {
+  const { name, brand, category, premium, available, same_day } = product;
+  const imgSrc = getImageForProduct(name);
+  const filterCategory = getCategoryFilter(category);
+  const price = krwPrice ? `₩${(Math.round(krwPrice * premium / 1000) * 1000).toLocaleString()}` : '로딩중...';
+  const imgHTML = imgSrc ? `<img src="${imgSrc}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : '';
+  const placeholderHTML = `<div class="product-img-placeholder" style="${imgSrc ? 'display:none' : 'display:flex'}"><span>${name.substring(0, 6)}</span></div>`;
+  const isAvailable = available === 'TRUE' || available === true;
+  const isSameDay   = same_day === 'TRUE' || same_day === true;
+
+  let btnHTML;
+  if (!isAvailable) {
+    btnHTML = `<button class="btn-cart btn-soldout" disabled>품절</button>`;
+  } else if (isSameDay) {
+    btnHTML = `<button class="btn-cart btn-sameday-buy" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">당일수령 가능</button>`;
+  } else {
+    btnHTML = `<button class="btn-cart btn-buy" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">구매하기</button>`;
+  }
+
+  return `
+    <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}">
+      <div class="product-img-area">
+        ${imgHTML}
+        ${placeholderHTML}
+        ${!isAvailable ? '<div class="soldout-overlay"><span>SOLD OUT</span></div>' : ''}
+      </div>
+      <div class="product-info">
+        <p class="product-brand">${brand}</p>
+        <h3 class="product-name">${name}</h3>
+        <div class="product-price-wrap"><span class="product-price card-price">${isAvailable ? price : '품절'}</span></div>
+        <div class="btn-cart-wrap">${btnHTML}</div>
+      </div>
+    </div>`;
+}
+
+// ===== 구글 시트 상품 로딩 (script.js) =====
+let currentKrwPrice = null;
+let productsData = [];
+
+async function loadProducts() {
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=상품`;
+    const res = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
+    productsData = json.table.rows.map(row => ({
+      name:      row.c[0]?.v || '',
+      brand:     row.c[1]?.v || '',
+      category:  row.c[2]?.v || 'gold',
+      premium:   parseFloat(row.c[3]?.v) || 1.03,
+      available: String(row.c[4]?.v).toUpperCase(),
+      same_day:  String(row.c[5]?.v).toUpperCase(),
+    })).filter(p => p.name);
+    renderProducts();
+  } catch (e) {
+    console.error('상품 목록 로딩 오류:', e);
+    document.getElementById('products-grid').innerHTML =
+      '<p style="color:#888;text-align:center;padding:2rem;">상품을 불러오는 중 오류가 발생했습니다.</p>';
+  }
+}
+
+function renderProducts() {
+  const grid = document.getElementById('products-grid');
+  if (!productsData.length) return;
+  grid.innerHTML = productsData.map(p => createProductCard(p, currentKrwPrice)).join('');
+  const activeTab = document.querySelector('.ptab.active');
+  if (activeTab) {
+    const filter = activeTab.dataset.filter;
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
+    });
+  }
+  applyScrollAnimation(document.querySelectorAll('.product-card'));
+}
+
+function updateCardPricesFromSheet(krwPerOz) {
+  currentKrwPrice = krwPerOz;
+  document.querySelectorAll('.product-card').forEach(card => {
+    const premium = parseFloat(card.dataset.premium) || 1.03;
+    const price = Math.round(krwPerOz * premium / 1000) * 1000;
+    const priceEl = card.querySelector('.product-price');
+    if (priceEl) priceEl.textContent = `₩${price.toLocaleString()}`;
+  });
+}
+
+// ===== 탑바 시세 업데이트 (nav.js 최신 버전) =====
+async function updateNavPrices() {
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=계산`;
+    const res = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
+    const row = json.table.rows[0].c;
+
+    const goldPrice    = row[0]?.v;
+    const silverPrice  = row[1]?.v;
+    const platPrice    = row[2]?.v;
+    const exchangeRate = row[4]?.v;
+
+    if (goldPrice)    document.getElementById('tb-gold').textContent     = `$${Number(goldPrice).toFixed(2)}`;
+    if (silverPrice)  document.getElementById('tb-silver').textContent   = `$${Number(silverPrice).toFixed(2)}`;
+    if (platPrice)    document.getElementById('tb-platinum').textContent = `$${Number(platPrice).toFixed(2)}`;
+    if (exchangeRate) document.getElementById('tb-rate').textContent     = `${Number(exchangeRate).toLocaleString()}원`;
+
+    if (goldPrice && exchangeRate && typeof updateCardPricesFromSheet === 'function') {
+      updateCardPricesFromSheet(goldPrice * exchangeRate);
+    }
+  } catch (e) {
+    console.error('시세 연동 오류:', e);
+  }
+}
+
+// ===== 초기화 =====
+loadProducts();
+setTimeout(() => {
+  updateNavPrices();
+  setInterval(updateNavPrices, 30000);
+}, 300);
+
+// ===== SCROLL ANIMATIONS =====
+function applyScrollAnimation(els) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s, border-color 0.2s';
+    observer.observe(el);
+  });
+}
+
+applyScrollAnimation(document.querySelectorAll('.brand-card, .cat-banner'));
+
+// ===== HEADER SCROLL SHADOW =====
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('header');
+  if (header) header.style.boxShadow = window.scrollY > 10 ? '0 4px 16px rgba(0,0,0,0.12)' : '0 2px 8px rgba(0,0,0,0.06)';
+}, { passive: true });
+
+// ===== SMOOTH ANCHOR SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' });
+    }
+  });
+});
+  </script>
+</body>
+</html>
