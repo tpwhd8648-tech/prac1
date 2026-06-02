@@ -8,36 +8,33 @@
     .logo-text-block { display:flex; flex-direction:column; gap:2px; }
     .logo-brand { font-family:'Cinzel',serif; font-size:22px; font-weight:700; letter-spacing:4px; line-height:1; background:linear-gradient(135deg,#C8A84B 0%,#F5E090 40%,#C8A84B 60%,#9A7B2E 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
     .logo-sub-kr { font-family:'Noto Serif KR',serif; font-size:10px; letter-spacing:3px; color:#B8960C; font-weight:400; }
-    .search-category select {
-      background: linear-gradient(135deg, #1a1508 0%, #2a1f08 100%);
-      color: #C8A84B;
-      border: 1px solid #C8A84B;
-      border-radius: 6px;
-      padding: 6px 28px 6px 12px;
-      font-family: 'Noto Serif KR', serif;
-      font-size: 13px;
-      letter-spacing: 1px;
-      cursor: pointer;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C8A84B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      transition: border-color 0.2s, box-shadow 0.2s;
+    .custom-dropdown { position:relative; }
+    .custom-dropdown-btn {
+      display:flex; align-items:center; gap:8px;
+      background:transparent; color:#333;
+      border:1px solid #ccc; border-radius:6px;
+      padding:6px 12px; font-family:'Noto Serif KR',serif;
+      font-size:13px; letter-spacing:1px; cursor:pointer;
+      outline:none; white-space:nowrap;
+      transition: border-color 0.2s;
     }
-    .search-category select:hover {
-      border-color: #F5E090;
-      box-shadow: 0 0 8px rgba(200,168,75,0.4);
-      color: #F5E090;
+    .custom-dropdown-btn svg { transition: transform 0.2s; }
+    .custom-dropdown-btn.open { border-color:#C8A84B; color:#C8A84B; }
+    .custom-dropdown-btn.open svg { transform:rotate(180deg); }
+    .custom-dropdown-menu {
+      display:none; position:absolute; top:calc(100% + 6px); left:0;
+      background:#fff; border:1px solid #C8A84B; border-radius:6px;
+      overflow:hidden; z-index:9999; min-width:130px;
+      box-shadow:0 4px 16px rgba(0,0,0,0.1);
     }
-    .search-category select option {
-      background: #1a1508;
-      color: #C8A84B;
-      padding: 10px 14px;
-      font-size: 14px;
-      border: 1px solid #C8A84B;
+    .custom-dropdown-menu.open { display:block; }
+    .custom-dropdown-item {
+      display:block; padding:10px 16px;
+      font-family:'Noto Serif KR',serif; font-size:13px;
+      color:#333; text-decoration:none; letter-spacing:1px;
+      transition:background 0.15s, color 0.15s;
     }
+    .custom-dropdown-item:hover { background:#fdf6e3; color:#C8A84B; }
   `;
   document.head.appendChild(style);
 
@@ -94,12 +91,16 @@
           </div>
         </a>
         <div class="header-search">
-          <div class="search-category">
-            <select id="nav-select" onchange="if(this.value) { location.href=this.value; this.value=''; }">
-              <option value="coins.html">금화 보기</option>
-              <option value="gold-price.html">금 시세</option>
-              <option value="contact.html">구매 문의</option>
-            </select>
+          <div class="search-category custom-dropdown" id="custom-dropdown">
+            <button class="custom-dropdown-btn" id="dropdown-btn" type="button">
+              전체
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <div class="custom-dropdown-menu" id="dropdown-menu">
+              <a class="custom-dropdown-item" href="coins.html">금화 보기</a>
+              <a class="custom-dropdown-item" href="gold-price.html">금 시세</a>
+              <a class="custom-dropdown-item" href="contact.html">구매 문의</a>
+            </div>
           </div>
           <input type="text" placeholder="상품 검색..." class="search-input">
           <button class="search-btn">검색</button>
@@ -139,6 +140,22 @@
         <li><a href="contact.html">구매 문의</a></li>
       </ul>`;
   }
+
+  setTimeout(() => {
+    const btn = document.getElementById('dropdown-btn');
+    const menu = document.getElementById('dropdown-menu');
+    if (btn && menu) {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        btn.classList.toggle('open');
+        menu.classList.toggle('open');
+      });
+      document.addEventListener('click', () => {
+        btn.classList.remove('open');
+        menu.classList.remove('open');
+      });
+    }
+  }, 0);
 
 })();
 
