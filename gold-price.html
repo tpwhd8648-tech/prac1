@@ -244,6 +244,78 @@
     loadChart('XAUUSD');
   </script>
   <script src="nav.js"></script>
-  <script src="script.js"></script>
+  <script>
+    // ===== gold-price.html 전용 시세 스크립트 =====
+    // (script.js 대신 사용 — index.html 전용 요소 없음)
+    const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
+
+    async function updatePrices() {
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=계산`;
+        const res = await fetch(url);
+        const text = await res.text();
+        const json = JSON.parse(
+          text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]
+        );
+        const row = json.table.rows[0].c;
+
+        const goldPrice    = row[0]?.v;
+        const silverPrice  = row[1]?.v;
+        const platPrice    = row[2]?.v;
+        const exchangeRate = row[4]?.v;
+
+        // 탑바 (nav.js가 생성한 요소)
+        const tbGold     = document.getElementById('tb-gold');
+        const tbSilver   = document.getElementById('tb-silver');
+        const tbPlatinum = document.getElementById('tb-platinum');
+        const tbRate     = document.getElementById('tb-rate');
+
+        if (tbGold     && goldPrice)    tbGold.textContent     = `$${Number(goldPrice).toFixed(2)}`;
+        if (tbSilver   && silverPrice)  tbSilver.textContent   = `$${Number(silverPrice).toFixed(2)}`;
+        if (tbPlatinum && platPrice)    tbPlatinum.textContent = `$${Number(platPrice).toFixed(2)}`;
+        if (tbRate     && exchangeRate) tbRate.textContent     = `${Number(exchangeRate).toLocaleString()}원`;
+
+        // 시세 카드
+        const goldVal   = document.getElementById('gold-val');
+        const silverVal = document.getElementById('silver-val');
+        const rateVal   = document.getElementById('rate-val');
+
+        if (goldVal   && goldPrice)    goldVal.textContent   = `$${Number(goldPrice).toFixed(2)}`;
+        if (silverVal && silverPrice)  silverVal.textContent = `$${Number(silverPrice).toFixed(2)}`;
+        if (rateVal   && exchangeRate) rateVal.textContent   = `${Number(exchangeRate).toLocaleString()}`;
+
+      } catch (e) {
+        console.error('시세 연동 오류:', e);
+      }
+    }
+
+    // nav.js가 DOM을 그린 뒤 실행
+    setTimeout(() => {
+      updatePrices();
+      setInterval(updatePrices, 30000);
+    }, 300);
+
+    // ===== 햄버거 메뉴 (nav.js가 HTML을 그린 뒤 바인딩) =====
+    setTimeout(() => {
+      const hamburger   = document.getElementById('hamburger');
+      const mobileMenu  = document.getElementById('nav-mobile');
+      if (hamburger && mobileMenu) {
+        hamburger.addEventListener('click', () => {
+          mobileMenu.classList.toggle('open');
+          document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+        });
+      }
+    }, 300);
+
+    // ===== 헤더 스크롤 그림자 =====
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('nav-header');
+      if (header) {
+        header.style.boxShadow = window.scrollY > 10
+          ? '0 4px 16px rgba(0,0,0,0.12)'
+          : '0 2px 8px rgba(0,0,0,0.06)';
+      }
+    }, { passive: true });
+  </script>
 </body>
 </html>
