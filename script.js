@@ -292,7 +292,7 @@ async function updatePrices() {
     const res = await fetch(url);
     const text = await res.text();
     const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
-    const row = json.table.rows[0].c;
+    const row = json.table.rows[1].c;
 
     const goldPrice    = row[0]?.v;
     const silverPrice  = row[1]?.v;
