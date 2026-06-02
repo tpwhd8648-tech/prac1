@@ -10,110 +10,41 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="nav.css">
   <style>
-
     .price-page { padding: 48px 0 80px; background: #f9f8f5; min-height: calc(100vh - 200px); }
     .price-page .container { max-width: 1300px; margin: 0 auto; padding: 0 20px; }
-
     .page-header { margin-bottom: 32px; display: flex; align-items: center; gap: 16px; }
-    .page-header a {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 13px; color: #C8A84B;
-      font-family: 'Noto Sans KR', sans-serif;
-      text-decoration: none;
-      transition: opacity 0.2s;
-    }
+    .page-header a { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #C8A84B; font-family: 'Noto Sans KR', sans-serif; text-decoration: none; transition: opacity 0.2s; }
     .page-header a:hover { opacity: 0.7; }
-    .page-header h1 {
-      font-family: 'Noto Serif KR', serif;
-      font-size: 26px; font-weight: 600;
-      color: #1a1a1a;
-    }
+    .page-header h1 { font-family: 'Noto Serif KR', serif; font-size: 26px; font-weight: 600; color: #1a1a1a; }
     .page-header .divider { color: #ccc; }
-
     .chart-tabs { display: flex; gap: 0; border-bottom: 2px solid #e0e0e0; margin-bottom: 24px; }
-    .chart-tab {
-      background: none; border: none; padding: 10px 24px;
-      font-size: 14px; font-family: 'Noto Sans KR', sans-serif;
-      color: #666; cursor: pointer;
-      border-bottom: 2px solid transparent; margin-bottom: -2px;
-      transition: all 0.2s;
-    }
+    .chart-tab { background: none; border: none; padding: 10px 24px; font-size: 14px; font-family: 'Noto Sans KR', sans-serif; color: #666; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
     .chart-tab.active, .chart-tab:hover { color: #C8A84B; border-bottom-color: #C8A84B; font-weight: 600; }
-
-    .chart-wrap {
-      background: #fff;
-      border: 1px solid #e0e0e0;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-bottom: 32px;
-    }
+    .chart-wrap { background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; overflow: hidden; margin-bottom: 32px; }
     .chart-wrap iframe { display: block; width: 100%; height: 600px; border: none; }
-
-    .price-info-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-    .price-info-card {
-      background: #fff;
-      border: 1px solid #e0e0e0;
-      border-radius: 4px;
-      padding: 20px;
-    }
+    .price-info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .price-info-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; padding: 20px; }
     .price-info-card .label { font-size: 12px; color: #888; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Noto Sans KR', sans-serif; }
     .price-info-card .value { font-size: 22px; font-weight: 700; color: #C8A84B; font-family: 'Cinzel', serif; }
     .price-info-card .sub { font-size: 12px; color: #aaa; margin-top: 4px; }
-
-    .notice-box {
-      background: #fff9ee;
-      border-left: 3px solid #C8A84B;
-      padding: 14px 18px;
-      font-size: 13px;
-      color: #666;
-      line-height: 1.7;
-      font-family: 'Noto Sans KR', sans-serif;
-    }
-
-    /* 카카오 플로팅 */
-    .kakao-float {
-      position: fixed; right: 20px; bottom: 80px;
-      width: 54px; height: 54px;
-      background: #FEE500; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      z-index: 2000;
-      box-shadow: 0 0 0 3px #C8A84B, 0 4px 16px rgba(0,0,0,0.25);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
+    .notice-box { background: #fff9ee; border-left: 3px solid #C8A84B; padding: 14px 18px; font-size: 13px; color: #666; line-height: 1.7; font-family: 'Noto Sans KR', sans-serif; }
+    .kakao-float { position: fixed; right: 20px; bottom: 80px; width: 54px; height: 54px; background: #FEE500; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2000; box-shadow: 0 0 0 3px #C8A84B, 0 4px 16px rgba(0,0,0,0.25); transition: transform 0.2s, box-shadow 0.2s; }
     .kakao-float:hover { transform: scale(1.1); box-shadow: 0 0 0 3px #F5E090, 0 6px 20px rgba(0,0,0,0.3); }
   </style>
 </head>
 <body>
-
-  <!-- Top Bar -->
   <div class="top-bar" id="nav-topbar"></div>
-
-  <!-- Header -->
   <header id="nav-header"></header>
-
-  <!-- Nav -->
   <nav id="nav-main"></nav>
-
-  <!-- Mobile Menu -->
   <div id="nav-mobile"></div>
 
-  <!-- 본문 -->
   <section class="price-page">
     <div class="container">
-
-      <!-- 페이지 헤더 -->
       <div class="page-header">
         <a href="index.html">← 홈으로</a>
         <span class="divider">/</span>
         <h1>금 시세</h1>
       </div>
-
-      <!-- 시세 요약 카드 -->
       <div class="price-info-grid">
         <div class="price-info-card">
           <div class="label">GOLD · XAUUSD</div>
@@ -131,15 +62,11 @@
           <div class="sub">실시간 반영</div>
         </div>
       </div>
-
-      <!-- 차트 탭 -->
       <div class="chart-tabs">
         <button class="chart-tab active" onclick="switchChart('gold', this)">금 (XAUUSD)</button>
         <button class="chart-tab" onclick="switchChart('silver', this)">은 (XAGUSD)</button>
         <button class="chart-tab" onclick="switchChart('platinum', this)">백금 (XPTUSD)</button>
       </div>
-
-      <!-- TradingView 차트 -->
       <div class="chart-wrap">
         <div id="tv-chart-container" style="height:600px;">
           <div class="tradingview-widget-container" style="height:100%;">
@@ -147,60 +74,14 @@
           </div>
         </div>
       </div>
-
-      <!-- 안내 문구 -->
       <div class="notice-box">
         ※ 시세는 TradingView 실시간 데이터를 기반으로 표시됩니다. 실제 거래 가격은 프리미엄 및 환율에 따라 다를 수 있습니다.<br>
         정확한 매입·매도 가격은 MIDAS BULLION 고객센터로 문의해 주세요.
       </div>
-
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-col">
-        <h4>카탈로그</h4>
-        <ul>
-          <li><a href="#">› 금화</a></li><li><a href="#">› 금바</a></li><li><a href="#">› 국내 금바</a></li>
-          <li><a href="#">› 기타 금</a></li><li><a href="#">› 은화</a></li><li><a href="#">› 은바</a></li>
-          <li><a href="#">› 수집용 코인</a></li><li><a href="#">› 플래티넘</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>회원 정보</h4>
-        <ul>
-          <li><a href="#">› 내 계정</a></li><li><a href="#">› 주문 내역</a></li><li><a href="#">› 고객센터</a></li>
-        </ul>
-        <h4 style="margin-top:1.5rem">관련 정보</h4>
-        <ul>
-          <li><a href="#">› 회사 소개</a></li><li><a href="#">› 거래 안내</a></li>
-          <li><a href="#">› 서비스 약관</a></li><li><a href="#">› 자주 묻는 질문</a></li>
-        </ul>
-      </div>
-      <div class="footer-locations">
-        <h4>오시는 길</h4>
-        <div class="location-grid">
-          <div class="location-item">
-            <strong>서울 본점</strong>
-            <p>서울특별시 종로구 종로 1가 1번지<br>02-1234-5678</p>
-            <p>월 - 금 09:00 - 18:00</p>
-          </div>
-          <div class="location-item">
-            <strong>강남 지점</strong>
-            <p>서울특별시 강남구 테헤란로 123<br>02-9876-5432</p>
-            <p>월 - 금 13:00 - 17:00</p>
-          </div>
-        </div>
-        <p class="location-notice">원활한 서비스를 위해 방문 전 예약을 권장합니다</p>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>© 2026 MIDAS BULLION 귀금속 전문점. 사업자등록번호: 123-45-67890</p>
-      <p>귀금속은 투자 위험이 있습니다. 투자 전 충분한 검토를 권장합니다.</p>
-    </div>
-  </footer>
+  <footer id="site-footer"></footer>
 
   <a href="#" class="kakao-float">
     <svg width="46" height="46" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -209,40 +90,27 @@
     </svg>
   </a>
 
-  
-  <!-- TradingView 위젯 -->
   <script src="https://s3.tradingview.com/tv.js"></script>
   <script>
     function loadChart(symbol) {
       var container = document.getElementById('tradingview_chart');
       container.innerHTML = '';
       new TradingView.widget({
-        autosize: true,
-        symbol: symbol,
-        interval: "D",
-        timezone: "Asia/Seoul",
-        theme: "light",
-        style: "1",
-        locale: "kr",
-        toolbar_bg: "#f1f3f6",
-        enable_publishing: false,
-        hide_top_toolbar: false,
-        hide_legend: false,
-        save_image: false,
-        container_id: "tradingview_chart"
+        autosize: true, symbol: symbol, interval: "D", timezone: "Asia/Seoul",
+        theme: "light", style: "1", locale: "kr", toolbar_bg: "#f1f3f6",
+        enable_publishing: false, hide_top_toolbar: false, hide_legend: false,
+        save_image: false, container_id: "tradingview_chart"
       });
     }
-
     function switchChart(type, btn) {
       document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
       btn.classList.add('active');
       const symbols = { gold: 'XAUUSD', silver: 'XAGUSD', platinum: 'XPTUSD' };
       loadChart(symbols[type]);
     }
-
-    // 페이지 로드 시 금 차트 초기화
     loadChart('XAUUSD');
   </script>
+  <script src="footer.js"></script>
   <script src="nav.js"></script>
 </body>
 </html>
