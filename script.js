@@ -125,19 +125,17 @@ function showToast(msg) {
 }
 
 // ===== 상품명 → 이미지 파일명 매핑 =====
-// 상품명에 키워드가 포함되면 해당 이미지 사용
-// 새 상품 추가 시 여기에 추가하거나, images/ 폴더에 같은 이름으로 업로드
 const IMAGE_MAP = [
-  { keywords: ['메이플', 'maple'],           file: 'maple-2026.png' },
-  { keywords: ['브리타니아', 'britannia'],    file: 'britannia-2026.png' },
-  { keywords: ['캥거루', 'kangaroo'],         file: 'kangaroo-2026.png' },
-  { keywords: ['버팔로', 'buffalo'],          file: 'buffalo-2026.png' },
-  { keywords: ['이글', 'eagle'],             file: 'eagle-2026.png' },
-  { keywords: ['필하모닉', 'philharmonic'],   file: 'philharmonic-2026.png' },
-  { keywords: ['크루거', 'krugerrand'],       file: 'krugerrand-2026.png' },
-  { keywords: ['판다', 'panda'],             file: 'panda-2026.png' },
-  { keywords: ['코뿔소', 'rhino'],           file: 'rhino-2026.png' },
-  { keywords: ['성조지', '세인트조지', 'george'], file: 'george-2026.png' },
+  { keywords: ['메이플', 'maple'],               file: 'products-maple-2026.png' },
+  { keywords: ['브리타니아', 'britannia'],        file: 'products-britannia-2026.png' },
+  { keywords: ['캥거루', 'kangaroo'],             file: 'products-kangaroo-2026.png' },
+  { keywords: ['버팔로', 'buffalo'],              file: 'products-buffalo-2026.png' },
+  { keywords: ['이글', 'eagle'],                 file: 'products-eagle-2026.png' },
+  { keywords: ['필하모닉', 'philharmonic'],       file: 'products-philharmonic-2026.png' },
+  { keywords: ['크루거', 'krugerrand'],           file: 'products-krugerrand-2026.png' },
+  { keywords: ['판다', 'panda'],                 file: 'products-panda-2026.png' },
+  { keywords: ['코뿔소', 'rhino'],               file: 'products-rhino-2026.png' },
+  { keywords: ['성조지', '세인트조지', 'george'], file: 'products-george-2026.png' },
 ];
 
 function getImageForProduct(name) {
@@ -147,7 +145,7 @@ function getImageForProduct(name) {
       return `images/${entry.file}`;
     }
   }
-  return null; // 매칭 없으면 null → 텍스트 플레이스홀더 사용
+  return null;
 }
 
 // 카테고리 코드 → 탭 filter 값 매핑
@@ -187,10 +185,8 @@ function createProductCard(product, krwPrice) {
   const isAvailable = available === 'TRUE' || available === true;
   const isSameDay   = same_day === 'TRUE' || same_day === true;
 
-  // 배지
   const badges = [];
 
-  // 버튼
   let btnHTML;
   if (!isAvailable) {
     btnHTML = `<button class="btn-cart btn-soldout" disabled>품절</button>`;
@@ -226,7 +222,6 @@ const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
 let currentKrwPrice = null;
 let productsData = [];
 
-// 상품 탭에서 상품 목록 불러오기
 async function loadProducts() {
   try {
     const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=상품`;
@@ -242,7 +237,7 @@ async function loadProducts() {
       premium:   parseFloat(row.c[3]?.v) || 1.03,
       available: String(row.c[4]?.v).toUpperCase(),
       same_day:  String(row.c[5]?.v).toUpperCase(),
-    })).filter(p => p.name); // 빈 행 제거
+    })).filter(p => p.name);
 
     renderProducts();
   } catch (e) {
@@ -252,7 +247,6 @@ async function loadProducts() {
   }
 }
 
-// 상품 카드 렌더링
 function renderProducts() {
   const grid = document.getElementById('products-grid');
   if (!productsData.length) return;
@@ -261,7 +255,6 @@ function renderProducts() {
     .map(p => createProductCard(p, currentKrwPrice))
     .join('');
 
-  // 현재 활성 탭 필터 적용
   const activeTab = document.querySelector('.ptab.active');
   if (activeTab) {
     const filter = activeTab.dataset.filter;
@@ -270,11 +263,9 @@ function renderProducts() {
     });
   }
 
-  // 스크롤 애니메이션 재적용
   applyScrollAnimation(document.querySelectorAll('.product-card'));
 }
 
-// 가격 업데이트 (카드 재렌더링 없이 가격만 교체)
 function updateCardPricesFromSheet(krwPerOz) {
   currentKrwPrice = krwPerOz;
   document.querySelectorAll('.product-card').forEach(card => {
@@ -285,8 +276,6 @@ function updateCardPricesFromSheet(krwPerOz) {
   });
 }
 
-// 시세는 nav.js에서 통합 관리 — 상품 목록만 로드
-// nav.js의 updateNavPrices()가 updateCardPricesFromSheet()를 호출해 카드 가격도 업데이트
 loadProducts();
 
 // ===== SCROLL ANIMATIONS =====
