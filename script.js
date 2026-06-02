@@ -285,41 +285,9 @@ function updateCardPricesFromSheet(krwPerOz) {
   });
 }
 
-// 시세/환율 불러오기 (계산 탭)
-async function updatePrices() {
-  try {
-    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=계산`;
-    const res = await fetch(url);
-    const text = await res.text();
-    const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
-    const row = json.table.rows[1].c;
-
-    const goldPrice    = row[0]?.v;
-    const silverPrice  = row[1]?.v;
-    const platPrice    = row[2]?.v;
-    const exchangeRate = row[4]?.v;
-    const krwPrice     = (goldPrice && exchangeRate) ? goldPrice * exchangeRate : null;
-
-    if (goldPrice)    document.getElementById('tb-gold')?.textContent     = `$${Number(goldPrice).toFixed(2)}`;
-    if (silverPrice)  document.getElementById('tb-silver')?.textContent   = `$${Number(silverPrice).toFixed(2)}`;
-    if (platPrice)    document.getElementById('tb-platinum')?.textContent = `$${Number(platPrice).toFixed(2)}`;
-    if (exchangeRate) document.getElementById('tb-rate')?.textContent     = `${Number(exchangeRate).toLocaleString()}원`;
-
-    // gold-price.html 카드 업데이트
-    if (goldPrice)    document.getElementById('gold-val')?.textContent   = `$${Number(goldPrice).toFixed(2)}`;
-    if (silverPrice)  document.getElementById('silver-val')?.textContent = `$${Number(silverPrice).toFixed(2)}`;
-    if (exchangeRate) document.getElementById('rate-val')?.textContent   = `${Number(exchangeRate).toLocaleString()}`;
-
-    if (krwPrice) updateCardPricesFromSheet(krwPrice);
-
-  } catch (e) {
-    console.error('시세 연동 오류:', e);
-  }
-}
-
-// 초기 로딩: 상품 목록 → 시세 순서로
-loadProducts().then(() => updatePrices());
-setInterval(updatePrices, 30000);
+// 시세는 nav.js에서 통합 관리 — 상품 목록만 로드
+// nav.js의 updateNavPrices()가 updateCardPricesFromSheet()를 호출해 카드 가격도 업데이트
+loadProducts();
 
 // ===== SCROLL ANIMATIONS =====
 function applyScrollAnimation(els) {
