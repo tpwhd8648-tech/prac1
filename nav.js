@@ -36,6 +36,7 @@
       color: #C8A84B;
       padding: 10px 14px;
       font-size: 14px;
+      border: 1px solid #C8A84B;
     }
   `;
   document.head.appendChild(style);
@@ -95,7 +96,6 @@
         <div class="header-search">
           <div class="search-category">
             <select id="nav-select" onchange="if(this.value) { location.href=this.value; this.value=''; }">
-              <option value="">전체</option>
               <option value="coins.html">금화 보기</option>
               <option value="gold-price.html">금 시세</option>
               <option value="contact.html">구매 문의</option>
@@ -141,7 +141,6 @@
   }
 
 })();
-// ↑ 햄버거 이벤트, updatePrices, setInterval, 스크롤 그림자는 script.js에서 처리
 
 // ===== 탑바 시세 업데이트 (모든 페이지 공통) =====
 (function () {
@@ -162,13 +161,11 @@
       const platPrice    = row[2]?.v;
       const exchangeRate = row[4]?.v;
 
-      // 탑바 (모든 페이지 공통)
       if (goldPrice)    document.getElementById('tb-gold').textContent     = `$${Number(goldPrice).toFixed(2)}`;
       if (silverPrice)  document.getElementById('tb-silver').textContent   = `$${Number(silverPrice).toFixed(2)}`;
       if (platPrice)    document.getElementById('tb-platinum').textContent = `$${Number(platPrice).toFixed(2)}`;
       if (exchangeRate) document.getElementById('tb-rate').textContent     = `${Number(exchangeRate).toLocaleString()}원`;
 
-      // gold-price.html 카드 (해당 페이지에서만 존재)
       const goldVal   = document.getElementById('gold-val');
       const silverVal = document.getElementById('silver-val');
       const rateVal   = document.getElementById('rate-val');
@@ -176,7 +173,6 @@
       if (silverVal && silverPrice)  silverVal.textContent = `$${Number(silverPrice).toFixed(2)}`;
       if (rateVal   && exchangeRate) rateVal.textContent   = `${Number(exchangeRate).toLocaleString()}`;
 
-      // index.html 상품 카드 가격 업데이트 (script.js의 함수 호출)
       if (goldPrice && exchangeRate && typeof updateCardPricesFromSheet === 'function') {
         updateCardPricesFromSheet(goldPrice * exchangeRate);
       }
