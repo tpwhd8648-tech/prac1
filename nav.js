@@ -8,6 +8,35 @@
     .logo-text-block { display:flex; flex-direction:column; gap:2px; }
     .logo-brand { font-family:'Cinzel',serif; font-size:22px; font-weight:700; letter-spacing:4px; line-height:1; background:linear-gradient(135deg,#C8A84B 0%,#F5E090 40%,#C8A84B 60%,#9A7B2E 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
     .logo-sub-kr { font-family:'Noto Serif KR',serif; font-size:10px; letter-spacing:3px; color:#B8960C; font-weight:400; }
+    .search-category select {
+      background: linear-gradient(135deg, #1a1508 0%, #2a1f08 100%);
+      color: #C8A84B;
+      border: 1px solid #C8A84B;
+      border-radius: 6px;
+      padding: 6px 28px 6px 12px;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C8A84B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-category select:hover {
+      border-color: #F5E090;
+      box-shadow: 0 0 8px rgba(200,168,75,0.4);
+      color: #F5E090;
+    }
+    .search-category select option {
+      background: #1a1508;
+      color: #C8A84B;
+      padding: 10px 14px;
+      font-size: 14px;
+    }
   `;
   document.head.appendChild(style);
 
