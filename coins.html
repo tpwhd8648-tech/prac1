@@ -20,18 +20,15 @@
     .kakao-float { position: fixed; right: 20px; bottom: 80px; width: 54px; height: 54px; background: #FEE500; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2000; box-shadow: 0 0 0 3px #C8A84B, 0 4px 16px rgba(0,0,0,0.25); transition: transform 0.2s, box-shadow 0.2s; }
     .kakao-float:hover { transform: scale(1.1); box-shadow: 0 0 0 3px #F5E090, 0 6px 20px rgba(0,0,0,0.3); }
 
-    /* 상품 그리드 (메인페이지와 동일) */
+    /* 로딩 스피너 */
     .products-loading { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; padding: 4rem 0; color: #888; gap: 1rem; }
     .loading-spinner { width: 36px; height: 36px; border: 3px solid #2a2a2a; border-top-color: #C8A84B; border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* 이미지 플레이스홀더 */
     .product-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); color: #C8A84B; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px; text-align: center; padding: 1rem; }
-    .badge { font-size: 10px; padding: 2px 7px; border-radius: 3px; font-family: 'Noto Sans KR', sans-serif; font-weight: 500; letter-spacing: 0.5px; }
-    .btn-cart-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 5px; margin-top: 10px; }
-    .btn-sameday-buy { width: 100%; background: linear-gradient(135deg, #C8A84B 0%, #F5E090 50%, #C8A84B 100%); color: #1a1200; font-weight: 700; font-size: 13px; letter-spacing: 1px; border: none; padding: 11px 16px; cursor: pointer; border-radius: 3px; transition: opacity 0.2s, transform 0.15s; }
-    .btn-sameday-buy:hover { opacity: 0.9; transform: translateY(-1px); }
-    .btn-buy { width: 100%; background: #C8A84B; color: #fff; border: none; padding: 10px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: background 0.2s, color 0.2s; letter-spacing: 1px; }
-    .btn-buy:hover { background: #F5E090; color: #1a1200; }
-    .btn-soldout { background: #2a2a2a; color: #555; border: 1px solid #333; padding: 10px 16px; font-size: 13px; letter-spacing: 2px; cursor: not-allowed; border-radius: 3px; width: 100%; }
+
+    /* 품절 오버레이 */
     .card-soldout { opacity: 0.6; }
     .soldout-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; }
     .soldout-overlay span { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 4px; color: #fff; border: 1px solid #fff; padding: 6px 14px; opacity: 0.8; }
@@ -105,6 +102,7 @@
 
     // ===== CART =====
     let cart = [];
+
     function openCart() {
       document.getElementById('cart-sidebar').classList.add('open');
       document.getElementById('cart-overlay').classList.add('open');
@@ -127,8 +125,9 @@
       if (existing) { existing.qty++; } else { cart.push({ name, price, qty: 1 }); }
       updateCartUI();
       showToast(`${name} 장바구니에 담겼습니다`);
+      const origText = btn.classList.contains('btn-sameday-buy') ? '당일수령 가능' : '구매하기';
       btn.textContent = '✓ 담겼습니다';
-      setTimeout(() => { btn.textContent = btn.classList.contains('btn-sameday-buy') ? '당일수령 가능' : '구매하기'; }, 2000);
+      setTimeout(() => { btn.textContent = origText; }, 2000);
     }
     function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
     function updateCartUI() {
@@ -174,6 +173,7 @@
       { keywords: ['코뿔소', 'rhino'],                file: 'products-rhino-2026.png' },
       { keywords: ['성조지', '세인트조지', 'george'],  file: 'products-george-2026.png' },
     ];
+
     function getImageForProduct(name) {
       const lower = name.toLowerCase();
       for (const entry of IMAGE_MAP) {
@@ -181,21 +181,32 @@
       }
       return null;
     }
+
     function getCategoryFilter(category) {
-      const map = { 'gold_1oz':'gold','gold':'gold','silver_1oz':'silver','silver':'silver','collectible':'collectible','other':'other','accessories':'accessories','merchandise':'merchandise' };
+      const map = {
+        'gold_1oz': 'gold', 'gold': 'gold',
+        'silver_1oz': 'silver', 'silver': 'silver',
+        'collectible': 'collectible', 'other': 'other',
+        'accessories': 'accessories', 'merchandise': 'merchandise'
+      };
       return map[category] || category;
     }
 
-    // ===== 카드 생성 =====
+    // ===== 카드 생성 (script.js와 완전 동일) =====
     function createProductCard(product, krwPrice) {
       const { name, brand, category, premium, available, same_day } = product;
       const imgSrc = getImageForProduct(name);
       const filterCategory = getCategoryFilter(category);
-      const price = krwPrice ? `₩${(Math.round(krwPrice * premium / 1000) * 1000).toLocaleString()}` : '로딩중...';
-      const imgHTML = imgSrc ? `<img src="${imgSrc}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : '';
+      const price = krwPrice
+        ? `₩${(Math.round(krwPrice * premium / 1000) * 1000).toLocaleString()}`
+        : '로딩중...';
+      const imgHTML = imgSrc
+        ? `<img src="${imgSrc}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+        : '';
       const placeholderHTML = `<div class="product-img-placeholder" style="${imgSrc ? 'display:none' : 'display:flex'}"><span>${name.substring(0, 6)}</span></div>`;
       const isAvailable = available === 'TRUE' || available === true;
       const isSameDay   = same_day === 'TRUE' || same_day === true;
+
       let btnHTML;
       if (!isAvailable) {
         btnHTML = `<button class="btn-cart btn-soldout" disabled>품절</button>`;
@@ -204,6 +215,7 @@
       } else {
         btnHTML = `<button class="btn-cart btn-buy" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">구매하기</button>`;
       }
+
       return `
         <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}">
           <div class="product-img-area">
@@ -244,7 +256,8 @@
         renderProducts();
       } catch (e) {
         console.error('상품 목록 로딩 오류:', e);
-        document.getElementById('products-grid').innerHTML = '<p style="color:#888;text-align:center;padding:2rem;">상품을 불러오는 중 오류가 발생했습니다.</p>';
+        document.getElementById('products-grid').innerHTML =
+          '<p style="color:#888;text-align:center;padding:2rem;">상품을 불러오는 중 오류가 발생했습니다.</p>';
       }
     }
 
@@ -263,18 +276,35 @@
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, i) => {
           if (entry.isIntersecting) {
-            setTimeout(() => { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; }, i * 80);
+            setTimeout(() => {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+            }, i * 80);
             observer.unobserve(entry.target);
           }
         });
       }, { threshold: 0.1 });
       document.querySelectorAll('.product-card').forEach(el => {
-        el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
         observer.observe(el);
       });
     }
 
+    // ===== [핵심 수정] nav.js에서 시세 수신 후 카드 가격 업데이트 =====
+    function updateCardPricesFromSheet(krwPerOz) {
+      currentKrwPrice = krwPerOz;
+      // 상품이 아직 로드되지 않았다면 렌더링 후 자동 반영됨
+      document.querySelectorAll('.product-card').forEach(card => {
+        const premium = parseFloat(card.dataset.premium) || 1.03;
+        const price = Math.round(krwPerOz * premium / 1000) * 1000;
+        const priceEl = card.querySelector('.product-price');
+        if (priceEl) priceEl.textContent = `₩${price.toLocaleString()}`;
+      });
+    }
+
     loadProducts();
   </script>
+</body>
 </html>
