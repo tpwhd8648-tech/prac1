@@ -17,12 +17,24 @@
     .page-header a:hover { opacity: 0.7; }
     .page-header h1 { font-family: 'Noto Serif KR', serif; font-size: 26px; font-weight: 600; color: #1a1a1a; }
     .page-header .divider { color: #ccc; }
-    .empty-state { text-align: center; padding: 100px 20px; color: #aaa; font-family: 'Noto Sans KR', sans-serif; }
-    .empty-state .empty-icon { font-size: 56px; margin-bottom: 20px; opacity: 0.4; }
-    .empty-state p { font-size: 15px; line-height: 1.8; color: #bbb; }
-    .empty-state .gold-line { display: block; width: 40px; height: 2px; background: linear-gradient(90deg, #C8A84B, #F5E090); margin: 20px auto; border-radius: 2px; }
     .kakao-float { position: fixed; right: 20px; bottom: 80px; width: 54px; height: 54px; background: #FEE500; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2000; box-shadow: 0 0 0 3px #C8A84B, 0 4px 16px rgba(0,0,0,0.25); transition: transform 0.2s, box-shadow 0.2s; }
     .kakao-float:hover { transform: scale(1.1); box-shadow: 0 0 0 3px #F5E090, 0 6px 20px rgba(0,0,0,0.3); }
+
+    /* 상품 그리드 (메인페이지와 동일) */
+    .products-loading { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; padding: 4rem 0; color: #888; gap: 1rem; }
+    .loading-spinner { width: 36px; height: 36px; border: 3px solid #2a2a2a; border-top-color: #C8A84B; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .product-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); color: #C8A84B; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px; text-align: center; padding: 1rem; }
+    .badge { font-size: 10px; padding: 2px 7px; border-radius: 3px; font-family: 'Noto Sans KR', sans-serif; font-weight: 500; letter-spacing: 0.5px; }
+    .btn-cart-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 5px; margin-top: 10px; }
+    .btn-sameday-buy { width: 100%; background: linear-gradient(135deg, #C8A84B 0%, #F5E090 50%, #C8A84B 100%); color: #1a1200; font-weight: 700; font-size: 13px; letter-spacing: 1px; border: none; padding: 11px 16px; cursor: pointer; border-radius: 3px; transition: opacity 0.2s, transform 0.15s; }
+    .btn-sameday-buy:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-buy { width: 100%; background: #C8A84B; color: #fff; border: none; padding: 10px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: background 0.2s, color 0.2s; letter-spacing: 1px; }
+    .btn-buy:hover { background: #F5E090; color: #1a1200; }
+    .btn-soldout { background: #2a2a2a; color: #555; border: 1px solid #333; padding: 10px 16px; font-size: 13px; letter-spacing: 2px; cursor: not-allowed; border-radius: 3px; width: 100%; }
+    .card-soldout { opacity: 0.6; }
+    .soldout-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; }
+    .soldout-overlay span { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 4px; color: #fff; border: 1px solid #fff; padding: 6px 14px; opacity: 0.8; }
   </style>
 </head>
 <body>
@@ -38,10 +50,14 @@
         <span class="divider">/</span>
         <h1>금화 보기</h1>
       </div>
-      <div class="empty-state">
-        <div class="empty-icon">🪙</div>
-        <span class="gold-line"></span>
-        <p>상품 내용을 준비 중입니다.<br>곧 업데이트될 예정입니다.</p>
+      <div class="product-tabs" style="margin-bottom:28px;">
+        <button class="ptab active" data-filter="gold">금화</button>
+      </div>
+      <div class="products-grid" id="products-grid">
+        <div class="products-loading">
+          <div class="loading-spinner"></div>
+          <p>상품을 불러오는 중...</p>
+        </div>
       </div>
     </div>
   </section>
@@ -55,7 +71,210 @@
     </svg>
   </a>
 
+  <!-- Cart Sidebar -->
+  <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h3>장바구니</h3>
+      <button onclick="closeCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <div class="cart-empty"><p>장바구니가 비어있습니다</p></div>
+    </div>
+    <div class="cart-footer" id="cart-footer" style="display:none">
+      <div class="cart-total"><span>합계</span><span id="cart-total-price">₩0</span></div>
+      <button class="btn-checkout">구매 문의하기</button>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+
   <script src="footer.js"></script>
   <script src="nav.js"></script>
-</body>
+  <script>
+    // ===== PRODUCT TABS =====
+    document.querySelectorAll('.ptab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const filter = tab.dataset.filter;
+        document.querySelectorAll('.product-card').forEach(card => {
+          card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
+        });
+      });
+    });
+
+    // ===== CART =====
+    let cart = [];
+    function openCart() {
+      document.getElementById('cart-sidebar').classList.add('open');
+      document.getElementById('cart-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCart() {
+      document.getElementById('cart-sidebar').classList.remove('open');
+      document.getElementById('cart-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function getCardPrice(btn) {
+      const card = btn.closest('.product-card');
+      const priceEl = card.querySelector('.product-price');
+      const raw = priceEl.textContent.replace(/[₩,]/g, '').trim();
+      return parseInt(raw) || 0;
+    }
+    function addToCart(btn, name, price) {
+      if (!price || price === 0) { showToast('가격 로딩 중입니다. 잠시 후 다시 시도해주세요.'); return; }
+      const existing = cart.find(i => i.name === name);
+      if (existing) { existing.qty++; } else { cart.push({ name, price, qty: 1 }); }
+      updateCartUI();
+      showToast(`${name} 장바구니에 담겼습니다`);
+      btn.textContent = '✓ 담겼습니다';
+      setTimeout(() => { btn.textContent = btn.classList.contains('btn-sameday-buy') ? '당일수령 가능' : '구매하기'; }, 2000);
+    }
+    function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
+    function updateCartUI() {
+      const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+      const count = cart.reduce((sum, i) => sum + i.qty, 0);
+      const countEl = document.querySelector('.cart-count');
+      if (countEl) countEl.textContent = count;
+      document.getElementById('cart-total-price').textContent = `₩${total.toLocaleString()}`;
+      const itemsEl = document.getElementById('cart-items');
+      const footerEl = document.getElementById('cart-footer');
+      if (cart.length === 0) {
+        itemsEl.innerHTML = `<div class="cart-empty"><p>장바구니가 비어있습니다</p></div>`;
+        footerEl.style.display = 'none';
+      } else {
+        itemsEl.innerHTML = cart.map((item, i) => `
+          <div class="cart-item">
+            <div class="cart-item-name">${item.name}${item.qty > 1 ? ` × ${item.qty}` : ''}</div>
+            <div class="cart-item-price">₩${(item.price * item.qty).toLocaleString()}</div>
+            <button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button>
+          </div>`).join('');
+        footerEl.style.display = 'block';
+      }
+    }
+
+    // ===== TOAST =====
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // ===== 이미지 매핑 =====
+    const IMAGE_MAP = [
+      { keywords: ['메이플', 'maple'],               file: 'products-maple-2026.png' },
+      { keywords: ['브리타니아', 'britannia'],        file: 'products-britannia-2026.png' },
+      { keywords: ['캥거루', 'kangaroo'],             file: 'products-kangaroo-2026.png' },
+      { keywords: ['버팔로', 'buffalo'],              file: 'products-buffalo-2026.png' },
+      { keywords: ['이글', 'eagle'],                  file: 'products-eagle-2026.png' },
+      { keywords: ['필하모닉', 'philharmonic'],        file: 'products-philharmonic-2026.png' },
+      { keywords: ['크루거', 'krugerrand'],            file: 'products-krugerrand-2026.png' },
+      { keywords: ['판다', 'panda'],                  file: 'products-panda-2026.png' },
+      { keywords: ['코뿔소', 'rhino'],                file: 'products-rhino-2026.png' },
+      { keywords: ['성조지', '세인트조지', 'george'],  file: 'products-george-2026.png' },
+    ];
+    function getImageForProduct(name) {
+      const lower = name.toLowerCase();
+      for (const entry of IMAGE_MAP) {
+        if (entry.keywords.some(k => lower.includes(k))) return `images/${entry.file}`;
+      }
+      return null;
+    }
+    function getCategoryFilter(category) {
+      const map = { 'gold_1oz':'gold','gold':'gold','silver_1oz':'silver','silver':'silver','collectible':'collectible','other':'other','accessories':'accessories','merchandise':'merchandise' };
+      return map[category] || category;
+    }
+
+    // ===== 카드 생성 =====
+    function createProductCard(product, krwPrice) {
+      const { name, brand, category, premium, available, same_day } = product;
+      const imgSrc = getImageForProduct(name);
+      const filterCategory = getCategoryFilter(category);
+      const price = krwPrice ? `₩${(Math.round(krwPrice * premium / 1000) * 1000).toLocaleString()}` : '로딩중...';
+      const imgHTML = imgSrc ? `<img src="${imgSrc}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">` : '';
+      const placeholderHTML = `<div class="product-img-placeholder" style="${imgSrc ? 'display:none' : 'display:flex'}"><span>${name.substring(0, 6)}</span></div>`;
+      const isAvailable = available === 'TRUE' || available === true;
+      const isSameDay   = same_day === 'TRUE' || same_day === true;
+      let btnHTML;
+      if (!isAvailable) {
+        btnHTML = `<button class="btn-cart btn-soldout" disabled>품절</button>`;
+      } else if (isSameDay) {
+        btnHTML = `<button class="btn-cart btn-sameday-buy" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">당일수령 가능</button>`;
+      } else {
+        btnHTML = `<button class="btn-cart btn-buy" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">구매하기</button>`;
+      }
+      return `
+        <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}">
+          <div class="product-img-area">
+            ${imgHTML}${placeholderHTML}
+            ${!isAvailable ? '<div class="soldout-overlay"><span>SOLD OUT</span></div>' : ''}
+          </div>
+          <div class="product-info">
+            <p class="product-brand">${brand}</p>
+            <h3 class="product-name">${name}</h3>
+            <div class="product-price-wrap">
+              <span class="product-price card-price">${isAvailable ? price : '품절'}</span>
+            </div>
+            <div class="btn-cart-wrap">${btnHTML}</div>
+          </div>
+        </div>`;
+    }
+
+    // ===== 구글 시트 연동 =====
+    const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
+    let currentKrwPrice = null;
+    let productsData = [];
+
+    async function loadProducts() {
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=상품`;
+        const res = await fetch(url);
+        const text = await res.text();
+        const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
+        const rows = json.table.rows;
+        productsData = rows.map(row => ({
+          name:      row.c[0]?.v || '',
+          brand:     row.c[1]?.v || '',
+          category:  row.c[2]?.v || 'gold',
+          premium:   parseFloat(row.c[3]?.v) || 1.03,
+          available: String(row.c[4]?.v).toUpperCase(),
+          same_day:  String(row.c[5]?.v).toUpperCase(),
+        })).filter(p => p.name);
+        renderProducts();
+      } catch (e) {
+        console.error('상품 목록 로딩 오류:', e);
+        document.getElementById('products-grid').innerHTML = '<p style="color:#888;text-align:center;padding:2rem;">상품을 불러오는 중 오류가 발생했습니다.</p>';
+      }
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById('products-grid');
+      if (!productsData.length) return;
+      grid.innerHTML = productsData.map(p => createProductCard(p, currentKrwPrice)).join('');
+      const activeTab = document.querySelector('.ptab.active');
+      if (activeTab) {
+        const filter = activeTab.dataset.filter;
+        document.querySelectorAll('.product-card').forEach(card => {
+          card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
+        });
+      }
+      // 스크롤 애니메이션
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => { entry.target.style.opacity = '1'; entry.target.style.transform = 'translateY(0)'; }, i * 80);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.product-card').forEach(el => {
+        el.style.opacity = '0'; el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(el);
+      });
+    }
+
+    loadProducts();
+  </script>
 </html>
