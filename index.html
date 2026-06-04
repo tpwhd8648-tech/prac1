@@ -234,8 +234,9 @@
   <script src="footer.js"></script>
   <script src="nav.js"></script>
   <script>
-    // ===== 캐러셀 : renderProducts 후킹 (script.js 로드 전에 미리 정의) =====
     let carouselIndex = 0;
+    let autoplayTimer = null;
+    const AUTOPLAY_INTERVAL = 20000;
 
     function getCardsPerView() {
       const w = window.innerWidth;
@@ -258,8 +259,7 @@
       const maxIndex = Math.max(0, cards.length - perView);
       carouselIndex = Math.min(carouselIndex, maxIndex);
 
-      const gap = 20;
-      const cardWidth = cards[0].offsetWidth + gap;
+      const cardWidth = cards[0].offsetWidth + 20;
       grid.style.transform = `translateX(-${carouselIndex * cardWidth}px)`;
 
       const prevBtn = document.getElementById('carousel-prev');
@@ -279,14 +279,29 @@
 
     function goToSlide(i) { carouselIndex = i; updateCarousel(); }
 
-    // script.js가 정의할 renderProducts를 가로채기 위해 window에 미리 setter 등록
+    function autoplayNext() {
+      const cards = getVisibleCards();
+      const maxIndex = Math.max(0, cards.length - getCardsPerView());
+      carouselIndex = carouselIndex >= maxIndex ? 0 : carouselIndex + 1;
+      updateCarousel();
+    }
+
+    function startAutoplay() {
+      if (autoplayTimer) clearInterval(autoplayTimer);
+      autoplayTimer = setInterval(autoplayNext, AUTOPLAY_INTERVAL);
+    }
+
     let _realRenderProducts = null;
     Object.defineProperty(window, 'renderProducts', {
       set(fn) {
         _realRenderProducts = fn;
         window._renderProductsPatched = function(...args) {
           _realRenderProducts.apply(this, args);
-          setTimeout(() => { carouselIndex = 0; updateCarousel(); }, 200);
+          setTimeout(() => {
+            carouselIndex = 0;
+            updateCarousel();
+            startAutoplay();
+          }, 200);
         };
       },
       get() { return window._renderProductsPatched || _realRenderProducts; },
@@ -295,7 +310,6 @@
   </script>
   <script src="script.js"></script>
   <script>
-    // ===== 버튼 이벤트 + 터치 =====
     (function() {
       const prev = document.getElementById('carousel-prev');
       const next = document.getElementById('carousel-next');
