@@ -233,84 +233,92 @@
 
   <script src="footer.js"></script>
   <script src="nav.js"></script>
-  <script>
-    let carouselIndex = 0;
-    let autoplayTimer = null;
-    const AUTOPLAY_INTERVAL = 20000;
-
-    function getCardsPerView() {
-      const w = window.innerWidth;
-      if (w >= 1024) return 4;
-      if (w >= 600)  return 2;
-      return 1;
-    }
-
-    function getVisibleCards() {
-      return Array.from(document.querySelectorAll('#products-grid .product-card'))
-        .filter(c => c.style.display !== 'none');
-    }
-
-    function updateCarousel() {
-      const grid = document.getElementById('products-grid');
-      const cards = getVisibleCards();
-      const perView = getCardsPerView();
-      if (!grid || cards.length === 0) return;
-
-      const maxIndex = Math.max(0, cards.length - perView);
-      carouselIndex = Math.min(carouselIndex, maxIndex);
-
-      const cardWidth = cards[0].offsetWidth + 20;
-      grid.style.transform = `translateX(-${carouselIndex * cardWidth}px)`;
-
-      const prevBtn = document.getElementById('carousel-prev');
-      const nextBtn = document.getElementById('carousel-next');
-      if (prevBtn) prevBtn.style.opacity = carouselIndex === 0 ? '0.3' : '1';
-      if (nextBtn) nextBtn.style.opacity = carouselIndex >= maxIndex ? '0.3' : '1';
-
-      const dotsEl = document.getElementById('carousel-dots');
-      if (dotsEl && maxIndex > 0) {
-        dotsEl.innerHTML = Array.from({length: maxIndex + 1}, (_, i) =>
-          `<div onclick="goToSlide(${i})" style="width:${i===carouselIndex?'20px':'8px'};height:8px;border-radius:4px;background:${i===carouselIndex?'#C8A84B':'#ccc'};cursor:pointer;transition:all 0.3s;"></div>`
-        ).join('');
-      } else if (dotsEl) {
-        dotsEl.innerHTML = '';
-      }
-    }
-
-    function goToSlide(i) { carouselIndex = i; updateCarousel(); }
-
-    function autoplayNext() {
-      const cards = getVisibleCards();
-      const maxIndex = Math.max(0, cards.length - getCardsPerView());
-      carouselIndex = carouselIndex >= maxIndex ? 0 : carouselIndex + 1;
-      updateCarousel();
-    }
-
-    function startAutoplay() {
-      if (autoplayTimer) clearInterval(autoplayTimer);
-      autoplayTimer = setInterval(autoplayNext, AUTOPLAY_INTERVAL);
-    }
-
-    let _realRenderProducts = null;
-    Object.defineProperty(window, 'renderProducts', {
-      set(fn) {
-        _realRenderProducts = fn;
-        window._renderProductsPatched = function(...args) {
-          _realRenderProducts.apply(this, args);
-          setTimeout(() => {
-            carouselIndex = 0;
-            updateCarousel();
-            startAutoplay();
-          }, 200);
-        };
-      },
-      get() { return window._renderProductsPatched || _realRenderProducts; },
-      configurable: true
-    });
-  </script>
   <script src="script.js"></script>
   <script>
     (function() {
+      let carouselIndex = 0;
+      let autoplayTimer = null;
+      let carouselReady = false;
+
+      function getCardsPerView() {
+        const w = window.innerWidth;
+        if (w >= 1024) return 4;
+        if (w >= 600)  return 2;
+        return 1;
+      }
+
+      function getVisibleCards() {
+        return Array.from(document.querySelectorAll('#products-grid .product-card'))
+          .filter(c => c.style.display !== 'none');
+      }
+
+      function updateCarousel() {
+        const grid = document.getElementById('products-grid');
+        const cards = getVisibleCards();
+        const perView = getCardsPerView();
+        if (!grid || cards.length === 0) return;
+
+        const maxIndex = Math.max(0, cards.length - perView);
+        carouselIndex = Math.min(carouselIndex, maxIndex);
+
+        const cardWidth = cards[0].offsetWidth + 20;
+        grid.style.transform = `translateX(-${carouselIndex * cardWidth}px)`;
+
+        const prevBtn = document.getElementById('carousel-prev');
+        const nextBtn = document.getElementById('carousel-next');
+        if (prevBtn) prevBtn.style.opacity = carouselIndex === 0 ? '0.3' : '1';
+        if (nextBtn) nextBtn.style.opacity = carouselIndex >= maxIndex ? '0.3' : '1';
+
+        const dotsEl = document.getElementById('carousel-dots');
+        if (dotsEl && maxIndex > 0) {
+          dotsEl.innerHTML = Array.from({length: maxIndex + 1}, (_, i) =>
+            `<div onclick="window._goToSlide(${i})" style="width:${i===carouselIndex?'20px':'8px'};height:8px;border-radius:4px;background:${i===carouselIndex?'#C8A84B':'#ccc'};cursor:pointer;transition:all 0.3s;"></div>`
+          ).join('');
+        } else if (dotsEl) {
+          dotsEl.innerHTML = '';
+        }
+      }
+
+      window._goToSlide = function(i) { carouselIndex = i; updateCarousel(); };
+
+      function autoplayNext() {
+        const cards = getVisibleCards();
+        const maxIndex = Math.max(0, cards.length - getCardsPerView());
+        carouselIndex = carouselIndex >= maxIndex ? 0 : carouselIndex + 1;
+        updateCarousel();
+      }
+
+      function startAutoplay() {
+        if (autoplayTimer) clearInterval(autoplayTimer);
+        autoplayTimer = setInterval(autoplayNext, 20000);
+      }
+
+      function initCarousel() {
+        if (carouselReady) return;
+        const cards = getVisibleCards();
+        if (cards.length === 0) return;
+        carouselReady = true;
+        carouselIndex = 0;
+        updateCarousel();
+        startAutoplay();
+      }
+
+      // MutationObserver: 카드가 DOM에 추가되는 순간 감지
+      const grid = document.getElementById('products-grid');
+      const observer = new MutationObserver(() => {
+        const cards = getVisibleCards();
+        if (cards.length > 0) {
+          // 카드 렌더링 + 스타일 계산 완료 후 실행
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              initCarousel();
+            });
+          });
+        }
+      });
+      observer.observe(grid, { childList: true, subtree: true });
+
+      // 버튼 이벤트
       const prev = document.getElementById('carousel-prev');
       const next = document.getElementById('carousel-next');
 
@@ -329,8 +337,8 @@
 
       window.addEventListener('resize', () => { carouselIndex = 0; updateCarousel(); });
 
+      // 터치
       let touchStartX = 0;
-      const grid = document.getElementById('products-grid');
       grid.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
       grid.addEventListener('touchend', e => {
         const diff = touchStartX - e.changedTouches[0].clientX;
