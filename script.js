@@ -309,7 +309,8 @@ applyScrollAnimation(document.querySelectorAll('.brand-card, .cat-banner'));
 
 // ===== HEADER SCROLL SHADOW =====
 window.addEventListener('scroll', () => {
-  const header = document.getElementById('header');
+  const header = document.getElementById('nav-header');
+  if (!header) return;
   header.style.boxShadow = window.scrollY > 10
     ? '0 4px 16px rgba(0,0,0,0.12)'
     : '0 2px 8px rgba(0,0,0,0.06)';
