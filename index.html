@@ -29,6 +29,24 @@
     .card-soldout { opacity: 0.6; }
     .soldout-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; }
     .soldout-overlay span { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 4px; color: #fff; border: 1px solid #fff; padding: 6px 14px; opacity: 0.8; }
+    /* 캐러셀 카드 너비 */
+    #products-grid .product-card {
+      min-width: calc((100% - 60px) / 4);
+      max-width: calc((100% - 60px) / 4);
+      flex-shrink: 0;
+    }
+    @media (max-width: 1023px) {
+      #products-grid .product-card {
+        min-width: calc((100% - 20px) / 2);
+        max-width: calc((100% - 20px) / 2);
+      }
+    }
+    @media (max-width: 599px) {
+      #products-grid .product-card {
+        min-width: 100%;
+        max-width: 100%;
+      }
+    }
     .kakao-float { position: fixed; right: 20px; bottom: 80px; width: 54px; height: 54px; background: #FEE500; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2000; box-shadow: 0 0 0 3px #C8A84B, 0 4px 16px rgba(0,0,0,0.25); transition: transform 0.2s, box-shadow 0.2s; }
   </style>
 </head>
@@ -121,19 +139,28 @@
   <!-- Newest Products -->
   <section class="section products-section" id="products">
     <div class="container">
-      <div class="section-header-truney">
-        <h2>최신 상품 확인하기</h2>
-        <div class="section-divider"><span>★</span></div>
+      <div class="section-header-truney" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div>
+          <h2>최신 상품 확인하기</h2>
+          <div class="section-divider"><span>★</span></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button id="carousel-prev" style="width:38px;height:38px;border-radius:50%;border:1px solid #C8A84B;background:#fff;color:#C8A84B;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;">←</button>
+          <button id="carousel-next" style="width:38px;height:38px;border-radius:50%;border:1px solid #C8A84B;background:#fff;color:#C8A84B;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;">→</button>
+        </div>
       </div>
       <div class="product-tabs">
         <button class="ptab active" data-filter="gold">금화</button>
       </div>
-      <div class="products-grid" id="products-grid">
-        <div class="products-loading">
-          <div class="loading-spinner"></div>
-          <p>상품을 불러오는 중...</p>
+      <div style="position:relative;overflow:hidden;">
+        <div class="products-grid" id="products-grid" style="display:flex;flex-wrap:nowrap;gap:20px;transition:transform 0.4s ease;will-change:transform;">
+          <div class="products-loading" style="min-width:100%;justify-content:center;">
+            <div class="loading-spinner"></div>
+            <p>상품을 불러오는 중...</p>
+          </div>
         </div>
       </div>
+      <div id="carousel-dots" style="display:flex;justify-content:center;gap:6px;margin-top:20px;"></div>
     </div>
   </section>
 
@@ -207,6 +234,116 @@
   <script src="footer.js"></script>
   <script src="nav.js"></script>
   <script src="script.js"></script>
+  <script>
+    // ===== 캐러셀 =====
+    const CARDS_PER_VIEW_DESKTOP = 4;
+    const CARDS_PER_VIEW_TABLET  = 2;
+    const CARDS_PER_VIEW_MOBILE  = 1;
+    let carouselIndex = 0;
+
+    function getCardsPerView() {
+      const w = window.innerWidth;
+      if (w >= 1024) return CARDS_PER_VIEW_DESKTOP;
+      if (w >= 600)  return CARDS_PER_VIEW_TABLET;
+      return CARDS_PER_VIEW_MOBILE;
+    }
+
+    function getVisibleCards() {
+      return Array.from(document.querySelectorAll('#products-grid .product-card'))
+        .filter(c => c.style.display !== 'none');
+    }
+
+    function updateCarousel() {
+      const cards = getVisibleCards();
+      const perView = getCardsPerView();
+      const maxIndex = Math.max(0, cards.length - perView);
+      carouselIndex = Math.min(carouselIndex, maxIndex);
+
+      if (cards.length === 0) return;
+
+      const cardWidth = cards[0].offsetWidth + 20;
+      document.getElementById('products-grid').style.transform = `translateX(-${carouselIndex * cardWidth}px)`;
+
+      const prevBtn = document.getElementById('carousel-prev');
+      const nextBtn = document.getElementById('carousel-next');
+      if (prevBtn) prevBtn.style.opacity = carouselIndex === 0 ? '0.3' : '1';
+      if (nextBtn) nextBtn.style.opacity = carouselIndex >= maxIndex ? '0.3' : '1';
+
+      const dotsEl = document.getElementById('carousel-dots');
+      if (dotsEl) {
+        const totalDots = maxIndex + 1;
+        dotsEl.innerHTML = Array.from({length: totalDots}, (_, i) =>
+          `<div onclick="goToSlide(${i})" style="width:${i===carouselIndex?'20px':'8px'};height:8px;border-radius:4px;background:${i===carouselIndex?'#C8A84B':'#ddd'};cursor:pointer;transition:all 0.3s;"></div>`
+        ).join('');
+      }
+    }
+
+    function goToSlide(i) {
+      carouselIndex = i;
+      updateCarousel();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const prev = document.getElementById('carousel-prev');
+      const next = document.getElementById('carousel-next');
+      if (prev) prev.addEventListener('click', () => {
+        if (carouselIndex > 0) { carouselIndex--; updateCarousel(); }
+      });
+      if (next) next.addEventListener('click', () => {
+        const cards = getVisibleCards();
+        const maxIndex = Math.max(0, cards.length - getCardsPerView());
+        if (carouselIndex < maxIndex) { carouselIndex++; updateCarousel(); }
+      });
+
+      prev.addEventListener('mouseenter', () => { if(parseFloat(prev.style.opacity)!==0.3) prev.style.background='#C8A84B'; prev.style.color='#fff'; });
+      prev.addEventListener('mouseleave', () => { prev.style.background='#fff'; prev.style.color='#C8A84B'; });
+      next.addEventListener('mouseenter', () => { if(parseFloat(next.style.opacity)!==0.3) next.style.background='#C8A84B'; next.style.color='#fff'; });
+      next.addEventListener('mouseleave', () => { next.style.background='#fff'; next.style.color='#C8A84B'; });
+    });
+
+    window.addEventListener('resize', () => { carouselIndex = 0; updateCarousel(); });
+
+    // 상품 로딩 완료 후 캐러셀 초기화 (script.js의 renderProducts 이후)
+    const _origRender = window.renderProducts;
+    if (typeof _origRender === 'function') {
+      window.renderProducts = function(...args) {
+        _origRender.apply(this, args);
+        setTimeout(() => {
+          carouselIndex = 0;
+          updateCarousel();
+        }, 100);
+      };
+    }
+
+    // MutationObserver로 카드 추가 감지 (혹시 renderProducts 후킹 안 될 경우 백업)
+    const observer = new MutationObserver(() => {
+      const cards = getVisibleCards();
+      if (cards.length > 0) {
+        setTimeout(() => { carouselIndex = 0; updateCarousel(); }, 150);
+      }
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('products-grid');
+      if (grid) observer.observe(grid, { childList: true });
+    });
+
+    // 터치/스와이프
+    let touchStartX = 0;
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('products-grid');
+      if (!grid) return;
+      grid.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      grid.addEventListener('touchend', e => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+          const cards = getVisibleCards();
+          const maxIndex = Math.max(0, cards.length - getCardsPerView());
+          if (diff > 0 && carouselIndex < maxIndex) { carouselIndex++; updateCarousel(); }
+          else if (diff < 0 && carouselIndex > 0) { carouselIndex--; updateCarousel(); }
+        }
+      }, { passive: true });
+    });
+  </script>
   <script>
     const brandGrid = document.querySelector('.brand-grid');
     let isDown = false, startX, scrollLeft;
