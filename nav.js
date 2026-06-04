@@ -114,18 +114,40 @@
         </div>
       </div>`;
 
-    /* ── 드롭다운 이벤트 (header innerHTML 삽입 직후 바인딩) ── */
+    /* ── 드롭다운 이벤트 ── */
     const btn = document.getElementById('dropdown-btn');
     const menu = document.getElementById('dropdown-menu');
     if (btn && menu) {
-      btn.addEventListener('click', e => {
+      let isOpen = false;
+
+      function openDropdown(e) {
+        e.preventDefault();
         e.stopPropagation();
-        btn.classList.toggle('open');
-        menu.classList.toggle('open');
-      });
-      document.addEventListener('click', () => {
+        isOpen = !isOpen;
+        btn.classList.toggle('open', isOpen);
+        menu.classList.toggle('open', isOpen);
+      }
+
+      function closeDropdown() {
+        isOpen = false;
         btn.classList.remove('open');
         menu.classList.remove('open');
+      }
+
+      // 클릭 + 터치 모두 처리
+      btn.addEventListener('click', openDropdown);
+      btn.addEventListener('touchend', openDropdown);
+
+      // 외부 클릭/터치 시 닫기
+      document.addEventListener('click', function(e) {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+          closeDropdown();
+        }
+      });
+      document.addEventListener('touchend', function(e) {
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+          closeDropdown();
+        }
       });
     }
   }
