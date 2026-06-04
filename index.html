@@ -30,10 +30,12 @@
     .soldout-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; }
     .soldout-overlay span { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 4px; color: #fff; border: 1px solid #fff; padding: 6px 14px; opacity: 0.8; }
     /* 캐러셀 카드 너비 */
+    #products-grid { box-sizing: border-box; }
     #products-grid .product-card {
       min-width: calc((100% - 60px) / 4);
       max-width: calc((100% - 60px) / 4);
       flex-shrink: 0;
+      box-sizing: border-box;
     }
     @media (max-width: 1023px) {
       #products-grid .product-card {
@@ -233,19 +235,15 @@
 
   <script src="footer.js"></script>
   <script src="nav.js"></script>
-  <script src="script.js"></script>
   <script>
-    // ===== 캐러셀 =====
-    const CARDS_PER_VIEW_DESKTOP = 4;
-    const CARDS_PER_VIEW_TABLET  = 2;
-    const CARDS_PER_VIEW_MOBILE  = 1;
+    // ===== 캐러셀 : renderProducts 후킹 (script.js 로드 전에 미리 정의) =====
     let carouselIndex = 0;
 
     function getCardsPerView() {
       const w = window.innerWidth;
-      if (w >= 1024) return CARDS_PER_VIEW_DESKTOP;
-      if (w >= 600)  return CARDS_PER_VIEW_TABLET;
-      return CARDS_PER_VIEW_MOBILE;
+      if (w >= 1024) return 4;
+      if (w >= 600)  return 2;
+      return 1;
     }
 
     function getVisibleCards() {
@@ -254,15 +252,17 @@
     }
 
     function updateCarousel() {
+      const grid = document.getElementById('products-grid');
       const cards = getVisibleCards();
       const perView = getCardsPerView();
+      if (!grid || cards.length === 0) return;
+
       const maxIndex = Math.max(0, cards.length - perView);
       carouselIndex = Math.min(carouselIndex, maxIndex);
 
-      if (cards.length === 0) return;
-
-      const cardWidth = cards[0].offsetWidth + 20;
-      document.getElementById('products-grid').style.transform = `translateX(-${carouselIndex * cardWidth}px)`;
+      const gap = 20;
+      const cardWidth = cards[0].offsetWidth + gap;
+      grid.style.transform = `translateX(-${carouselIndex * cardWidth}px)`;
 
       const prevBtn = document.getElementById('carousel-prev');
       const nextBtn = document.getElementById('carousel-next');
@@ -270,79 +270,65 @@
       if (nextBtn) nextBtn.style.opacity = carouselIndex >= maxIndex ? '0.3' : '1';
 
       const dotsEl = document.getElementById('carousel-dots');
-      if (dotsEl) {
-        const totalDots = maxIndex + 1;
-        dotsEl.innerHTML = Array.from({length: totalDots}, (_, i) =>
-          `<div onclick="goToSlide(${i})" style="width:${i===carouselIndex?'20px':'8px'};height:8px;border-radius:4px;background:${i===carouselIndex?'#C8A84B':'#ddd'};cursor:pointer;transition:all 0.3s;"></div>`
+      if (dotsEl && maxIndex > 0) {
+        dotsEl.innerHTML = Array.from({length: maxIndex + 1}, (_, i) =>
+          `<div onclick="goToSlide(${i})" style="width:${i===carouselIndex?'20px':'8px'};height:8px;border-radius:4px;background:${i===carouselIndex?'#C8A84B':'#ccc'};cursor:pointer;transition:all 0.3s;"></div>`
         ).join('');
+      } else if (dotsEl) {
+        dotsEl.innerHTML = '';
       }
     }
 
-    function goToSlide(i) {
-      carouselIndex = i;
-      updateCarousel();
-    }
+    function goToSlide(i) { carouselIndex = i; updateCarousel(); }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    // script.js가 정의할 renderProducts를 가로채기 위해 window에 미리 setter 등록
+    let _realRenderProducts = null;
+    Object.defineProperty(window, 'renderProducts', {
+      set(fn) {
+        _realRenderProducts = fn;
+        window._renderProductsPatched = function(...args) {
+          _realRenderProducts.apply(this, args);
+          setTimeout(() => { carouselIndex = 0; updateCarousel(); }, 200);
+        };
+      },
+      get() { return window._renderProductsPatched || _realRenderProducts; },
+      configurable: true
+    });
+  </script>
+  <script src="script.js"></script>
+  <script>
+    // ===== 버튼 이벤트 + 터치 =====
+    (function() {
       const prev = document.getElementById('carousel-prev');
       const next = document.getElementById('carousel-next');
-      if (prev) prev.addEventListener('click', () => {
+
+      prev.addEventListener('click', () => {
         if (carouselIndex > 0) { carouselIndex--; updateCarousel(); }
       });
-      if (next) next.addEventListener('click', () => {
-        const cards = getVisibleCards();
-        const maxIndex = Math.max(0, cards.length - getCardsPerView());
+      next.addEventListener('click', () => {
+        const maxIndex = Math.max(0, getVisibleCards().length - getCardsPerView());
         if (carouselIndex < maxIndex) { carouselIndex++; updateCarousel(); }
       });
 
-      prev.addEventListener('mouseenter', () => { if(parseFloat(prev.style.opacity)!==0.3) prev.style.background='#C8A84B'; prev.style.color='#fff'; });
+      prev.addEventListener('mouseenter', () => { prev.style.background='#C8A84B'; prev.style.color='#fff'; });
       prev.addEventListener('mouseleave', () => { prev.style.background='#fff'; prev.style.color='#C8A84B'; });
-      next.addEventListener('mouseenter', () => { if(parseFloat(next.style.opacity)!==0.3) next.style.background='#C8A84B'; next.style.color='#fff'; });
+      next.addEventListener('mouseenter', () => { next.style.background='#C8A84B'; next.style.color='#fff'; });
       next.addEventListener('mouseleave', () => { next.style.background='#fff'; next.style.color='#C8A84B'; });
-    });
 
-    window.addEventListener('resize', () => { carouselIndex = 0; updateCarousel(); });
+      window.addEventListener('resize', () => { carouselIndex = 0; updateCarousel(); });
 
-    // 상품 로딩 완료 후 캐러셀 초기화 (script.js의 renderProducts 이후)
-    const _origRender = window.renderProducts;
-    if (typeof _origRender === 'function') {
-      window.renderProducts = function(...args) {
-        _origRender.apply(this, args);
-        setTimeout(() => {
-          carouselIndex = 0;
-          updateCarousel();
-        }, 100);
-      };
-    }
-
-    // MutationObserver로 카드 추가 감지 (혹시 renderProducts 후킹 안 될 경우 백업)
-    const observer = new MutationObserver(() => {
-      const cards = getVisibleCards();
-      if (cards.length > 0) {
-        setTimeout(() => { carouselIndex = 0; updateCarousel(); }, 150);
-      }
-    });
-    document.addEventListener('DOMContentLoaded', () => {
+      let touchStartX = 0;
       const grid = document.getElementById('products-grid');
-      if (grid) observer.observe(grid, { childList: true });
-    });
-
-    // 터치/스와이프
-    let touchStartX = 0;
-    document.addEventListener('DOMContentLoaded', () => {
-      const grid = document.getElementById('products-grid');
-      if (!grid) return;
       grid.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
       grid.addEventListener('touchend', e => {
         const diff = touchStartX - e.changedTouches[0].clientX;
         if (Math.abs(diff) > 50) {
-          const cards = getVisibleCards();
-          const maxIndex = Math.max(0, cards.length - getCardsPerView());
+          const maxIndex = Math.max(0, getVisibleCards().length - getCardsPerView());
           if (diff > 0 && carouselIndex < maxIndex) { carouselIndex++; updateCarousel(); }
           else if (diff < 0 && carouselIndex > 0) { carouselIndex--; updateCarousel(); }
         }
       }, { passive: true });
-    });
+    })();
   </script>
   <script>
     const brandGrid = document.querySelector('.brand-grid');
