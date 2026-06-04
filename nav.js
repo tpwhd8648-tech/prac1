@@ -38,7 +38,6 @@
   `;
   document.head.appendChild(style);
 
-  // 현재 페이지 파일명으로 active 링크 결정
   const page = location.pathname.split('/').pop() || 'index.html';
 
   function isActive(href) {
@@ -121,7 +120,6 @@
       let isOpen = false;
 
       function openDropdown(e) {
-        e.preventDefault();
         e.stopPropagation();
         isOpen = !isOpen;
         btn.classList.toggle('open', isOpen);
@@ -134,11 +132,12 @@
         menu.classList.remove('open');
       }
 
-      // 클릭 + 터치 모두 처리
       btn.addEventListener('click', openDropdown);
-      btn.addEventListener('touchend', openDropdown);
+      btn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        openDropdown(e);
+      });
 
-      // 외부 클릭/터치 시 닫기
       document.addEventListener('click', function(e) {
         if (!btn.contains(e.target) && !menu.contains(e.target)) {
           closeDropdown();
