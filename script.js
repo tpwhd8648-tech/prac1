@@ -96,11 +96,14 @@ function removeFromCart(index) {
 function updateCartUI() {
   const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
   const count = cart.reduce((sum, i) => sum + i.qty, 0);
-  document.querySelector('.cart-count').textContent = count;
-  document.getElementById('cart-total-price').textContent = `₩${total.toLocaleString()}`;
+  const cartCountEl = document.querySelector('.cart-count');
+  if (cartCountEl) cartCountEl.textContent = count;
+  const cartTotalEl = document.getElementById('cart-total-price');
+  if (cartTotalEl) cartTotalEl.textContent = `₩${total.toLocaleString()}`;
 
   const itemsEl = document.getElementById('cart-items');
   const footerEl = document.getElementById('cart-footer');
+  if (!itemsEl || !footerEl) return;
 
   if (cart.length === 0) {
     itemsEl.innerHTML = `<div class="cart-empty"><p>장바구니가 비어있습니다</p></div>`;
@@ -148,7 +151,6 @@ function getImageForProduct(name) {
   return null;
 }
 
-// 카테고리 코드 → 탭 filter 값 매핑
 function getCategoryFilter(category) {
   const map = {
     'gold_1oz': 'gold',
@@ -165,7 +167,7 @@ function getCategoryFilter(category) {
 
 // ===== 상품 카드 HTML 생성 =====
 function createProductCard(product, krwPrice) {
-  const { name, brand, category, premium, available, same_day } = product;
+  const { name, brand, category, premium, available } = product;
   const imgSrc = getImageForProduct(name);
   const filterCategory = getCategoryFilter(category);
 
@@ -183,25 +185,21 @@ function createProductCard(product, krwPrice) {
     </div>`;
 
   const isAvailable = available === 'TRUE' || available === true;
-  const isSameDay   = same_day === 'TRUE' || same_day === true;
 
-  const badges = [];
-
+  // ✅ 버튼 텍스트: '상품 보기' / 클릭 시 coins.html로 이동
   let btnHTML;
   if (!isAvailable) {
     btnHTML = `<button class="btn-cart btn-soldout" disabled>품절</button>`;
-  } else if (isSameDay) {
-    btnHTML = `<button class="btn-cart btn-sameday-buy" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">당일수령 가능</button>`;
   } else {
-    btnHTML = `<button class="btn-cart btn-buy" onclick="addToCart(this, '${name.replace(/'/g, "\\'")}', getCardPrice(this))">구매하기</button>`;
+    btnHTML = `<button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='coins.html'">상품 보기</button>`;
   }
 
   return `
-    <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}">
+    <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}"
+      onclick="location.href='coins.html'">
       <div class="product-img-area">
         ${imgHTML}
         ${placeholderHTML}
-        ${badges.length ? `<div class="product-badges">${badges.join('')}</div>` : ''}
         ${!isAvailable ? '<div class="soldout-overlay"><span>SOLD OUT</span></div>' : ''}
       </div>
       <div class="product-info">
