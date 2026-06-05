@@ -129,16 +129,28 @@ function showToast(msg) {
 
 // ===== 상품명 → 이미지 파일명 매핑 =====
 const IMAGE_MAP = [
-  { keywords: ['메이플', 'maple'],               file: 'products-maple-2026.png' },
-  { keywords: ['브리타니아', 'britannia'],        file: 'products-britannia-2026.png' },
-  { keywords: ['캥거루', 'kangaroo'],             file: 'products-kangaroo-2026.png' },
-  { keywords: ['버팔로', 'buffalo'],              file: 'products-buffalo-2026.png' },
-  { keywords: ['이글', 'eagle'],                 file: 'products-eagle-2026.png' },
-  { keywords: ['필하모닉', 'philharmonic'],       file: 'products-philharmonic-2026.png' },
-  { keywords: ['크루거', 'krugerrand'],           file: 'products-krugerrand-2026.png' },
-  { keywords: ['판다', 'panda'],                 file: 'products-panda-2026.png' },
-  { keywords: ['코뿔소', 'rhino'],               file: 'products-rhino-2026.png' },
-  { keywords: ['성조지', '세인트조지', 'george'], file: 'products-george-2026.png' },
+  { keywords: ['메이플 2026', 'maple 2026'],                           file: 'products-maple-2026.png' },
+  { keywords: ['브리타니아 2026', 'britannia 2026'],                   file: 'products-britannia-2026.png' },
+  { keywords: ['캥거루 2026', 'kangaroo 2026'],                        file: 'products-kangaroo-2026.png' },
+  { keywords: ['버팔로 2026', 'buffalo 2026'],                         file: 'products-buffalo-2026.png' },
+  { keywords: ['이글 2026', 'eagle 2026'],                             file: 'products-eagle-2026.png' },
+  { keywords: ['필하모닉 2026', 'philharmonic 2026'],                  file: 'products-philharmonic-2026.png' },
+  { keywords: ['크루거 2026', 'krugerrand 2026'],                      file: 'products-krugerrand-2026.png' },
+  { keywords: ['판다 2026', 'panda 2026'],                             file: 'products-panda-2026.png' },
+  { keywords: ['코뿔소 2026', 'rhino 2026'],                           file: 'products-rhino-2026.png' },
+  { keywords: ['성조지 2026', '세인트조지 2026', 'george 2026'],       file: 'products-george-2026.png' },
+  { keywords: ['퀸즈라이언 2026', 'queens lion 2026'],                 file: 'products-queens-lion-2026.png' },
+  { keywords: ['라이언이글 2026', 'lion eagle 2026'],                  file: 'products-lion-eagle-2026.png' },
+  { keywords: ['말띠 2026', 'horse 2026', 'year of horse 2026'],       file: 'products-horse-2026.png' },
+  { keywords: ['네스호 2026', 'loch ness 2026'],                       file: 'products-loch-ness-2026.png' },
+  { keywords: ['스완 2026', 'swan 2026'],                              file: 'products-swan-2026.png' },
+  { keywords: ['체코라이언 2026', 'czech lion 2026'],                  file: 'products-czech-lion-2026.png' },
+  { keywords: ['아웃백 2026', 'outback 2026'],                         file: 'products-outback-2026.png' },
+  { keywords: ['케이브라이언 2026', 'cave lion 2026'],                 file: 'products-cave-lion-2026.png' },
+  { keywords: ['로얄드래곤 2026', 'royal dragon 2026'],                file: 'products-royal-dragon-2026.png' },
+  { keywords: ['브리티시라이언 2026', 'british lion 2026'],            file: 'products-british-lion-2026.png' },
+  { keywords: ['세인트조지드래곤 2026', 'st george dragon 2026'],      file: 'products-st-george-dragon-2026.png' },
+  { keywords: ['레이디저스티스 2025', 'lady justice 2025'],            file: 'products-lady-justice-2025.png' },
 ];
 
 function getImageForProduct(name) {
@@ -186,7 +198,6 @@ function createProductCard(product, krwPrice) {
 
   const isAvailable = available === 'TRUE' || available === true;
 
-  // ✅ 버튼 텍스트: '상품 보기' / 클릭 시 coins.html로 이동
   let btnHTML;
   if (!isAvailable) {
     btnHTML = `<button class="btn-cart btn-soldout" disabled>품절</button>`;
