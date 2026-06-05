@@ -35,6 +35,12 @@
       transition:background 0.15s, color 0.15s;
     }
     .custom-dropdown-item:hover { background:#fdf6e3; color:#C8A84B; }
+    .mobile-menu-close {
+      position:absolute; top:16px; right:20px;
+      background:none; border:none; color:#fff;
+      font-size:28px; cursor:pointer; line-height:1;
+      padding:4px 8px;
+    }
   `;
   document.head.appendChild(style);
 
@@ -105,7 +111,7 @@
           <button class="search-btn">검색</button>
         </div>
         <div class="header-icons">
-          <button class="icon-btn" aria-label="장바구니">
+          <button class="icon-btn" aria-label="장바구니" onclick="openCart()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             <span class="cart-count">0</span>
           </button>
@@ -170,11 +176,56 @@
   if (mobile) {
     mobile.className = 'mobile-menu';
     mobile.innerHTML = `
+      <button class="mobile-menu-close" id="mobile-menu-close">✕</button>
       <ul>
         <li><a href="coins.html">금화 보기</a></li>
         <li><a href="gold-price.html">금 시세</a></li>
         <li><a href="contact.html">구매 문의</a></li>
       </ul>`;
+  }
+
+  /* ── 햄버거 이벤트 (DOMContentLoaded 이후 안전하게 바인딩) ── */
+  function bindHamburger() {
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('nav-mobile');
+    const closeBtn = document.getElementById('mobile-menu-close');
+
+    if (!hamburger || !mobileMenu) return;
+
+    function openMenu() {
+      mobileMenu.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', openMenu);
+    hamburger.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      openMenu();
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeMenu);
+      closeBtn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        closeMenu();
+      });
+    }
+
+    // 메뉴 링크 클릭시 닫기
+    mobileMenu.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', closeMenu);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindHamburger);
+  } else {
+    bindHamburger();
   }
 
 })();
