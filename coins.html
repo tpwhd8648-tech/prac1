@@ -20,20 +20,16 @@
     .kakao-float { position: fixed; right: 20px; bottom: 80px; width: 54px; height: 54px; background: #FEE500; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2000; box-shadow: 0 0 0 3px #C8A84B, 0 4px 16px rgba(0,0,0,0.25); transition: transform 0.2s, box-shadow 0.2s; }
     .kakao-float:hover { transform: scale(1.1); box-shadow: 0 0 0 3px #F5E090, 0 6px 20px rgba(0,0,0,0.3); }
 
-    /* 로딩 스피너 */
     .products-loading { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; padding: 4rem 0; color: #888; gap: 1rem; }
     .loading-spinner { width: 36px; height: 36px; border: 3px solid #2a2a2a; border-top-color: #C8A84B; border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* 이미지 플레이스홀더 */
     .product-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); color: #C8A84B; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px; text-align: center; padding: 1rem; }
 
-    /* 품절 오버레이 */
     .card-soldout { opacity: 0.6; }
     .soldout-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; }
     .soldout-overlay span { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 4px; color: #fff; border: 1px solid #fff; padding: 6px 14px; opacity: 0.8; }
 
-    /* 버튼 스타일 */
     .btn-cart-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 5px; margin-top: 10px; }
     .btn-sameday-buy { width: 100%; background: #C8A84B; color: #fff; border: none; padding: 10px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: background 0.2s, color 0.2s; letter-spacing: 1px; }
     .btn-sameday-buy:hover { background: #F5E090; color: #1a1200; }
@@ -272,8 +268,8 @@
           premium:   parseFloat(row.c[3]?.v) || 1.03,
           available: String(row.c[4]?.v).toUpperCase(),
           same_day:  String(row.c[5]?.v).toUpperCase(),
-          visible:   row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',  // G열: all/main/coins/none
-        })).filter(p => p.name && (p.visible === 'all' || p.visible === 'coins')); // 코인페이지에 표시
+          visible:   row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',
+        })).filter(p => p.name && (p.visible === 'all' || p.visible === 'coins'));
 
         renderProducts();
       } catch (e) {
@@ -286,7 +282,17 @@
     function renderProducts() {
       const grid = document.getElementById('products-grid');
       if (!productsData.length) return;
-      grid.innerHTML = productsData.map(p => createProductCard(p, currentKrwPrice)).join('');
+
+      // 품절 상품 맨 뒤로 정렬
+      const sorted = [...productsData].sort((a, b) => {
+        const aAvail = a.available === 'TRUE';
+        const bAvail = b.available === 'TRUE';
+        if (aAvail === bAvail) return 0;
+        return aAvail ? -1 : 1;
+      });
+
+      grid.innerHTML = sorted.map(p => createProductCard(p, currentKrwPrice)).join('');
+
       const activeTab = document.querySelector('.ptab.active');
       if (activeTab) {
         const filter = activeTab.dataset.filter;
