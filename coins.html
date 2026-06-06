@@ -269,6 +269,7 @@
           available: String(row.c[4]?.v).toUpperCase(),
           same_day:  String(row.c[5]?.v).toUpperCase(),
           visible:   row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',
+          order:     row.c[7] ? parseInt(row.c[7].v) || 9999 : 9999,
         })).filter(p => p.name && (p.visible === 'all' || p.visible === 'coins'));
 
         renderProducts();
@@ -283,12 +284,12 @@
       const grid = document.getElementById('products-grid');
       if (!productsData.length) return;
 
-      // 품절 상품 맨 뒤로 정렬
+      // 1순위: 품절 맨 뒤, 2순위: order 오름차순
       const sorted = [...productsData].sort((a, b) => {
         const aAvail = a.available === 'TRUE';
         const bAvail = b.available === 'TRUE';
-        if (aAvail === bAvail) return 0;
-        return aAvail ? -1 : 1;
+        if (aAvail !== bAvail) return aAvail ? -1 : 1;
+        return a.order - b.order;
       });
 
       grid.innerHTML = sorted.map(p => createProductCard(p, currentKrwPrice)).join('');
