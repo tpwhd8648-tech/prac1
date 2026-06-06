@@ -200,14 +200,14 @@ function createProductCard(product, krwPrice) {
 
   let btnHTML;
   if (!isAvailable) {
-    btnHTML = `<button class="btn-cart btn-soldout" disabled>품절</button>`;
+    btnHTML = `<button class="btn-cart btn-soldout" onclick="event.stopPropagation(); location.href='coins.html'">품절</button>`;
   } else {
-    btnHTML = `<button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='gold-coins.html'">상품 보기</button>`;
+    btnHTML = `<button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='coins.html'">상품 보기</button>`;
   }
 
   return `
     <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}"
-      onclick="location.href='gold-coins.html'">
+      onclick="location.href='coins.html'">
       <div class="product-img-area">
         ${imgHTML}
         ${placeholderHTML}
@@ -246,8 +246,8 @@ async function loadProducts() {
       premium:   parseFloat(row.c[3]?.v) || 1.03,
       available: String(row.c[4]?.v).toUpperCase(),
       same_day:  String(row.c[5]?.v).toUpperCase(),
-      visible:   row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',  // G열: all/main/coins/none
-    })).filter(p => p.name && (p.visible === 'all' || p.visible === 'main')); // 메인에 표시
+      visible:   row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',
+    })).filter(p => p.name && (p.visible === 'all' || p.visible === 'main'));
 
     renderProducts();
   } catch (e) {
