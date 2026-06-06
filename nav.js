@@ -124,9 +124,9 @@
     const menu = document.getElementById('dropdown-menu');
     if (btn && menu) {
       let isOpen = false;
+      let justToggled = false;
 
-      function openDropdown(e) {
-        e.stopPropagation();
+      function openDropdown() {
         isOpen = !isOpen;
         btn.classList.toggle('open', isOpen);
         menu.classList.toggle('open', isOpen);
@@ -138,18 +138,30 @@
         menu.classList.remove('open');
       }
 
-      btn.addEventListener('click', openDropdown);
-      btn.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        openDropdown(e);
+      // 클릭 (PC)
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        openDropdown();
       });
 
+      // 터치 (모바일/태블릿) — justToggled 플래그로 document 리스너 충돌 방지
+      btn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        justToggled = true;
+        openDropdown();
+        setTimeout(() => { justToggled = false; }, 0);
+      });
+
+      // 외부 클릭 시 닫기 (PC)
       document.addEventListener('click', function(e) {
         if (!btn.contains(e.target) && !menu.contains(e.target)) {
           closeDropdown();
         }
       });
+
+      // 외부 터치 시 닫기 (모바일/태블릿) — justToggled면 무시
       document.addEventListener('touchend', function(e) {
+        if (justToggled) return;
         if (!btn.contains(e.target) && !menu.contains(e.target)) {
           closeDropdown();
         }
@@ -184,7 +196,7 @@
       </ul>`;
   }
 
-  /* ── 햄버거 이벤트 (DOMContentLoaded 이후 안전하게 바인딩) ── */
+  /* ── 햄버거 이벤트 ── */
   function bindHamburger() {
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('nav-mobile');
@@ -216,7 +228,6 @@
       });
     }
 
-    // 메뉴 링크 클릭시 닫기
     mobileMenu.querySelectorAll('a').forEach(function(link) {
       link.addEventListener('click', closeMenu);
     });
