@@ -202,12 +202,12 @@ function createProductCard(product, krwPrice) {
   if (!isAvailable) {
     btnHTML = `<button class="btn-cart btn-soldout" disabled>품절</button>`;
   } else {
-    btnHTML = `<button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='coins.html'">상품 보기</button>`;
+    btnHTML = `<button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='gold-coins.html'">상품 보기</button>`;
   }
 
   return `
     <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}"
-      onclick="location.href='coins.html'">
+      onclick="location.href='gold-coins.html'">
       <div class="product-img-area">
         ${imgHTML}
         ${placeholderHTML}
@@ -246,7 +246,8 @@ async function loadProducts() {
       premium:   parseFloat(row.c[3]?.v) || 1.03,
       available: String(row.c[4]?.v).toUpperCase(),
       same_day:  String(row.c[5]?.v).toUpperCase(),
-    })).filter(p => p.name);
+      visible:   row.c[6] ? String(row.c[6].v ?? 'TRUE').toUpperCase() : 'TRUE',  // G열: TRUE/FALSE
+    })).filter(p => p.name && p.visible !== 'FALSE'); // FALSE면 숨김
 
     renderProducts();
   } catch (e) {
