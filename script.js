@@ -246,8 +246,8 @@ async function loadProducts() {
       premium:   parseFloat(row.c[3]?.v) || 1.03,
       available: String(row.c[4]?.v).toUpperCase(),
       same_day:  String(row.c[5]?.v).toUpperCase(),
-      visible:   row.c[6] ? String(row.c[6].v ?? 'TRUE').toUpperCase() : 'TRUE',  // G열: TRUE/FALSE
-    })).filter(p => p.name && p.visible !== 'FALSE'); // FALSE면 숨김
+      visible:   row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',  // G열: all/main/coins/none
+    })).filter(p => p.name && (p.visible === 'all' || p.visible === 'main')); // 메인에 표시
 
     renderProducts();
   } catch (e) {
