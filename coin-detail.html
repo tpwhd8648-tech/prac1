@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIDAS BULLION | 상품 상세</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="nav.css">
+  <style>
+    .sub-page { padding: 48px 0 80px; background: #f9f8f5; min-height: calc(100vh - 200px); }
+    .sub-page .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .page-header { margin-bottom: 32px; display: flex; align-items: center; gap: 12px; }
+    .page-header a { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #C8A84B; font-family: 'Noto Sans KR', sans-serif; text-decoration: none; transition: opacity 0.2s; }
+    .page-header a:hover { opacity: 0.7; }
+    .page-header .divider { color: #ccc; }
+    .page-header span.crumb { font-size: 13px; color: #999; font-family: 'Noto Sans KR', sans-serif; }
+
+    /* 상세 레이아웃 */
+    .product-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    @media (max-width: 768px) { .product-detail { grid-template-columns: 1fr; gap: 32px; } }
+
+    /* 이미지 갤러리 */
+    .gallery { display: flex; flex-direction: column; gap: 12px; }
+    .gallery-main { width: 100%; aspect-ratio: 1; background: #1a1a1a; overflow: hidden; position: relative; border: 1px solid #2a2a2a; }
+    .gallery-main img { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.3s ease; padding: 20px; box-sizing: border-box; }
+    .gallery-thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .gallery-thumb { width: 72px; height: 72px; background: #1a1a1a; border: 2px solid transparent; cursor: pointer; overflow: hidden; transition: border-color 0.2s; flex-shrink: 0; }
+    .gallery-thumb.active { border-color: #C8A84B; }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 6px; box-sizing: border-box; }
+    .gallery-thumb-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #555; font-size: 10px; font-family: 'Cinzel', serif; }
+    .gallery-no-image { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a1a, #2a2a2a); color: #C8A84B; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 2px; }
+
+    /* 상품 정보 */
+    .product-info-panel { display: flex; flex-direction: column; gap: 20px; }
+    .product-brand-label { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 3px; color: #C8A84B; text-transform: uppercase; }
+    .product-title { font-family: 'Noto Serif KR', serif; font-size: 26px; font-weight: 600; color: #1a1a1a; line-height: 1.4; margin: 0; }
+    @media (max-width: 768px) { .product-title { font-size: 22px; } }
+
+    .product-price-area { padding: 20px 0; border-top: 1px solid #e8e4d9; border-bottom: 1px solid #e8e4d9; }
+    .product-price-label { font-size: 12px; color: #999; font-family: 'Noto Sans KR', sans-serif; margin-bottom: 6px; }
+    .product-price-value { font-family: 'Cinzel', serif; font-size: 28px; color: #1a1a1a; letter-spacing: 1px; }
+    .product-price-value.loading { font-size: 16px; color: #999; font-family: 'Noto Sans KR', sans-serif; }
+    .product-price-note { font-size: 11px; color: #aaa; font-family: 'Noto Sans KR', sans-serif; margin-top: 4px; }
+
+    .product-description { font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: #555; line-height: 1.9; white-space: pre-line; }
+
+    /* 버튼 */
+    .btn-inquiry {
+      display: block; width: 100%; padding: 16px;
+      background: #1a1a1a; color: #C8A84B;
+      border: 1px solid #C8A84B; font-family: 'Cinzel', serif;
+      font-size: 14px; letter-spacing: 3px; cursor: pointer;
+      transition: background 0.2s, color 0.2s; text-align: center;
+      text-decoration: none;
+    }
+    .btn-inquiry:hover { background: #C8A84B; color: #1a1a1a; }
+    .btn-back-coins {
+      display: block; width: 100%; padding: 14px;
+      background: transparent; color: #888;
+      border: 1px solid #ddd; font-family: 'Noto Sans KR', sans-serif;
+      font-size: 13px; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s; text-align: center;
+      text-decoration: none; margin-top: 8px;
+    }
+    .btn-back-coins:hover { border-color: #999; color: #444; }
+
+    .soldout-badge { display: inline-block; padding: 6px 16px; background: #2a2a2a; color: #666; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 3px; border: 1px solid #333; }
+
+    /* 로딩 */
+    .detail-loading { display: flex; flex-direction: column; align-items: center; padding: 6rem 0; gap: 1rem; color: #888; }
+    .loading-spinner { width: 36px; height: 36px; border: 3px solid #2a2a2a; border-top-color: #C8A84B; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-msg { text-align: center; padding: 4rem; color: #888; font-family: 'Noto Sans KR', sans-serif; }
+
+    /* 카카오 플로팅 */
+    .kakao-float { position: fixed; right: 20px; bottom: 80px; width: 54px; height: 54px; background: #FEE500; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2000; box-shadow: 0 0 0 3px #C8A84B, 0 4px 16px rgba(0,0,0,0.25); transition: transform 0.2s, box-shadow 0.2s; }
+    .kakao-float:hover { transform: scale(1.1); }
+  </style>
+</head>
+<body>
+  <div class="top-bar" id="nav-topbar"></div>
+  <header id="nav-header"></header>
+  <nav id="nav-main"></nav>
+  <div id="nav-mobile"></div>
+
+  <section class="sub-page">
+    <div class="container">
+      <div class="page-header">
+        <a href="index.html">← 홈으로</a>
+        <span class="divider">/</span>
+        <a href="gold-coins.html">금화 보기</a>
+        <span class="divider">/</span>
+        <span class="crumb" id="breadcrumb-name">상품 상세</span>
+      </div>
+
+      <div id="detail-content">
+        <div class="detail-loading">
+          <div class="loading-spinner"></div>
+          <p>상품 정보를 불러오는 중...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <a href="#" class="kakao-float" id="kakao-btn">
+    <svg width="46" height="46" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 2C8.27 2 2 7.37 2 14c0 4.2 2.65 7.9 6.67 10.1L7.1 28.8a.6.6 0 0 0 .84.76l6.4-4.27c.54.05 1.09.08 1.66.08 7.73 0 14-5.37 14-12S23.73 2 16 2z" fill="#3C1E1E"/>
+      <text x="16" y="15.8" text-anchor="middle" font-family="'Arial', sans-serif" font-size="7" font-weight="900" fill="#FEE500" letter-spacing="0.3">KAKAO</text>
+    </svg>
+  </a>
+
+  <footer id="site-footer"></footer>
+
+  <script src="footer.js"></script>
+  <script src="nav.js"></script>
+  <script>
+    const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
+
+    const IMAGE_MAP = [
+      { keywords: ['2026 메이플', '2026 maple'],                          file: 'products-maple-2026' },
+      { keywords: ['2026 브리타니아', '2026 britannia'],                  file: 'products-britannia-2026' },
+      { keywords: ['2026 캥거루', '2026 kangaroo'],                       file: 'products-kangaroo-2026' },
+      { keywords: ['2026 버팔로', '2026 buffalo'],                        file: 'products-buffalo-2026' },
+      { keywords: ['2026 이글', '2026 eagle'],                            file: 'products-eagle-2026' },
+      { keywords: ['2026 필하모닉', '2026 philharmonic'],                 file: 'products-philharmonic-2026' },
+      { keywords: ['2026 크루거', '2026 krugerrand'],                     file: 'products-krugerrand-2026' },
+      { keywords: ['2026 판다', '2026 panda'],                            file: 'products-panda-2026' },
+      { keywords: ['2026 코뿔소', '2026 rhino'],                          file: 'products-rhino-2026' },
+      { keywords: ['2026 성조지', '2026 세인트조지', '2026 george'],      file: 'products-st-george-dragon-2026' },
+      { keywords: ['2026 퀸즈라이언', '2026 queens lion'],                file: 'products-queens-lion-2026' },
+      { keywords: ['2026 라이언이글', '2026 lion eagle'],                 file: 'products-lion-eagle-2026' },
+      { keywords: ['2026 말띠', '2026 horse', '2026 year of horse'],      file: 'products-horse-2026' },
+      { keywords: ['2026 네스호', '2026 loch ness'],                      file: 'products-loch-ness-2026' },
+      { keywords: ['2026 스완', '2026 swan'],                             file: 'products-swan-2026' },
+      { keywords: ['2026 체코라이언', '2026 czech lion'],                 file: 'products-czech-lion-2026' },
+      { keywords: ['2026 아웃백', '2026 outback'],                        file: 'products-outback-2026' },
+      { keywords: ['2026 케이브라이언', '2026 cave lion'],                file: 'products-cave-lion-2026' },
+      { keywords: ['2026 로얄드래곤', '2026 royal dragon'],               file: 'products-royal-dragon-2026' },
+      { keywords: ['2026 브리티시라이언', '2026 british lion'],           file: 'products-british-lion-2026' },
+      { keywords: ['2026 세인트조지드래곤', '2026 st george dragon'],     file: 'products-st-george-dragon-2026' },
+      { keywords: ['2025 레이디저스티스', '2025 lady justice'],           file: 'products-lady-justice-2025' },
+    ];
+
+    function getBaseFile(name) {
+      const lower = name.toLowerCase();
+      for (const entry of IMAGE_MAP) {
+        if (entry.keywords.some(k => lower.includes(k))) return entry.file;
+      }
+      return null;
+    }
+
+    // 앞면, 뒷면, detail1, detail2 순서로 존재하는 이미지만 반환
+    function buildImageList(baseFile) {
+      if (!baseFile) return [];
+      return [
+        { src: `images/${baseFile}.png`,         label: '앞면' },
+        { src: `images/${baseFile}-back.png`,     label: '뒷면' },
+        { src: `images/${baseFile}-detail1.png`,  label: '상세1' },
+        { src: `images/${baseFile}-detail2.png`,  label: '상세2' },
+      ];
+    }
+
+    // nav.js가 시세 받으면 자동 호출 — 코인 페이지와 동일한 방식
+    let currentProduct = null;
+    function updateCardPricesFromSheet(krwPerOz) {
+      const priceEl = document.getElementById('detail-price-value');
+      if (!priceEl || !currentProduct) return;
+      const price = Math.round(krwPerOz * currentProduct.premium / 1000) * 1000;
+      priceEl.textContent = `₩${price.toLocaleString()}`;
+      priceEl.classList.remove('loading');
+    }
+
+    function renderDetail(product) {
+      currentProduct = product;
+      const { name, brand, available, description } = product;
+      const isAvailable = available === 'TRUE' || available === true;
+      const baseFile = getBaseFile(name);
+      const images = buildImageList(baseFile);
+
+      // 가격 영역
+      let priceHTML;
+      if (!isAvailable) {
+        priceHTML = `<span class="soldout-badge">SOLD OUT</span>`;
+      } else {
+        priceHTML = `<div class="product-price-value loading" id="detail-price-value">로딩 중...</div><div class="product-price-note">* 금 시세에 따라 변동될 수 있습니다</div>`;
+      }
+
+      // 갤러리 썸네일 HTML
+      const thumbsHTML = images.map((img, i) => `
+        <div class="gallery-thumb ${i === 0 ? 'active' : ''}" onclick="switchImage(${i})" data-index="${i}">
+          <img src="${img.src}" alt="${img.label}"
+            onerror="this.parentElement.style.display='none'"
+            onload="this.parentElement.style.display='flex'">
+        </div>`).join('');
+
+      const mainImgHTML = images.length > 0
+        ? `<img id="gallery-main-img" src="${images[0].src}" alt="${name}" onerror="this.style.display='none';document.getElementById('gallery-no-img').style.display='flex'">`
+        : '';
+
+      const inquiryBtn = isAvailable
+        ? `<a href="#" class="btn-inquiry" id="inquiry-btn">구매 문의하기</a>`
+        : `<div style="text-align:center;padding:12px 0;"><span class="soldout-badge">현재 품절된 상품입니다</span></div>`;
+
+      document.getElementById('detail-content').innerHTML = `
+        <div class="product-detail">
+          <div class="gallery">
+            <div class="gallery-main">
+              ${mainImgHTML}
+              <div id="gallery-no-img" class="gallery-no-image" style="display:none">${name.substring(0,6)}</div>
+            </div>
+            <div class="gallery-thumbs" id="gallery-thumbs">
+              ${thumbsHTML}
+            </div>
+          </div>
+          <div class="product-info-panel">
+            <div class="product-brand-label">${brand}</div>
+            <h1 class="product-title">${name}</h1>
+            <div class="product-price-area">
+              <div class="product-price-label">판매가</div>
+              ${priceHTML}
+            </div>
+            ${description ? `<div class="product-description">${description}</div>` : ''}
+            <div>
+              ${inquiryBtn}
+              <a href="gold-coins.html" class="btn-back-coins">← 목록으로 돌아가기</a>
+            </div>
+          </div>
+        </div>`;
+
+      // 썸네일 중 이미지 없는 것 숨기기 (onerror로 처리됨)
+      // 카카오 링크 설정 (nav.js에서 설정한 href 유지하거나 별도 처리)
+    }
+
+    // 썸네일 클릭 시 메인 이미지 교체
+    function switchImage(index) {
+      const thumbs = document.querySelectorAll('.gallery-thumb');
+      const mainImg = document.getElementById('gallery-main-img');
+      const noImg = document.getElementById('gallery-no-img');
+      if (!mainImg) return;
+
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === index));
+      const src = thumbs[index]?.querySelector('img')?.src;
+      if (src) {
+        mainImg.style.opacity = '0';
+        setTimeout(() => {
+          mainImg.src = src;
+          mainImg.style.display = '';
+          if (noImg) noImg.style.display = 'none';
+          mainImg.style.opacity = '1';
+        }, 150);
+      }
+    }
+
+    // 구글 시트에서 해당 상품 찾기
+    async function loadProduct(targetName) {
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=상품`;
+        const res = await fetch(url);
+        const text = await res.text();
+        const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
+        const rows = json.table.rows;
+
+        const product = rows.map(row => ({
+          name:        row.c[0]?.v || '',
+          brand:       row.c[1]?.v || '',
+          category:    row.c[2]?.v || 'gold',
+          premium:     parseFloat(row.c[3]?.v) || 1.03,
+          available:   String(row.c[4]?.v).toUpperCase(),
+          same_day:    String(row.c[5]?.v).toUpperCase(),
+          visible:     row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',
+          order:       row.c[7] ? parseInt(row.c[7].v) || 9999 : 9999,
+          description: row.c[8]?.v || '',
+        })).find(p => p.name === targetName);
+
+        if (!product) {
+          document.getElementById('detail-content').innerHTML =
+            `<div class="error-msg"><p>상품을 찾을 수 없습니다.</p><a href="gold-coins.html" style="color:#C8A84B;">← 목록으로 돌아가기</a></div>`;
+          return;
+        }
+
+        // 페이지 타이틀, 브레드크럼 업데이트
+        document.title = `MIDAS BULLION | ${product.name}`;
+        const breadcrumb = document.getElementById('breadcrumb-name');
+        if (breadcrumb) breadcrumb.textContent = product.name;
+
+        renderDetail(product);
+
+        // nav.js보다 시트 로딩이 빨리 끝난 경우 대비 — 탑바 가격에서 시세 역산해서 바로 업데이트
+        const tbGold = document.getElementById('tb-gold');
+        const tbRate = document.getElementById('tb-rate');
+        if (tbGold && tbRate) {
+          const goldText = tbGold.textContent.replace('$', '').trim();
+          const rateText = tbRate.textContent.replace('원', '').replace(/,/g, '').trim();
+          const gold = parseFloat(goldText);
+          const rate = parseFloat(rateText);
+          if (gold > 0 && rate > 0) updateCardPricesFromSheet(gold * rate);
+        }
+
+      } catch (e) {
+        console.error('상품 로딩 오류:', e);
+        document.getElementById('detail-content').innerHTML =
+          `<div class="error-msg"><p>상품 정보를 불러오는 중 오류가 발생했습니다.</p><a href="gold-coins.html" style="color:#C8A84B;">← 목록으로 돌아가기</a></div>`;
+      }
+    }
+
+    // URL 파라미터에서 상품명 읽기
+    const params = new URLSearchParams(window.location.search);
+    const productName = params.get('name');
+
+    if (!productName) {
+      document.getElementById('detail-content').innerHTML =
+        `<div class="error-msg"><p>상품 정보가 없습니다.</p><a href="gold-coins.html" style="color:#C8A84B;">← 목록으로 돌아가기</a></div>`;
+    } else {
+      loadProduct(decodeURIComponent(productName));
+    }
+  </script>
+</body>
+</html>
