@@ -177,7 +177,7 @@ function createProductCard(product, krwPrice) {
 
   const price = krwPrice
     ? `₩${(Math.round(krwPrice * premium / 1000) * 1000).toLocaleString()}`
-    : '로딩중...';
+    : '';
 
   const imgHTML = imgSrc
     ? `<img src="${imgSrc}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
@@ -292,7 +292,7 @@ function applyScrollAnimation(els) {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0 }); // ✅ 0.1 → 0 변경: 1픽셀이라도 화면에 걸리면 즉시 감지
+  }, { threshold: 0 });
 
   els.forEach(el => {
     el.style.opacity = '0';
@@ -302,7 +302,6 @@ function applyScrollAnimation(els) {
   });
 }
 
-// ✅ 중복 forEach 제거 — applyScrollAnimation 내부에서 처리하므로 불필요
 applyScrollAnimation(document.querySelectorAll('.brand-card, .cat-banner'));
 
 // ===== HEADER SCROLL SHADOW =====
