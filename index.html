@@ -125,7 +125,7 @@
     </div>
     <div class="cat-banner cat-silver">
       <div class="cat-overlay"></div>
-      <div class="cat-content"><h3>예정</h3><a href="#" class="cat-btn">알림 신청</a></div>
+      <div class="cat-content"><h3>금 시세</h3><a href="gold-price.html" class="cat-btn">시세 확인</a></div>
     </div>
     <div class="cat-banner cat-collectible">
       <div class="cat-overlay"></div>
@@ -230,12 +230,12 @@
   <script src="nav.js"></script>
   <script src="script.js"></script>
 
-  <!-- ✅ 무한 흐름 캐러셀 -->
+  <!-- 무한 흐름 캐러셀 -->
   <script>
   (function () {
-    const SPEED = 60;       // px/초 — 낮을수록 느림
-    const FAST_SPEED = 220; // 화살표 클릭 시 일시 부스트 속도
-    const FAST_DURATION = 700; // ms
+    const SPEED = 60;
+    const FAST_SPEED = 220;
+    const FAST_DURATION = 700;
 
     let pixelOffset = 0;
     let currentSpeed = SPEED;
@@ -259,7 +259,6 @@
       const grid = getGrid();
       const originals = getOriginals();
       if (originals.length === 0) return;
-      // 카드 2세트 복제 (충분히 길게)
       [...originals, ...originals].forEach(c => {
         const clone = c.cloneNode(true);
         clone.setAttribute('aria-hidden', 'true');
@@ -277,7 +276,7 @@
 
     function tick(ts) {
       if (!lastTime) lastTime = ts;
-      const dt = Math.min((ts - lastTime) / 1000, 0.05); // 최대 50ms 프레임 방어
+      const dt = Math.min((ts - lastTime) / 1000, 0.05);
       lastTime = ts;
 
       pixelOffset += currentSpeed * dt;
@@ -308,7 +307,6 @@
       }, FAST_DURATION);
     }
 
-    // 카드 로드 감지 (script.js가 카드 렌더링 후 DOM에 추가)
     const grid = document.getElementById('products-grid');
     const observer = new MutationObserver(() => {
       const cards = getOriginals();
@@ -323,13 +321,11 @@
     });
     if (grid) observer.observe(grid, { childList: true, subtree: true });
 
-    // 화살표 버튼
     const prevBtn = document.getElementById('carousel-prev');
     const nextBtn = document.getElementById('carousel-next');
 
     if (prevBtn) {
       prevBtn.addEventListener('click', () => {
-        // 뒤로: offset을 줄여서 반대 방향 효과
         const loopWidth = getLoopWidth();
         pixelOffset = (pixelOffset - 180 + loopWidth) % loopWidth;
         boostSpeed();
@@ -344,7 +340,6 @@
       nextBtn.addEventListener('mouseleave', () => { nextBtn.style.background = '#fff'; nextBtn.style.color = '#C8A84B'; });
     }
 
-    // 터치 스와이프
     let touchStartX = 0;
     if (grid) {
       grid.addEventListener('touchstart', e => {
@@ -363,7 +358,6 @@
       }, { passive: true });
     }
 
-    // 도트 숨김 (무한루프라 불필요)
     const dotsEl = document.getElementById('carousel-dots');
     if (dotsEl) dotsEl.style.display = 'none';
 
@@ -391,7 +385,6 @@
       });
       brandGrid.style.cursor = 'grab';
 
-      // 화살표 버튼
       const SCROLL_AMOUNT = 220;
       const brandPrev = document.getElementById('brand-prev');
       const brandNext = document.getElementById('brand-next');
