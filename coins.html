@@ -35,7 +35,6 @@
     .btn-buy:hover { background: #F5E090; color: #1a1200; }
     .btn-soldout { width: 100%; background: #2a2a2a; color: #555; border: 1px solid #333; padding: 10px; font-size: 13px; letter-spacing: 2px; cursor: not-allowed; }
 
-    /* 카드에 커서 포인터 */
     .product-card { cursor: pointer; }
   </style>
 </head>
@@ -213,7 +212,6 @@
       const placeholderHTML = `<div class="product-img-placeholder" style="${imgSrc ? 'display:none' : 'display:flex'}"><span>${name.substring(0, 6)}</span></div>`;
       const isAvailable = available === 'TRUE' || available === true;
 
-      // 카드/버튼 모두 상세 페이지로 이동
       const detailUrl = `coin-detail.html?name=${encodeURIComponent(name)}`;
 
       let btnHTML;
@@ -276,7 +274,6 @@
       const grid = document.getElementById('products-grid');
       if (!productsData.length) return;
 
-      // 1순위: 품절 맨 뒤, 2순위: order 오름차순
       const sorted = [...productsData].sort((a, b) => {
         const aAvail = a.available === 'TRUE';
         const bAvail = b.available === 'TRUE';
@@ -293,6 +290,8 @@
           card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
         });
       }
+
+      // ✅ threshold: 0.1 → 0 수정
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, i) => {
           if (entry.isIntersecting) {
@@ -303,7 +302,8 @@
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.1 });
+      }, { threshold: 0 });
+
       document.querySelectorAll('.product-card').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
