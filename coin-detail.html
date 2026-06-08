@@ -30,6 +30,19 @@
     .gallery-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 6px; box-sizing: border-box; }
     .gallery-thumb-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #555; font-size: 10px; font-family: 'Cinzel', serif; }
     .gallery-no-image { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a1a, #2a2a2a); color: #C8A84B; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 2px; }
+    .gallery-main { cursor: crosshair; }
+    .magnifier-glass {
+      position: absolute;
+      width: 160px; height: 160px;
+      border: 2px solid #C8A84B;
+      border-radius: 50%;
+      pointer-events: none;
+      display: none;
+      background-repeat: no-repeat;
+      background-color: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      z-index: 10;
+    }
 
     .product-info-panel { display: flex; flex-direction: column; gap: 20px; }
     .product-brand-label { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 3px; color: #C8A84B; text-transform: uppercase; }
@@ -240,6 +253,48 @@
       }
     }
 
+    // ===== 돋보기 줌 =====
+    function initMagnifier() {
+      const galleryMain = document.querySelector('.gallery-main');
+      if (!galleryMain) return;
+
+      let glass = document.querySelector('.magnifier-glass');
+      if (!glass) {
+        glass = document.createElement('div');
+        glass.className = 'magnifier-glass';
+        galleryMain.appendChild(glass);
+      }
+
+      const zoom = 2.5;
+
+      galleryMain.addEventListener('mousemove', (e) => {
+        const img = document.getElementById('gallery-main-img');
+        if (!img || img.style.display === 'none') return;
+
+        const rect = galleryMain.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const glassW = glass.offsetWidth;
+        const glassH = glass.offsetHeight;
+
+        glass.style.display = 'block';
+        glass.style.left = (x - glassW / 2) + 'px';
+        glass.style.top = (y - glassH / 2) + 'px';
+
+        const bgX = x * zoom - glassW / 2;
+        const bgY = y * zoom - glassH / 2;
+
+        glass.style.backgroundImage = `url('${img.src}')`;
+        glass.style.backgroundSize = `${rect.width * zoom}px ${rect.height * zoom}px`;
+        glass.style.backgroundPosition = `-${bgX}px -${bgY}px`;
+      });
+
+      galleryMain.addEventListener('mouseleave', () => {
+        glass.style.display = 'none';
+      });
+    }
+
     async function loadProduct(targetName) {
       try {
         const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=상품`;
@@ -271,6 +326,7 @@
         if (breadcrumb) breadcrumb.textContent = product.name;
 
         renderDetail(product);
+        setTimeout(initMagnifier, 100);
 
         const tbGold = document.getElementById('tb-gold');
         const tbRate = document.getElementById('tb-rate');
