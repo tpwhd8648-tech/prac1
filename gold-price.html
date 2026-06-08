@@ -25,7 +25,7 @@
     .price-info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
     .price-info-card { background: #fff; border: 1px solid #e0e0e0; border-radius: 4px; padding: 20px; }
     .price-info-card .label { font-size: 12px; color: #888; letter-spacing: 1px; margin-bottom: 8px; font-family: 'Noto Sans KR', sans-serif; }
-    .price-info-card .value { font-size: 22px; font-weight: 700; color: #C8A84B; font-family: 'Cinzel', serif; }
+    .price-info-card .value { font-size: 22px; font-weight: 700; color: #C8A84B; font-family: 'Cinzel', serif; min-height: 32px; }
     .price-info-card .sub { font-size: 12px; color: #aaa; margin-top: 4px; }
     .notice-box { background: #fff9ee; border-left: 3px solid #C8A84B; padding: 14px 18px; font-size: 13px; color: #666; line-height: 1.7; font-family: 'Noto Sans KR', sans-serif; }
     .kakao-float { position: fixed; right: 20px; bottom: 80px; width: 54px; height: 54px; background: #FEE500; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2000; box-shadow: 0 0 0 3px #C8A84B, 0 4px 16px rgba(0,0,0,0.25); transition: transform 0.2s, box-shadow 0.2s; }
@@ -48,17 +48,23 @@
       <div class="price-info-grid">
         <div class="price-info-card">
           <div class="label">GOLD</div>
-          <div class="value" id="gold-val">—</div>
+          <div class="value" id="gold-val">
+            <span class="shimmer-card-line shimmer-card-lg"></span>
+          </div>
           <div class="sub">USD / Troy oz</div>
         </div>
         <div class="price-info-card">
           <div class="label">SILVER</div>
-          <div class="value" id="silver-val">—</div>
+          <div class="value" id="silver-val">
+            <span class="shimmer-card-line shimmer-card-lg"></span>
+          </div>
           <div class="sub">USD / Troy oz</div>
         </div>
         <div class="price-info-card">
           <div class="label">환율 (USD/KRW)</div>
-          <div class="value" id="rate-val">—</div>
+          <div class="value" id="rate-val">
+            <span class="shimmer-card-line shimmer-card-lg"></span>
+          </div>
           <div class="sub">실시간 반영</div>
         </div>
       </div>
