@@ -33,7 +33,7 @@
     .btn-cart-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 5px; margin-top: 10px; }
     .btn-buy { width: 100%; background: #C8A84B; color: #fff; border: none; padding: 10px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: background 0.2s, color 0.2s; letter-spacing: 1px; }
     .btn-buy:hover { background: #F5E090; color: #1a1200; }
-    .btn-soldout { width: 100%; background: #2a2a2a; color: #555; border: 1px solid #333; padding: 10px; font-size: 13px; letter-spacing: 2px; cursor: not-allowed; }
+    .btn-soldout { width: 100%; background: #2a2a2a; color: #555; border: 1px solid #333; padding: 10px; font-size: 13px; letter-spacing: 2px; cursor: pointer; }
 
     .product-card { cursor: pointer; }
   </style>
@@ -216,7 +216,8 @@
 
       let btnHTML;
       if (!isAvailable) {
-        btnHTML = `<button class="btn-cart btn-soldout" onclick="event.stopPropagation(); location.href='${detailUrl}'">품절</button>`;
+        // ✅ 수정: 품절 버튼 텍스트를 '상품 보기'로 변경, cursor도 pointer로
+        btnHTML = `<button class="btn-cart btn-soldout" onclick="event.stopPropagation(); location.href='${detailUrl}'">상품 보기</button>`;
       } else {
         btnHTML = `<button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='${detailUrl}'">상품 보기</button>`;
       }
@@ -232,7 +233,8 @@
             <p class="product-brand">${brand}</p>
             <h3 class="product-name">${name}</h3>
             <div class="product-price-wrap">
-              <span class="product-price card-price">${isAvailable ? price : '품절'}</span>
+              <!-- ✅ 수정: 품절 여부와 관계없이 실제 가격 표시 -->
+              <span class="product-price card-price">${price}</span>
             </div>
             <div class="btn-cart-wrap">${btnHTML}</div>
           </div>
@@ -291,7 +293,6 @@
         });
       }
 
-      // ✅ threshold: 0.1 → 0 수정
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, i) => {
           if (entry.isIntersecting) {
