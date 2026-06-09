@@ -22,27 +22,35 @@
     @media (max-width: 768px) { .product-detail { grid-template-columns: 1fr; gap: 32px; } }
 
     .gallery { display: flex; flex-direction: column; gap: 12px; }
-    .gallery-main { width: 100%; aspect-ratio: 1; background: #fff; overflow: hidden; position: relative; }
-    .gallery-main img { width: 100%; height: 100%; object-fit: contain; transition: opacity 0.3s ease; padding: 20px; box-sizing: border-box; }
+
+    /* ── 갤러리 메인: overflow hidden + cursor ── */
+    .gallery-main {
+      width: 100%;
+      aspect-ratio: 1;
+      background: #fff;
+      overflow: hidden;
+      position: relative;
+      cursor: crosshair;
+    }
+
+    /* ── 메인 이미지: transform-origin 중앙, will-change ── */
+    .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 20px;
+      box-sizing: border-box;
+      transform-origin: center center;
+      will-change: transform;
+      transition: transform 0.3s ease;
+      display: block;
+    }
+
     .gallery-thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
     .gallery-thumb { width: 72px; height: 72px; background: #fff; border: 2px solid transparent; cursor: pointer; overflow: hidden; transition: border-color 0.2s; flex-shrink: 0; }
     .gallery-thumb.active { border-color: #C8A84B; }
     .gallery-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 6px; box-sizing: border-box; }
-    .gallery-thumb-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #555; font-size: 10px; font-family: 'Cinzel', serif; }
     .gallery-no-image { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a1a, #2a2a2a); color: #C8A84B; font-family: 'Cinzel', serif; font-size: 14px; letter-spacing: 2px; }
-    .gallery-main { cursor: crosshair; }
-    .magnifier-glass {
-      position: absolute;
-      width: 240px; height: 240px;
-      border: 2px solid #C8A84B;
-      border-radius: 50%;
-      pointer-events: none;
-      display: none;
-      background-repeat: no-repeat;
-      background-color: #fff;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      z-index: 10;
-    }
 
     .product-info-panel { display: flex; flex-direction: column; gap: 20px; }
     .product-brand-label { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 3px; color: #C8A84B; text-transform: uppercase; }
@@ -127,16 +135,14 @@
   <script>
     const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
 
-    // ✅ 수정: IMAGE_MAP 삭제, 시트 J컬럼(image) 사용
     function buildImageList(imageFile) {
       if (!imageFile) return [];
-      // 확장자 제거해서 베이스 파일명 추출
       const base = imageFile.replace(/\.png$/i, '');
       return [
-        { src: `images/${base}.png`,        label: '앞면' },
-        { src: `images/${base}-back.png`,    label: '뒷면' },
-        { src: `images/${base}-detail1.png`, label: '상세1' },
-        { src: `images/${base}-detail2.png`, label: '상세2' },
+        { src: `images/${base}.png`,         label: '앞면' },
+        { src: `images/${base}-back.png`,     label: '뒷면' },
+        { src: `images/${base}-detail1.png`,  label: '상세1' },
+        { src: `images/${base}-detail2.png`,  label: '상세2' },
       ];
     }
 
@@ -212,55 +218,86 @@
       thumbs.forEach((t, i) => t.classList.toggle('active', i === index));
       const src = thumbs[index]?.querySelector('img')?.src;
       if (src) {
+        mainImg.style.transition = 'opacity 0.15s ease, transform 0.3s ease';
         mainImg.style.opacity = '0';
         setTimeout(() => {
           mainImg.src = src;
           mainImg.style.display = '';
           if (noImg) noImg.style.display = 'none';
           mainImg.style.opacity = '1';
+          // 썸네일 전환 시 줌 초기화
+          mainImg.style.transform = 'scale(1) translate(0,0)';
         }, 150);
       }
     }
 
-    // ===== 돋보기 줌 =====
+    // ===== 이미지 줌 (PC hover + 모바일 터치) =====
     function initMagnifier() {
       const galleryMain = document.querySelector('.gallery-main');
       if (!galleryMain) return;
 
-      let glass = document.querySelector('.magnifier-glass');
-      if (!glass) {
-        glass = document.createElement('div');
-        glass.className = 'magnifier-glass';
-        galleryMain.appendChild(glass);
+      const zoom = 2.5;
+      let cachedRect = null;
+
+      function getPos(e, rect) {
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        let x = (clientX - rect.left) / rect.width;
+        let y = (clientY - rect.top) / rect.height;
+        x = Math.max(0, Math.min(1, x));
+        y = Math.max(0, Math.min(1, y));
+        return { x, y };
       }
 
-      const zoom = 2.5;
-
-      galleryMain.addEventListener('mousemove', (e) => {
+      function applyZoom(x, y) {
         const img = document.getElementById('gallery-main-img');
         if (!img || img.style.display === 'none') return;
+        const tx = (0.5 - x) * (zoom - 1) * 100;
+        const ty = (0.5 - y) * (zoom - 1) * 100;
+        img.style.transition = 'none';
+        img.style.transform = `scale(${zoom}) translate(${tx}%, ${ty}%)`;
+      }
 
-        const rect = galleryMain.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+      function resetZoom() {
+        const img = document.getElementById('gallery-main-img');
+        if (!img) return;
+        img.style.transition = 'transform 0.3s ease';
+        img.style.transform = 'scale(1) translate(0,0)';
+      }
 
-        const glassW = glass.offsetWidth;
-        const glassH = glass.offsetHeight;
+      // ── PC: hover ──
+      galleryMain.addEventListener('mouseenter', (e) => {
+        cachedRect = galleryMain.getBoundingClientRect();
+        const { x, y } = getPos(e, cachedRect);
+        applyZoom(x, y);
+      });
 
-        glass.style.display = 'block';
-        glass.style.left = (x - glassW / 2) + 'px';
-        glass.style.top = (y - glassH / 2) + 'px';
-
-        const bgX = x * zoom - glassW / 2;
-        const bgY = y * zoom - glassH / 2;
-
-        glass.style.backgroundImage = `url('${img.src}')`;
-        glass.style.backgroundSize = `${rect.width * zoom}px ${rect.height * zoom}px`;
-        glass.style.backgroundPosition = `-${bgX}px -${bgY}px`;
+      galleryMain.addEventListener('mousemove', (e) => {
+        const { x, y } = getPos(e, cachedRect);
+        applyZoom(x, y);
       });
 
       galleryMain.addEventListener('mouseleave', () => {
-        glass.style.display = 'none';
+        cachedRect = null;
+        resetZoom();
+      });
+
+      // ── 모바일: touch ──
+      galleryMain.addEventListener('touchstart', (e) => {
+        cachedRect = galleryMain.getBoundingClientRect();
+        const { x, y } = getPos(e, cachedRect);
+        applyZoom(x, y);
+      }, { passive: true });
+
+      galleryMain.addEventListener('touchmove', (e) => {
+        e.preventDefault(); // 스크롤 방지
+        const { x, y } = getPos(e, cachedRect);
+        applyZoom(x, y);
+      }, { passive: false });
+
+      galleryMain.addEventListener('touchend', () => {
+        cachedRect = null;
+        resetZoom();
       });
     }
 
@@ -282,7 +319,6 @@
           visible:     row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',
           order:       row.c[7] ? parseInt(row.c[7].v) || 9999 : 9999,
           description: row.c[8]?.v || '',
-          // ✅ 수정: J컬럼(index 9)에서 이미지 파일명 읽기
           image:       row.c[9]?.v || '',
         })).find(p => p.name === targetName);
 
