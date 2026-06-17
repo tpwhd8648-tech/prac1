@@ -1,8 +1,6 @@
 (function () {
-
   const footer = document.getElementById('site-footer');
   if (!footer) return;
-
   footer.className = 'footer';
   footer.innerHTML = `
     <div class="footer-inner">
@@ -71,5 +69,41 @@
       <p>귀금속은 투자 위험이 있습니다. 투자 전 충분한 검토를 권장합니다.</p>
     </div>
   `;
+})();
 
+// ===== 카카오 플로팅 버튼 (모든 페이지 공통) =====
+(function () {
+  // 1) 스타일 주입 — coins.html에 있던 hover 효과를 기준으로 통일
+  const style = document.createElement('style');
+  style.textContent = `
+    .kakao-float {
+      position: fixed; right: 20px; bottom: 80px;
+      width: 54px; height: 54px;
+      background: #FEE500; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2000;
+      box-shadow: 0 0 0 3px #C8A84B, 0 4px 16px rgba(0,0,0,0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .kakao-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 0 3px #F5E090, 0 6px 20px rgba(0,0,0,0.3);
+    }
+  `;
+  document.head.appendChild(style);
+
+  // 2) 버튼 엘리먼트 생성 후 body에 삽입
+  // ※ 아래 href 값을 원하시는 주소로 바꿔주세요 (카카오톡 채널 링크, tel:, mailto: 등)
+  const KAKAO_LINK = '#';
+
+  const link = document.createElement('a');
+  link.href = KAKAO_LINK;
+  link.className = 'kakao-float';
+  link.innerHTML = `
+    <svg width="46" height="46" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 2C8.27 2 2 7.37 2 14c0 4.2 2.65 7.9 6.67 10.1L7.1 28.8a.6.6 0 0 0 .84.76l6.4-4.27c.54.05 1.09.08 1.66.08 7.73 0 14-5.37 14-12S23.73 2 16 2z" fill="#3C1E1E"/>
+      <text x="16" y="15.8" text-anchor="middle" font-family="'Arial', sans-serif" font-size="7" font-weight="900" fill="#FEE500" letter-spacing="0.3">KAKAO</text>
+    </svg>
+  `;
+  document.body.appendChild(link);
 })();
