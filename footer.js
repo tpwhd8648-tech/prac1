@@ -51,7 +51,7 @@
             <a href="#" class="social-icon instagram">📷</a>
             <a href="#" class="social-icon youtube">▶</a>
             <a href="#" class="social-icon line">LINE</a>
-            <a href="#" class="social-icon kakao">K</a>
+            <a href="https://open.kakao.com/o/sB6Gduni" target="_blank" rel="noopener" class="social-icon kakao">K</a>
           </div>
         </div>
         <div class="lang-section">
@@ -73,7 +73,6 @@
 
 // ===== 카카오 플로팅 버튼 (모든 페이지 공통) =====
 (function () {
-  // 1) 스타일 주입 — coins.html에 있던 hover 효과를 기준으로 통일
   const style = document.createElement('style');
   style.textContent = `
     .kakao-float {
@@ -92,12 +91,12 @@
   `;
   document.head.appendChild(style);
 
-  // 2) 버튼 엘리먼트 생성 후 body에 삽입
-  // ※ 아래 href 값을 원하시는 주소로 바꿔주세요 (카카오톡 채널 링크, tel:, mailto: 등)
-  const KAKAO_LINK = '#';
+  const KAKAO_LINK = 'https://open.kakao.com/o/sB6Gduni';
 
   const link = document.createElement('a');
   link.href = KAKAO_LINK;
+  link.target = '_blank';
+  link.rel = 'noopener';
   link.className = 'kakao-float';
   link.innerHTML = `
     <svg width="46" height="46" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
