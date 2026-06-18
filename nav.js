@@ -512,9 +512,11 @@
     setTimeout(() => emailInput && emailInput.focus(), 50);
   }
 
-  /* 마이페이지 준비중 안내 (마이페이지 화면 제작 전까지 임시) */
-  function showMyPageComingSoon() {
-    alert('마이페이지는 준비 중입니다. 빠르게 만나보실 수 있도록 준비할게요!');
+  /* 마이페이지로 이동 (이미 마이페이지에 있으면 아무 동작 안 함) */
+  function goToMyPage() {
+    const page = location.pathname.split('/').pop() || 'index.html';
+    if (page === 'mypage.html') return;
+    location.href = 'mypage.html';
   }
 
   /* ── 헤더 / 모바일 메뉴의 로그인 버튼 상태 토글 ── */
@@ -541,7 +543,7 @@
       authBtn.addEventListener('click', function () {
         const user = window.bullionAuth && window.bullionAuth.currentUser;
         if (user) {
-          showMyPageComingSoon();
+          goToMyPage();
         } else {
           openAuthModal('signin');
         }
@@ -555,7 +557,7 @@
         e.preventDefault();
         const user = window.bullionAuth && window.bullionAuth.currentUser;
         if (user) {
-          showMyPageComingSoon();
+          goToMyPage();
         } else {
           openAuthModal('signin');
         }
