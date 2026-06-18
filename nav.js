@@ -154,6 +154,10 @@
           <button class="search-btn">검색</button>
         </div>
         <div class="header-icons">
+          <button class="icon-btn auth-btn" id="auth-btn" aria-label="로그인">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span class="auth-btn-label">로그인</span>
+          </button>
           <button class="icon-btn" aria-label="장바구니" onclick="typeof openCart === 'function' && openCart()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
             <span class="cart-count">0</span>
@@ -229,6 +233,7 @@
     mobile.innerHTML = `
       <button class="mobile-menu-close" id="mobile-menu-close">✕</button>
       <ul>
+        <li><a href="#" id="mobile-auth-link">로그인</a></li>
         <li><a href="coins.html">금화 보기</a></li>
         <li><a href="gold-price.html">금 시세</a></li>
         <li><a href="contact.html">구매 문의</a></li>
@@ -324,4 +329,255 @@
     updateNavPrices();
     setInterval(updateNavPrices, 30000);
   }, 300);
+})();
+
+// ===== 로그인 / 회원가입 모달 + 인증 상태 토글 =====
+(function () {
+
+  /* ── 모달 DOM 생성 (최초 1회) ── */
+  function ensureAuthModal() {
+    if (document.getElementById('auth-modal-overlay')) return;
+
+    const overlay = document.createElement('div');
+    overlay.id = 'auth-modal-overlay';
+    overlay.className = 'auth-modal-overlay';
+    overlay.innerHTML = `
+      <div class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+        <button class="auth-modal-close" id="auth-modal-close" aria-label="닫기">✕</button>
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="auth-tab-signin" type="button">로그인</button>
+          <button class="auth-tab" id="auth-tab-signup" type="button">회원가입</button>
+        </div>
+        <h2 id="auth-modal-title" class="auth-modal-title">MIDAS BULLION 로그인</h2>
+        <form id="auth-form" class="auth-form" novalidate>
+          <label class="auth-field">
+            <span>이메일</span>
+            <input type="email" id="auth-email" autocomplete="email" required placeholder="example@email.com">
+          </label>
+          <label class="auth-field">
+            <span>비밀번호</span>
+            <input type="password" id="auth-password" autocomplete="current-password" required placeholder="6자 이상 입력">
+          </label>
+          <label class="auth-field auth-field-confirm" id="auth-confirm-wrap" style="display:none;">
+            <span>비밀번호 확인</span>
+            <input type="password" id="auth-password-confirm" autocomplete="new-password" placeholder="비밀번호를 한 번 더 입력">
+          </label>
+          <div class="auth-error" id="auth-error" role="alert"></div>
+          <button type="submit" class="auth-submit-btn" id="auth-submit-btn">로그인</button>
+        </form>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    /* ── 엘리먼트 참조 ── */
+    const form = overlay.querySelector('#auth-form');
+    const emailInput = overlay.querySelector('#auth-email');
+    const passwordInput = overlay.querySelector('#auth-password');
+    const confirmWrap = overlay.querySelector('#auth-confirm-wrap');
+    const confirmInput = overlay.querySelector('#auth-password-confirm');
+    const errorBox = overlay.querySelector('#auth-error');
+    const submitBtn = overlay.querySelector('#auth-submit-btn');
+    const title = overlay.querySelector('#auth-modal-title');
+    const tabSignin = overlay.querySelector('#auth-tab-signin');
+    const tabSignup = overlay.querySelector('#auth-tab-signup');
+    const closeBtn = overlay.querySelector('#auth-modal-close');
+
+    let mode = 'signin'; // 'signin' | 'signup'
+
+    function clearError() {
+      errorBox.textContent = '';
+      errorBox.classList.remove('show');
+    }
+
+    function showError(message) {
+      errorBox.textContent = message;
+      errorBox.classList.add('show');
+    }
+
+    function setMode(newMode) {
+      mode = newMode;
+      clearError();
+      form.reset();
+      if (mode === 'signup') {
+        tabSignup.classList.add('active');
+        tabSignin.classList.remove('active');
+        title.textContent = 'MIDAS BULLION 회원가입';
+        passwordInput.autocomplete = 'new-password';
+        confirmWrap.style.display = 'flex';
+        submitBtn.textContent = '회원가입';
+      } else {
+        tabSignin.classList.add('active');
+        tabSignup.classList.remove('active');
+        title.textContent = 'MIDAS BULLION 로그인';
+        passwordInput.autocomplete = 'current-password';
+        confirmWrap.style.display = 'none';
+        submitBtn.textContent = '로그인';
+      }
+    }
+
+    tabSignin.addEventListener('click', () => setMode('signin'));
+    tabSignup.addEventListener('click', () => setMode('signup'));
+
+    function closeModal() {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      clearError();
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+    });
+
+    /* ── Firebase Auth 에러 코드 → 한국어 메시지 ── */
+    function translateAuthError(err) {
+      const code = err && err.code;
+      switch (code) {
+        case 'auth/invalid-email':
+          return '올바른 이메일 형식이 아닙니다.';
+        case 'auth/missing-password':
+          return '비밀번호를 입력해 주세요.';
+        case 'auth/weak-password':
+          return '비밀번호는 6자 이상이어야 합니다.';
+        case 'auth/email-already-in-use':
+          return '이미 가입된 이메일입니다. 로그인을 이용해 주세요.';
+        case 'auth/invalid-credential':
+        case 'auth/wrong-password':
+        case 'auth/user-not-found':
+          return '이메일 또는 비밀번호가 일치하지 않습니다.';
+        case 'auth/too-many-requests':
+          return '너무 많은 시도가 있었습니다. 잠시 후 다시 시도해 주세요.';
+        case 'auth/network-request-failed':
+          return '네트워크 연결을 확인해 주세요.';
+        default:
+          return '처리 중 문제가 발생했습니다. 다시 시도해 주세요.';
+      }
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      clearError();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!window.bullionAuth) {
+        showError('인증 모듈을 불러오지 못했습니다. 페이지를 새로고침해 주세요.');
+        return;
+      }
+
+      if (mode === 'signup') {
+        const confirm = confirmInput.value;
+        if (password.length < 6) {
+          showError('비밀번호는 6자 이상이어야 합니다.');
+          return;
+        }
+        if (password !== confirm) {
+          showError('비밀번호가 일치하지 않습니다.');
+          return;
+        }
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.classList.add('loading');
+
+      try {
+        if (mode === 'signup') {
+          await window.bullionAuth.signUp(email, password);
+        } else {
+          await window.bullionAuth.signIn(email, password);
+        }
+        closeModal();
+      } catch (err) {
+        showError(translateAuthError(err));
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+      }
+    });
+
+    /* setMode 함수를 외부(openAuthModal)에서도 쓸 수 있게 보관 */
+    overlay._setMode = setMode;
+  }
+
+  function openAuthModal(mode) {
+    ensureAuthModal();
+    const overlay = document.getElementById('auth-modal-overlay');
+    if (overlay._setMode) overlay._setMode(mode || 'signin');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    const emailInput = overlay.querySelector('#auth-email');
+    setTimeout(() => emailInput && emailInput.focus(), 50);
+  }
+
+  /* 마이페이지 준비중 안내 (마이페이지 화면 제작 전까지 임시) */
+  function showMyPageComingSoon() {
+    alert('마이페이지는 준비 중입니다. 빠르게 만나보실 수 있도록 준비할게요!');
+  }
+
+  /* ── 헤더 / 모바일 메뉴의 로그인 버튼 상태 토글 ── */
+  function updateAuthUI(user) {
+    const authBtn = document.getElementById('auth-btn');
+    const authBtnLabel = authBtn ? authBtn.querySelector('.auth-btn-label') : null;
+    const mobileAuthLink = document.getElementById('mobile-auth-link');
+
+    if (user) {
+      if (authBtnLabel) authBtnLabel.textContent = '마이페이지';
+      if (authBtn) authBtn.setAttribute('aria-label', '마이페이지');
+      if (mobileAuthLink) mobileAuthLink.textContent = '마이페이지';
+    } else {
+      if (authBtnLabel) authBtnLabel.textContent = '로그인';
+      if (authBtn) authBtn.setAttribute('aria-label', '로그인');
+      if (mobileAuthLink) mobileAuthLink.textContent = '로그인';
+    }
+  }
+
+  function bindAuthButtons() {
+    const authBtn = document.getElementById('auth-btn');
+    if (authBtn && !authBtn.dataset.bound) {
+      authBtn.dataset.bound = '1';
+      authBtn.addEventListener('click', function () {
+        const user = window.bullionAuth && window.bullionAuth.currentUser;
+        if (user) {
+          showMyPageComingSoon();
+        } else {
+          openAuthModal('signin');
+        }
+      });
+    }
+
+    const mobileAuthLink = document.getElementById('mobile-auth-link');
+    if (mobileAuthLink && !mobileAuthLink.dataset.bound) {
+      mobileAuthLink.dataset.bound = '1';
+      mobileAuthLink.addEventListener('click', function (e) {
+        e.preventDefault();
+        const user = window.bullionAuth && window.bullionAuth.currentUser;
+        if (user) {
+          showMyPageComingSoon();
+        } else {
+          openAuthModal('signin');
+        }
+      });
+    }
+
+    // 현재 로그인 상태를 즉시 반영 (다른 페이지 이동/새로고침 시에도 동기화)
+    if (window.bullionAuth) {
+      updateAuthUI(window.bullionAuth.currentUser);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindAuthButtons);
+  } else {
+    bindAuthButtons();
+  }
+
+  // auth.js가 nav.js보다 늦게 로드되는 경우를 대비해 약간의 지연 후 한번 더 동기화
+  setTimeout(bindAuthButtons, 200);
+
+  document.addEventListener('bullion-auth-changed', function (e) {
+    updateAuthUI(e.detail && e.detail.user);
+  });
 })();
