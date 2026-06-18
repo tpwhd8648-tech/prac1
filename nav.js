@@ -154,7 +154,7 @@
           <button class="search-btn">검색</button>
         </div>
         <div class="header-icons">
-          <button class="icon-btn auth-btn" id="auth-btn" aria-label="로그인">
+          <button class="icon-btn auth-btn auth-btn-pending" id="auth-btn" aria-label="로그인">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             <span class="auth-btn-label">로그인</span>
           </button>
@@ -233,7 +233,7 @@
     mobile.innerHTML = `
       <button class="mobile-menu-close" id="mobile-menu-close">✕</button>
       <ul>
-        <li><a href="#" id="mobile-auth-link">로그인</a></li>
+        <li><a href="#" id="mobile-auth-link" class="auth-btn-pending">로그인</a></li>
         <li><a href="coins.html">금화 보기</a></li>
         <li><a href="gold-price.html">금 시세</a></li>
         <li><a href="contact.html">구매 문의</a></li>
@@ -534,6 +534,10 @@
       if (authBtn) authBtn.setAttribute('aria-label', '로그인');
       if (mobileAuthLink) mobileAuthLink.textContent = '로그인';
     }
+
+    // Firebase가 로그인 상태를 최초로 확인해 준 시점 — 깜빡임 없이 텍스트 노출
+    if (authBtn) authBtn.classList.remove('auth-btn-pending');
+    if (mobileAuthLink) mobileAuthLink.classList.remove('auth-btn-pending');
   }
 
   function bindAuthButtons() {
@@ -565,7 +569,9 @@
     }
 
     // 현재 로그인 상태를 즉시 반영 (다른 페이지 이동/새로고침 시에도 동기화)
-    if (window.bullionAuth) {
+    // authReady가 true일 때만 반영 — 아직 Firebase가 상태를 확인하지 않았다면
+    // pending 상태(텍스트 숨김)를 유지해 "로그인 → 마이페이지" 깜빡임을 방지
+    if (window.bullionAuth && window.bullionAuth.authReady) {
       updateAuthUI(window.bullionAuth.currentUser);
     }
   }
