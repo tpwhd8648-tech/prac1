@@ -1,82 +1,79 @@
-# MIDAS BULLION 다음 작업 인수인계
-> 작성일: 2026-06-18 (마이페이지 화면 업로드 + 전체 흐름 테스트 완료. 주문내역/찜목록 데이터 연동은 보류 결정)
+// ============================================================
+// auth.js — Firebase Authentication 초기화 및 헬퍼
+// MIDAS BULLION (bullion-4d9ef)
+//
+// GitHub Pages는 정적 호스팅이라 npm 빌드를 쓸 수 없으므로
+// Firebase JS SDK를 CDN(ES 모듈)으로 불러와 사용합니다.
+// 이 파일은 모든 HTML 페이지에서
+//   <script type="module" src="auth.js"></script>
+// 형태로 footer.js / nav.js보다 "먼저" 로드되어야 합니다.
+// ============================================================
 
----
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-## 새 채팅 시작 시 먼저 할 말
-```
-https://github.com/tpwhd8648-tech/prac1 깃클론으로 봐줘
-```
-(web_fetch/API는 막히거나 rate limit 걸림 → git clone만 안정적으로 동작)
+// Firebase 콘솔 > 프로젝트 설정 > 일반 > 내 앱에서 가져온 설정값
+const firebaseConfig = {
+  apiKey: "AIzaSyDIVLXckOTpDpp65RWHy6PjUSZzb5QqTTQ",
+  authDomain: "bullion-4d9ef.firebaseapp.com",
+  projectId: "bullion-4d9ef",
+  storageBucket: "bullion-4d9ef.firebasestorage.app",
+  messagingSenderId: "288661849731",
+  appId: "1:288661849731:web:6cad8fd2424aeec0103db6",
+};
 
----
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-## 지금까지 완료된 것
-- Firebase 프로젝트(`bullion-4d9ef`) 생성, Authentication(이메일/비밀번호) 활성화 (이전 작업)
-- `auth.js` 생성 및 firebaseConfig 연결 완료, 모든 페이지에 스크립트 삽입 완료 (이전 작업)
-- 로그인/회원가입 모달 UI 완성, GitHub 업로드 및 배포 확인 완료 (이전 작업)
-- **마이페이지 화면(`mypage.html`) 제작 완료, GitHub 업로드 완료, 실제 사이트에서 전체 흐름 테스트까지 끝마침** ✅
-  - 실제 사이트(`https://tpwhd8648-tech.github.io/prac1/`)에서 직접 클릭으로 검증된 항목:
-    - 헤더 "로그인" 버튼 클릭 → 모달 정상 오픈
-    - 로그인 ↔ 회원가입 탭 전환 정상
-    - 로그인/회원가입 정상 동작
-    - 로그인 성공 후 헤더 버튼이 "마이페이지"로 정상 전환
-    - "마이페이지" 클릭 → `mypage.html`로 정상 이동
-    - 마이페이지에서 본인 이메일 정상 표시
-    - 주문 내역 / 찜한 상품 섹션 — 빈 상태 안내문구 정상 표시
-    - 마이페이지 내 "로그아웃" 버튼 클릭 → 헤더가 다시 "로그인"으로 정상 전환
-  - **이 흐름은 전부 정상 동작 확인됨 — 더 이상 점검 불필요**
-- `v2.html`, `v3.html`은 본인이 직접 올린 백업 파일로 확인됨 — 신경 쓸 필요 없음
-- 6/17 19:55경 `coin-detail.html`에 1줄 추가된 커밋 있었음 — 본인이 직접 작업한 별개 변경으로 확인됨, 이번 작업과 무관, 신경 쓸 필요 없음
+// ------------------------------------------------------------
+// nav.js, footer.js, 각 페이지 스크립트는 type="module"이 아니라
+// 일반 <script> 태그라서 ES 모듈을 import할 수 없습니다.
+// 그래서 필요한 함수와 현재 로그인 상태를 window 전역 객체에
+// 노출시켜 다른 스크립트에서 그냥 가져다 쓸 수 있게 합니다.
+// ------------------------------------------------------------
+window.bullionAuth = {
+  auth,
+  currentUser: null, // onAuthStateChanged가 채워줌
+  authReady: false,  // Firebase가 로그인 상태를 최초로 확인했는지 여부 (true가 되기 전까지는 currentUser가 미확정 상태)
 
----
+  // 이메일/비밀번호 회원가입
+  async signUp(email, password) {
+    return createUserWithEmailAndPassword(auth, email, password);
+  },
 
-## ⭐ 현재 방향 (변경 없음, 유지)
-- 등급(VIP)/Firestore 관련 작업은 전부 보류 상태
-- 회원가입한 사람은 전부 동일한 "회원"으로만 취급
-- 비회원: 상품 보기, 금 시세, 카톡 문의, 장바구니 (변경 없음)
-- 회원(로그인): 마이페이지 진입 가능, 프로필(이메일 표시) + 로그아웃 기능 완성됨
+  // 이메일/비밀번호 로그인
+  async signIn(email, password) {
+    return signInWithEmailAndPassword(auth, email, password);
+  },
 
-## ⭐ 신규 결정: 주문내역 / 찜목록 데이터 연동 — 보류 확정
-- 마이페이지 안의 "주문 내역", "찜한 상품" 섹션은 **현재의 빈 상태(정적 안내문구) 그대로 유지하기로 결정함**
-- 실제로 주문/찜 데이터를 저장하고 보여주려면 Firestore(또는 유사한 저장 방식)가 필요한데, 이는 등급 구조 보류 때와 동일한 이유(Blaze 요금제 카드 등록 필요)로 **지금 단계에서는 진행하지 않음**
-- 나중에 이 기능이 필요해지면, 등급(VIP) 구조 도입 논의와 함께 묶어서 한 번에 재검토할 것 (둘 다 Firestore 도입이라는 동일한 결정 지점에 걸려 있음)
-- **그러므로 다음 작업에서는 주문내역/찜목록 관련 작업은 진행하지 않을 것**
+  // 로그아웃
+  async signOutUser() {
+    return signOut(auth);
+  },
 
----
+  // 로그인 상태가 바뀔 때 실행할 콜백 등록
+  // (nav.js에서 헤더 UI를 갱신할 때 사용)
+  onChange(callback) {
+    return onAuthStateChanged(auth, (user) => {
+      window.bullionAuth.currentUser = user;
+      window.bullionAuth.authReady = true;
+      callback(user);
+    });
+  },
+};
 
-## 다음에 할 일 (우선순위 순)
-
-로그인/회원가입/마이페이지 관련 핵심 기능은 이번 작업으로 일단락됨. 다음으로 고려할 수 있는 작업은 아래와 같으며, 아직 우선순위가 확정되지 않았으니 다음 채팅 시작 시 본인 의향을 먼저 확인할 것.
-
-1. **로그인 상태 유지 범위 점검** (미확인 상태로 남아있던 항목)
-   - 새로고침/재방문 시에도 로그인 상태가 유지되는지 아직 직접 테스트 안 해봄
-   - Firebase Auth는 기본적으로 브라우저에 로그인 상태를 유지하는 것이 일반적이나, 실제 동작 확인 필요
-   - 만약 의도와 다르게 동작하면 `auth.js`의 persistence 설정 점검 필요
-
-2. **헤더 외 다른 곳에서도 로그인 상태 활용 여부 검토**
-   - 예: 장바구니나 구매 문의 페이지에서 "로그인 회원만 가능한 혜택" 같은 걸 넣을지 여부
-   - 현재는 결정된 바 없음, 필요해지면 그때 논의
-
-3. **그 외 사이트 전반의 다른 개선 사항**
-   - 로그인/마이페이지 기능이 일단락됐으므로, 본인이 다음에 무엇을 작업하고 싶은지 먼저 확인 필요 (디자인 보완, 다른 페이지 기능 추가 등 자유롭게 논의 가능)
-
-4. **(보류, 계속 유지) 등급 구조 / VIP / Firestore / 주문내역·찜목록 데이터 연동**
-   - 위에서 결정한 대로 보류 상태 유지
-   - 나중에 필요해지면 Blaze 요금제(카드 등록) 검토를 포함해 한 번에 다시 논의
-
----
-
-## 작업한 파일 (직전 작업분, 모두 GitHub 업로드 및 배포 확인 완료)
-- 신규: `mypage.html`
-- 수정: `nav.js` (`goToMyPage()` 추가 — 헤더/모바일 메뉴 "마이페이지" 클릭 시 페이지 이동)
-- 변경 없음: `auth.js`, `style.css`
-
----
-
-## 참고
-- `mypage.html`은 `style.css`의 공통 변수 대신 `contact.html`처럼 자체 `<style>` 블록 사용 (기존 페이지 패턴과 일관성 유지)
-- `mypage.html` 안 로그인 버튼은 헤더의 기존 `#auth-btn`을 그대로 클릭해 모달을 재사용함 (모달 로직 중복 없음)
-- 헤더 로그인 버튼 id `#auth-btn`, 모바일 메뉴 항목 id `#mobile-auth-link`
-- Firebase 에러 메시지 한글 변환 매핑은 `nav.js` 안 `translateAuthError()` 함수에 있음
-- 상품 이미지 누락(크루거랜드/판다/코뿔소) 건은 계속 보류 — 손대지 않음
+// 로그인 상태가 바뀔 때마다 커스텀 이벤트를 쏴서
+// nav.js 등 다른 스크립트가 이벤트 리스너로도 감지할 수 있게 함
+onAuthStateChanged(auth, (user) => {
+  window.bullionAuth.currentUser = user;
+  window.bullionAuth.authReady = true;
+  document.dispatchEvent(
+    new CustomEvent("bullion-auth-changed", { detail: { user } })
+  );
+});
