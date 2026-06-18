@@ -145,8 +145,9 @@
           <button id="carousel-next" style="width:38px;height:38px;border-radius:50%;border:1px solid #C8A84B;background:#fff;color:#C8A84B;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;">→</button>
         </div>
       </div>
-      <div style="position:relative;overflow:hidden;">
-        <div class="products-grid" id="products-grid" style="display:flex;flex-wrap:nowrap;gap:20px;will-change:transform;">
+      <div style="position:relative;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;" id="products-scroll-wrap">
+        <style>#products-scroll-wrap::-webkit-scrollbar{display:none;}</style>
+        <div class="products-grid" id="products-grid" style="display:flex;flex-wrap:nowrap;gap:20px;">
           <div class="products-loading" style="min-width:100%;justify-content:center;">
             <div class="loading-spinner"></div>
             <p>상품을 불러오는 중...</p>
@@ -162,7 +163,6 @@
       <div class="section-header-truney" style="text-align:center;">
         <h2>BRANDS</h2>
         <div class="section-line"></div>
-        <a href="#" class="check-all-btn">전체 브랜드 보기</a>
         <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;">
           <button id="brand-prev" style="width:38px;height:38px;border-radius:50%;border:1px solid #C8A84B;background:#fff;color:#C8A84B;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;">←</button>
           <button id="brand-next" style="width:38px;height:38px;border-radius:50%;border:1px solid #C8A84B;background:#fff;color:#C8A84B;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;">→</button>
@@ -226,137 +226,37 @@
   <script src="nav.js"></script>
   <script src="script.js"></script>
 
-  <!-- 무한 흐름 캐러셀 -->
+  <!-- 상품 캐러셀 -->
   <script>
   (function () {
-    const SPEED = 60;
-    const FAST_SPEED = 220;
-    const FAST_DURATION = 700;
-
-    let pixelOffset = 0;
-    let currentSpeed = SPEED;
-    let lastTime = null;
-    let rafId = null;
-    let cloned = false;
-    let boostTimer = null;
-
-    function getGrid() {
-      return document.getElementById('products-grid');
-    }
-
-    function getOriginals() {
-      const grid = getGrid();
-      if (!grid) return [];
-      return Array.from(grid.querySelectorAll('.product-card:not([aria-hidden])'));
-    }
-
-    function setupClones() {
-      if (cloned) return;
-      const grid = getGrid();
-      const originals = getOriginals();
-      if (originals.length === 0) return;
-      [...originals, ...originals].forEach(c => {
-        const clone = c.cloneNode(true);
-        clone.setAttribute('aria-hidden', 'true');
-        grid.appendChild(clone);
-      });
-      cloned = true;
-    }
-
-    function getLoopWidth() {
-      const originals = getOriginals();
-      if (originals.length === 0) return 0;
-      const gap = 20;
-      return originals.reduce((sum, c) => sum + c.offsetWidth + gap, 0);
-    }
-
-    function tick(ts) {
-      if (!lastTime) lastTime = ts;
-      const dt = Math.min((ts - lastTime) / 1000, 0.05);
-      lastTime = ts;
-
-      pixelOffset += currentSpeed * dt;
-
-      const loopWidth = getLoopWidth();
-      if (loopWidth > 0 && pixelOffset >= loopWidth) {
-        pixelOffset -= loopWidth;
-      }
-
-      const grid = getGrid();
-      if (grid) grid.style.transform = `translateX(-${pixelOffset}px)`;
-
-      rafId = requestAnimationFrame(tick);
-    }
-
-    function startScroll() {
-      if (rafId) return;
-      lastTime = null;
-      rafId = requestAnimationFrame(tick);
-    }
-
-    function boostSpeed() {
-      currentSpeed = FAST_SPEED;
-      if (boostTimer) clearTimeout(boostTimer);
-      boostTimer = setTimeout(() => {
-        currentSpeed = SPEED;
-        boostTimer = null;
-      }, FAST_DURATION);
-    }
-
-    const grid = document.getElementById('products-grid');
-    const observer = new MutationObserver(() => {
-      const cards = getOriginals();
-      if (cards.length > 0 && !cloned) {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            setupClones();
-            startScroll();
-          });
-        });
-      }
-    });
-    if (grid) observer.observe(grid, { childList: true, subtree: true });
-
+    const SCROLL_AMOUNT = 220;
+    const wrap = document.getElementById('products-scroll-wrap');
     const prevBtn = document.getElementById('carousel-prev');
     const nextBtn = document.getElementById('carousel-next');
 
+    function smoothScroll(amount) {
+      wrap.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+
     if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        const loopWidth = getLoopWidth();
-        pixelOffset = (pixelOffset - 180 + loopWidth) % loopWidth;
-        boostSpeed();
-      });
+      prevBtn.addEventListener('click', () => smoothScroll(-SCROLL_AMOUNT));
       prevBtn.addEventListener('mouseenter', () => { prevBtn.style.background = '#C8A84B'; prevBtn.style.color = '#fff'; });
       prevBtn.addEventListener('mouseleave', () => { prevBtn.style.background = '#fff'; prevBtn.style.color = '#C8A84B'; });
     }
-
     if (nextBtn) {
-      nextBtn.addEventListener('click', boostSpeed);
+      nextBtn.addEventListener('click', () => smoothScroll(SCROLL_AMOUNT));
       nextBtn.addEventListener('mouseenter', () => { nextBtn.style.background = '#C8A84B'; nextBtn.style.color = '#fff'; });
       nextBtn.addEventListener('mouseleave', () => { nextBtn.style.background = '#fff'; nextBtn.style.color = '#C8A84B'; });
     }
 
     let touchStartX = 0;
-    if (grid) {
-      grid.addEventListener('touchstart', e => {
-        touchStartX = e.touches[0].clientX;
-      }, { passive: true });
-
-      grid.addEventListener('touchend', e => {
+    if (wrap) {
+      wrap.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+      wrap.addEventListener('touchend', e => {
         const diff = touchStartX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 50) {
-          if (diff < 0) {
-            const loopWidth = getLoopWidth();
-            pixelOffset = (pixelOffset - 180 + loopWidth) % loopWidth;
-          }
-          boostSpeed();
-        }
+        if (Math.abs(diff) > 50) smoothScroll(diff > 0 ? SCROLL_AMOUNT : -SCROLL_AMOUNT);
       }, { passive: true });
     }
-
-    const dotsEl = document.getElementById('carousel-dots');
-    if (dotsEl) dotsEl.style.display = 'none';
-
   })();
   </script>
 
