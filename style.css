@@ -286,10 +286,14 @@ img { max-width: 100%; display: block; }
 
 /* ===== 로그인 버튼 (헤더) ===== */
 .auth-btn { display: flex; align-items: center; gap: 6px; }
-.auth-btn-label { font-family: 'Noto Serif KR', serif; font-size: 13px; letter-spacing: 0.5px; white-space: nowrap; }
+.auth-btn-label { font-family: 'Noto Serif KR', serif; font-size: 13px; letter-spacing: 0.5px; white-space: nowrap; opacity: 1; transition: opacity 0.15s ease; }
 @media (max-width: 768px) {
   .auth-btn-label { display: none; }
 }
+
+/* Firebase가 로그인 상태를 확인하는 동안 텍스트를 숨겨 "로그인 → 마이페이지" 깜빡임을 방지 */
+.auth-btn-pending .auth-btn-label { opacity: 0; }
+#mobile-auth-link.auth-btn-pending { opacity: 0; }
 
 /* ===== 로그인 / 회원가입 모달 ===== */
 .auth-modal-overlay {
