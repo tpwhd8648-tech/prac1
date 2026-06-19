@@ -275,30 +275,55 @@
       });
 
       // ── 모바일: touch ──
-      // 짧게 누르면 돋보기 ON, 한번 켜지면 손가락을 움직여도 돋보기 유지.
-      // 돋보기가 켜지기 전에 빠르게 멀리 움직이면 스와이프(스크롤)로 인식.
+      // 판단 기준을 "이동 거리"가 아니라 "방향 + 시간"으로 바꿈:
+      // - 수직 이동이 수평 이동보다 뚜렷이 크면 → 스와이프(스크롤)
+      // - 손가락이 거의 안 움직이고 일정 시간(HOLD_MS) 이상 눌려 있으면 → 돋보기
+      // 한 번 모드가 정해지면(스크롤 or 돋보기) 그 터치가 끝날 때까지 유지한다.
       // .gallery-main에 touch-action: none을 적용했으므로, 스와이프로 판단된
       // 경우엔 브라우저가 스크롤을 대신 해주지 않아 JS로 직접 스크롤시켜야 함.
-      const SWIPE_THRESHOLD = 10; // px, 돋보기 켜지기 전 이 거리 이상 움직이면 스와이프로 판단
+      const DIRECTION_THRESHOLD = 10; // px, 방향 판단을 시작할 최소 이동 거리
+      const HOLD_MS = 150; // ms, 이 시간 동안 거의 안 움직이면 돋보기로 확정
       let touchStartX = 0;
       let touchStartY = 0;
       let lastTouchY = 0;
-      let isZooming = false;
-      let isSwiping = false;
+      let mode = 'pending'; // 'pending' | 'zoom' | 'scroll'
+      let holdTimer = null;
+
+      function clearHoldTimer() {
+        if (holdTimer) {
+          clearTimeout(holdTimer);
+          holdTimer = null;
+        }
+      }
 
       galleryMain.addEventListener('touchstart', (e) => {
         cachedRect = galleryMain.getBoundingClientRect();
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
         lastTouchY = e.touches[0].clientY;
-        isZooming = false;
-        isSwiping = false;
+        mode = 'pending';
+
+        clearHoldTimer();
+        holdTimer = setTimeout(() => {
+          // HOLD_MS 동안 'pending'을 유지했다면(=거의 안 움직였다면) 돋보기로 확정
+          if (mode === 'pending') {
+            mode = 'zoom';
+            // 시작 시점 좌표 기준으로 즉시 한 번 적용 (그대로 누르고만 있어도 반응하도록)
+            cachedRect = galleryMain.getBoundingClientRect();
+            const { x, y } = getPos(
+              { touches: [{ clientX: touchStartX, clientY: touchStartY }] },
+              cachedRect
+            );
+            applyZoom(x, y);
+          }
+        }, HOLD_MS);
       }, { passive: false });
 
       galleryMain.addEventListener('touchmove', (e) => {
+        const currentX = e.touches[0].clientX;
         const currentY = e.touches[0].clientY;
 
-        if (isSwiping) {
+        if (mode === 'scroll') {
           // 직접 스크롤 처리 (touch-action: none 때문에 브라우저가 안 해줌)
           e.preventDefault();
           const deltaY = lastTouchY - currentY;
@@ -307,39 +332,51 @@
           return;
         }
 
-        if (isZooming) {
-          // 돋보기가 이미 켜진 상태 → 움직여도 계속 돋보기 유지
+        if (mode === 'zoom') {
+          // 돋보기 모드 확정 상태 → 매번 위치를 다시 계산해 위치 어긋남 방지
           e.preventDefault();
+          cachedRect = galleryMain.getBoundingClientRect();
           const { x, y } = getPos(e, cachedRect);
           applyZoom(x, y);
           return;
         }
 
-        // 아직 돋보기 켜지기 전: 이동 거리로 탭(돋보기) vs 스와이프(스크롤) 판단
-        const dx = e.touches[0].clientX - touchStartX;
+        // mode === 'pending': 아직 방향 미확정
+        const dx = currentX - touchStartX;
         const dy = currentY - touchStartY;
-        const moved = Math.sqrt(dx * dx + dy * dy);
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (moved > SWIPE_THRESHOLD) {
-          isSwiping = true;
-          e.preventDefault();
-          const deltaY = touchStartY - currentY;
-          window.scrollBy(0, deltaY);
-          lastTouchY = currentY;
-          return;
+        if (distance > DIRECTION_THRESHOLD) {
+          clearHoldTimer();
+          // 수직 이동이 수평 이동보다 뚜렷이 크면 스와이프, 아니면(대각선 포함) 돋보기로 판단
+          if (Math.abs(dy) > Math.abs(dx) * 1.2) {
+            mode = 'scroll';
+            e.preventDefault();
+            const deltaY = touchStartY - currentY;
+            window.scrollBy(0, deltaY);
+            lastTouchY = currentY;
+          } else {
+            mode = 'zoom';
+            e.preventDefault();
+            cachedRect = galleryMain.getBoundingClientRect();
+            const { x, y } = getPos(e, cachedRect);
+            applyZoom(x, y);
+          }
         }
-
-        // 아직 거리 짧음 → 돋보기 켜기
-        isZooming = true;
-        e.preventDefault();
-        const { x, y } = getPos(e, cachedRect);
-        applyZoom(x, y);
+        // distance가 아직 작으면 아무것도 안 하고 HOLD_MS 타이머가 결정하게 둔다
       }, { passive: false });
 
       galleryMain.addEventListener('touchend', () => {
+        clearHoldTimer();
         cachedRect = null;
-        isZooming = false;
-        isSwiping = false;
+        mode = 'pending';
+        resetZoom();
+      });
+
+      galleryMain.addEventListener('touchcancel', () => {
+        clearHoldTimer();
+        cachedRect = null;
+        mode = 'pending';
         resetZoom();
       });
 
