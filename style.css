@@ -156,7 +156,19 @@ img { max-width: 100%; display: block; }
   flex-direction: column;
 }
 .product-brand { font-size: 11px; color: var(--gold); letter-spacing: 1px; margin-bottom: 4px; text-transform: uppercase; }
-.product-name { font-size: 14px; color: #222; margin-bottom: 10px; line-height: 1.4; font-family: 'Noto Serif KR', serif; }
+.product-name {
+  font-size: 14px;
+  color: #222;
+  margin-bottom: 10px;
+  line-height: 1.4;
+  font-family: 'Noto Serif KR', serif;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  min-height: calc(1.4em * 2);
+}
 .product-price-wrap { margin-bottom: 12px; }
 .product-price { font-size: 16px; font-weight: 700; color: var(--gold); }
 
