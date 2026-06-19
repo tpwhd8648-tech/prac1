@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tpwhd8648-tech.github.io/sitemap.xml
