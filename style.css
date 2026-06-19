@@ -169,10 +169,10 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
   min-height: calc(1.4em * 2);
 }
-.product-price-wrap { margin-bottom: 12px; }
+.product-price-wrap { margin-bottom: 12px; margin-top: auto; }
 .product-price { font-size: 16px; font-weight: 700; color: var(--gold); }
 
-.btn-cart-wrap { margin-top: auto; }
+.btn-cart-wrap { }
 
 .btn-cart { width: 100%; background: var(--dark); color: #fff; border: none; padding: 10px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: background 0.2s; letter-spacing: 1px; }
 .btn-cart:hover { background: var(--gold); }
