@@ -9,7 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="nav.css">
   <style>
     .sub-page { padding: 48px 0 80px; background: #f9f8f5; min-height: calc(100vh - 200px); }
     .sub-page .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
@@ -171,7 +170,7 @@
         : '';
 
       const inquiryBtn = isAvailable
-        ? `<a href="#" class="btn-inquiry" id="inquiry-btn">구매 문의하기</a>`
+        ? `<a href="https://open.kakao.com/o/sB6Gduni" target="_blank" rel="noopener noreferrer" class="btn-inquiry" id="inquiry-btn">구매 문의하기</a>`
         : `<div style="text-align:center;padding:12px 0;"><span class="soldout-badge">현재 품절된 상품입니다</span></div>`;
 
       document.getElementById('detail-content').innerHTML = `
