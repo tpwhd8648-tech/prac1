@@ -296,6 +296,20 @@
         }
       }
 
+      function scrollByInstant(deltaY) {
+        // style.css의 `html { scroll-behavior: smooth }` 전역 설정 때문에
+        // 일반 scrollBy(0, deltaY)를 touchmove마다 호출하면 매번 부드러운
+        // 애니메이션이 새로 시작되며 서로 끊겨 스크롤이 매우 느려진다.
+        // { behavior: 'instant' } 옵션만으로는 일부 브라우저에서 무시되고
+        // CSS의 scroll-behavior를 그대로 따라가는 경우가 있어, 호출 직전에
+        // html의 scroll-behavior를 강제로 auto(즉시)로 바꿔 확실히 즉시 이동시킨다.
+        const htmlEl = document.documentElement;
+        const prev = htmlEl.style.scrollBehavior;
+        htmlEl.style.scrollBehavior = 'auto';
+        window.scrollBy(0, deltaY);
+        htmlEl.style.scrollBehavior = prev;
+      }
+
       galleryMain.addEventListener('touchstart', (e) => {
         cachedRect = galleryMain.getBoundingClientRect();
         touchStartX = e.touches[0].clientX;
@@ -327,7 +341,7 @@
           // 직접 스크롤 처리 (touch-action: none 때문에 브라우저가 안 해줌)
           e.preventDefault();
           const deltaY = lastTouchY - currentY;
-          window.scrollBy(0, deltaY);
+          scrollByInstant(deltaY);
           lastTouchY = currentY;
           return;
         }
@@ -353,7 +367,7 @@
             mode = 'scroll';
             e.preventDefault();
             const deltaY = touchStartY - currentY;
-            window.scrollBy(0, deltaY);
+            scrollByInstant(deltaY);
             lastTouchY = currentY;
           } else {
             mode = 'zoom';
