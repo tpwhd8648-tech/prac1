@@ -200,7 +200,7 @@
         ? `₩${(Math.round(krwPrice * premium / 1000) * 1000).toLocaleString()}`
         : '로딩중...';
       const imgHTML = imgSrc
-        ? `<img src="${imgSrc}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+        ? `<img src="${imgSrc}" alt="${name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
         : '';
       const placeholderHTML = `<div class="product-img-placeholder" style="${imgSrc ? 'display:none' : 'display:flex'}"><span>${name.substring(0, 6)}</span></div>`;
       const isAvailable = available === 'TRUE' || available === true;

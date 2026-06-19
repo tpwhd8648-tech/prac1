@@ -161,7 +161,7 @@
 
       const thumbsHTML = images.map((img, i) => `
         <div class="gallery-thumb ${i === 0 ? 'active' : ''}" onclick="switchImage(${i})" data-index="${i}">
-          <img src="${img.src}" alt="${img.label}"
+          <img src="${img.src}" alt="${img.label}" loading="lazy"
             onerror="this.parentElement.style.display='none'"
             onload="this.parentElement.style.display='flex'">
         </div>`).join('');
