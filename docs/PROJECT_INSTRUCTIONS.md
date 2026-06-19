@@ -48,8 +48,14 @@ git clone --filter=blob:none --no-checkout --depth 1 https://github.com/tpwhd864
 
 ## 4. 작업 마무리 시 — "인수인계 만들어줘" 요청을 받으면
 
-handoff-doc 스킬(`/mnt/skills/user/handoff-doc/SKILL.md`)의 템플릿과 형식을 사용하여
-`/handoff/` 폴더 구조(`날짜-시간(HHMM)-주제.md`)에 맞춰 인수인계 문서를 작성한다.
+handoff-doc 스킬(`/mnt/skills/user/handoff-doc/SKILL.md`)의 문서 구조(목표/현재상태/
+진행단계/To-Do/참고사항 5개 섹션)와 작성 유의사항은 그대로 따른다.
+
+다만 **파일명 규칙은 이 문서가 우선한다**: 스킬 파일에 적힌 형식과 다르더라도,
+항상 `YYYY-MM-DD-HHMM-주제.md` (날짜+시간(HHMM, 24시간제)+주제) 형식을 사용해
+`/handoff/` 폴더에 저장한다. 같은 날 여러 작업을 처리할 수 있어 시간까지 포함해야
+파일명이 겹치지 않고 작성 순서가 명확해지기 때문이다.
+
 이번 세션에서 진행한 작업 내용, 변경된 파일 목록, 남은 작업, 다음 세션에서 참고할
 사항을 포함한다.
 
