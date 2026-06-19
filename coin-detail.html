@@ -31,6 +31,7 @@
       overflow: hidden;
       position: relative;
       cursor: crosshair;
+      touch-action: none;
     }
 
     /* ── 메인 이미지: transform-origin 중앙, will-change ── */
@@ -276,9 +277,12 @@
       // ── 모바일: touch ──
       // 짧게 누르면 돋보기 ON, 한번 켜지면 손가락을 움직여도 돋보기 유지.
       // 돋보기가 켜지기 전에 빠르게 멀리 움직이면 스와이프(스크롤)로 인식.
+      // .gallery-main에 touch-action: none을 적용했으므로, 스와이프로 판단된
+      // 경우엔 브라우저가 스크롤을 대신 해주지 않아 JS로 직접 스크롤시켜야 함.
       const SWIPE_THRESHOLD = 10; // px, 돋보기 켜지기 전 이 거리 이상 움직이면 스와이프로 판단
       let touchStartX = 0;
       let touchStartY = 0;
+      let lastTouchY = 0;
       let isZooming = false;
       let isSwiping = false;
 
@@ -286,13 +290,21 @@
         cachedRect = galleryMain.getBoundingClientRect();
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
+        lastTouchY = e.touches[0].clientY;
         isZooming = false;
         isSwiping = false;
-      }, { passive: true });
+      }, { passive: false });
 
       galleryMain.addEventListener('touchmove', (e) => {
+        const currentY = e.touches[0].clientY;
+
         if (isSwiping) {
-          return; // 이미 스와이프로 확정됨 → preventDefault 안 함, 스크롤 정상 작동
+          // 직접 스크롤 처리 (touch-action: none 때문에 브라우저가 안 해줌)
+          e.preventDefault();
+          const deltaY = lastTouchY - currentY;
+          window.scrollBy(0, deltaY);
+          lastTouchY = currentY;
+          return;
         }
 
         if (isZooming) {
@@ -305,12 +317,16 @@
 
         // 아직 돋보기 켜지기 전: 이동 거리로 탭(돋보기) vs 스와이프(스크롤) 판단
         const dx = e.touches[0].clientX - touchStartX;
-        const dy = e.touches[0].clientY - touchStartY;
+        const dy = currentY - touchStartY;
         const moved = Math.sqrt(dx * dx + dy * dy);
 
         if (moved > SWIPE_THRESHOLD) {
           isSwiping = true;
-          return; // 스크롤로 확정, 이번 touchmove는 그대로 흘려보냄
+          e.preventDefault();
+          const deltaY = touchStartY - currentY;
+          window.scrollBy(0, deltaY);
+          lastTouchY = currentY;
+          return;
         }
 
         // 아직 거리 짧음 → 돋보기 켜기
