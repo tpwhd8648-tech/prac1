@@ -85,6 +85,16 @@
   <script src="footer.js"></script>
   <script src="nav.js"></script>
   <script>
+    // ===== URL 쿼리스트링 기반 키워드 필터 =====
+    const urlParams = new URLSearchParams(location.search);
+    const queryKeyword = urlParams.get('q');
+
+    function escapeHTML(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
     // ===== PRODUCT TABS =====
     document.querySelectorAll('.ptab').forEach(tab => {
       tab.addEventListener('click', () => {
@@ -266,12 +276,32 @@
       const grid = document.getElementById('products-grid');
       if (!productsData.length) return;
 
-      const sorted = [...productsData].sort((a, b) => {
+      let sorted = [...productsData].sort((a, b) => {
         const aAvail = a.available === 'TRUE';
         const bAvail = b.available === 'TRUE';
         if (aAvail !== bAvail) return aAvail ? -1 : 1;
         return a.order - b.order;
       });
+
+      if (queryKeyword) {
+        sorted = sorted.filter(p => p.name.toLowerCase().includes(queryKeyword.toLowerCase()));
+      }
+
+      // 키워드 필터 안내 배너 (있으면 중복 추가 방지를 위해 먼저 제거)
+      const existingBanner = document.getElementById('query-filter-banner');
+      if (existingBanner) existingBanner.remove();
+      if (queryKeyword) {
+        const banner = document.createElement('div');
+        banner.id = 'query-filter-banner';
+        banner.style.cssText = 'grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:13px;color:#666;font-family:"Noto Sans KR",sans-serif;';
+        banner.innerHTML = `<span>'${escapeHTML(queryKeyword)}' 검색 결과</span><a href="coins.html" style="color:#C8A84B;text-decoration:none;">전체 상품 보기 ›</a>`;
+        grid.parentNode.insertBefore(banner, grid);
+      }
+
+      if (queryKeyword && sorted.length === 0) {
+        grid.innerHTML = `<p style="grid-column:1/-1;color:#888;text-align:center;padding:2rem;font-family:'Noto Sans KR',sans-serif;">'${escapeHTML(queryKeyword)}' 관련 상품을 찾지 못했습니다.<br><a href="coins.html" style="color:#C8A84B;">전체 상품 보기 ›</a></p>`;
+        return;
+      }
 
       grid.innerHTML = sorted.map(p => createProductCard(p, currentKrwPrice)).join('');
 
