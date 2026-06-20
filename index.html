@@ -69,55 +69,87 @@
 
   <!-- Hero Slider -->
   <section class="hero-slider" id="hero">
-    <div class="slider-track" id="slider-track">
-      <div class="slide slide-1">
-        <div class="slide-content">
-          <div class="slide-badge">THE ROYAL MINT® · THE ORIGINAL MAKER</div>
-          <h1 class="slide-title">성 조지와 용<br>2026년 귀금속 시리즈</h1>
-          <p class="slide-subtitle">2026년 투자형 금은화 시리즈<br>영원히 새로운 용기의 상징<br>비범한 공예의 영원한 전승</p>
-          <a href="coins.html?q=성조지" class="slide-btn">시리즈 상품 탐색 ›</a>
-        </div>
-      </div>
-      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/header-slide-eagle.jpg') center/cover no-repeat;">
-        <div class="slide-content">
-          <div class="slide-badge">US MINT · 아메리칸 이글</div>
-          <h1 class="slide-title">아메리칸 이글<br>골드 코인 2026</h1>
-          <p class="slide-subtitle">미국 최고 권위의 투자용 금화<br>리걸 텐더 법정화폐 보증</p>
-          <a href="coins.html?q=아메리칸%20이글" class="slide-btn">상품 보기 ›</a>
-        </div>
-      </div>
-      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/header-slide-buffalo.jpg') center/cover no-repeat;">
-        <div class="slide-content">
-          <div class="slide-badge">US MINT · 99.99% 순금</div>
-          <h1 class="slide-title">아메리칸 버팔로<br>골드 코인 2026</h1>
-          <p class="slide-subtitle">미국 최고 순도의 투자용 금화<br>대평원의 위용을 담은 전설적 디자인</p>
-          <a href="coins.html?q=버팔로" class="slide-btn">상품 보기 ›</a>
-        </div>
-      </div>
-      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/header-slide-kangaroo.jpg') center/cover no-repeat;">
-        <div class="slide-content">
-          <div class="slide-badge">PERTH MINT AUSTRALIA · 캥거루</div>
-          <h1 class="slide-title">오스트레일리아 캥거루<br>골드 코인 2026</h1>
-          <p class="slide-subtitle">퍼스 민트의 정품 투자 금화<br>울루루의 대지가 품은 황금</p>
-          <a href="coins.html?q=캥거루" class="slide-btn">상품 보기 ›</a>
-        </div>
-      </div>
-      <div class="slide" style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('images/header-slide-philharmonic.jpg') center/cover no-repeat;">
-        <div class="slide-content">
-          <div class="slide-badge">MÜNZE ÖSTERREICH · 오스트리아 조폐국</div>
-          <h1 class="slide-title">빈 필하모닉<br>골드 코인 2026</h1>
-          <p class="slide-subtitle">세계에서 가장 많이 팔리는 유럽 금화<br>비엔나 필하모닉의 선율을 담은 황금</p>
-          <a href="coins.html?q=필하모닉" class="slide-btn">상품 보기 ›</a>
-        </div>
-      </div>
-    </div>
+    <div class="slider-track" id="slider-track"></div>
     <button class="slider-btn slider-prev" id="slider-prev">&#8592;</button>
     <button class="slider-btn slider-next" id="slider-next">&#8594;</button>
-    <div class="slider-dots" id="slider-dots">
-      <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
-      <span class="dot"></span><span class="dot"></span>
-    </div>
+    <div class="slider-dots" id="slider-dots"></div>
   </section>
+
+  <script>
+    // ===== 히어로 슬라이드 데이터 =====
+    // 슬라이드 추가/교체는 이 배열만 수정하면 됩니다. HTML/dot/슬라이더 로직은 자동 반영됩니다.
+    // image: null이면 slide-1의 기본 골드 그라데이션 배경을 사용합니다.
+    // keyword: coins.html?q= 뒤에 붙는 검색어. 다른 코인명과 겹치지 않는 표현을 쓰세요
+    //          (예: '이글' 대신 '아메리칸 이글'처럼 구체적으로 — '라이언이글'과의 오매칭 방지).
+    const heroSlides = [
+      {
+        image: null,
+        badge: 'THE ROYAL MINT® · THE ORIGINAL MAKER',
+        title: '성 조지와 용<br>2026년 귀금속 시리즈',
+        subtitle: '2026년 투자형 금은화 시리즈<br>영원히 새로운 용기의 상징<br>비범한 공예의 영원한 전승',
+        btnText: '시리즈 상품 탐색 ›',
+        keyword: '성조지'
+      },
+      {
+        image: 'images/header-slide-eagle.jpg',
+        badge: 'US MINT · 아메리칸 이글',
+        title: '아메리칸 이글<br>골드 코인 2026',
+        subtitle: '미국 최고 권위의 투자용 금화<br>리걸 텐더 법정화폐 보증',
+        btnText: '상품 보기 ›',
+        keyword: '아메리칸 이글'
+      },
+      {
+        image: 'images/header-slide-buffalo.jpg',
+        badge: 'US MINT · 99.99% 순금',
+        title: '아메리칸 버팔로<br>골드 코인 2026',
+        subtitle: '미국 최고 순도의 투자용 금화<br>대평원의 위용을 담은 전설적 디자인',
+        btnText: '상품 보기 ›',
+        keyword: '버팔로'
+      },
+      {
+        image: 'images/header-slide-kangaroo.jpg',
+        badge: 'PERTH MINT AUSTRALIA · 캥거루',
+        title: '오스트레일리아 캥거루<br>골드 코인 2026',
+        subtitle: '퍼스 민트의 정품 투자 금화<br>울루루의 대지가 품은 황금',
+        btnText: '상품 보기 ›',
+        keyword: '캥거루'
+      },
+      {
+        image: 'images/header-slide-philharmonic.jpg',
+        badge: 'MÜNZE ÖSTERREICH · 오스트리아 조폐국',
+        title: '빈 필하모닉<br>골드 코인 2026',
+        subtitle: '세계에서 가장 많이 팔리는 유럽 금화<br>비엔나 필하모닉의 선율을 담은 황금',
+        btnText: '상품 보기 ›',
+        keyword: '필하모닉'
+      }
+    ];
+
+    (function renderHeroSlides() {
+      const track = document.getElementById('slider-track');
+      const dotsWrap = document.getElementById('slider-dots');
+
+      track.innerHTML = heroSlides.map((s, i) => {
+        const bgStyle = s.image
+          ? ` style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('${s.image}') center/cover no-repeat;"`
+          : '';
+        const slideClass = s.image ? 'slide' : 'slide slide-1';
+        const q = encodeURIComponent(s.keyword || '');
+        return `
+      <div class="${slideClass}"${bgStyle}>
+        <div class="slide-content">
+          <div class="slide-badge">${s.badge}</div>
+          <h1 class="slide-title">${s.title}</h1>
+          <p class="slide-subtitle">${s.subtitle}</p>
+          <a href="coins.html?q=${q}" class="slide-btn">${s.btnText}</a>
+        </div>
+      </div>`;
+      }).join('');
+
+      dotsWrap.innerHTML = heroSlides
+        .map((_, i) => `<span class="dot${i === 0 ? ' active' : ''}"></span>`)
+        .join('');
+    })();
+  </script>
 
   <!-- Category Banners -->
   <section class="category-banners">
