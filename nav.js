@@ -18,11 +18,19 @@
   /* ── 스타일 주입 (구 nav.css) ── */
   const style = document.createElement('style');
   style.textContent = `
-    .logo-wrap { display:flex; align-items:center; gap:14px; text-decoration:none; }
+    .logo-wrap { display:flex; align-items:center; gap:14px; text-decoration:none; min-width:0; }
     .logo-symbol { flex-shrink:0; width:54px; height:54px; }
-    .logo-text-block { display:flex; flex-direction:column; gap:2px; }
-    .logo-brand { font-family:'Cinzel',serif; font-size:22px; font-weight:700; letter-spacing:4px; line-height:1; background:linear-gradient(135deg,#C8A84B 0%,#F5E090 40%,#C8A84B 60%,#9A7B2E 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-    .logo-sub-kr { font-family:'Noto Serif KR',serif; font-size:10px; letter-spacing:3px; color:#B8960C; font-weight:400; }
+    .logo-text-block { display:flex; flex-direction:column; gap:2px; min-width:0; overflow:hidden; }
+    .logo-brand { font-family:'Cinzel',serif; font-size:22px; font-weight:700; letter-spacing:4px; line-height:1; background:linear-gradient(135deg,#C8A84B 0%,#F5E090 40%,#C8A84B 60%,#9A7B2E 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .logo-sub-kr { font-family:'Noto Serif KR',serif; font-size:10px; letter-spacing:3px; color:#B8960C; font-weight:400; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    @media (max-width: 400px) {
+      .logo-symbol { width:40px; height:40px; }
+      .logo-wrap { gap:10px; }
+      .logo-brand { font-size:18px; letter-spacing:2px; }
+      .logo-sub-kr { font-size:9px; letter-spacing:1.5px; }
+      .header-icons { gap:2px; }
+      .icon-btn { padding:6px; }
+    }
     .custom-dropdown { position:relative; }
     .custom-dropdown-btn {
       display:flex; align-items:center; gap:8px;
