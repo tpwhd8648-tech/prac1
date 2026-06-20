@@ -101,6 +101,16 @@
     return page === href ? ' active' : '';
   }
 
+  /* ── 검색 리다이렉트 공용 함수 ── */
+  function goSearch(keyword) {
+    const trimmed = (keyword || '').trim();
+    if (!trimmed) {
+      location.href = 'coins.html';
+      return;
+    }
+    location.href = 'coins.html?q=' + encodeURIComponent(trimmed);
+  }
+
   /* ── Top Bar ── */
   const topBar = document.getElementById('nav-topbar');
   if (topBar) {
@@ -218,6 +228,20 @@
         }
       });
     }
+
+    /* ── 검색창 이벤트 (데스크탑) ── */
+    const searchInput = header.querySelector('.search-input');
+    const searchBtn = header.querySelector('.search-btn');
+    if (searchInput && searchBtn) {
+      searchBtn.addEventListener('click', function () {
+        goSearch(searchInput.value);
+      });
+      searchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          goSearch(searchInput.value);
+        }
+      });
+    }
   }
 
   /* ── Main Nav ── */
@@ -240,12 +264,30 @@
     mobile.className = 'mobile-menu';
     mobile.innerHTML = `
       <button class="mobile-menu-close" id="mobile-menu-close">✕</button>
+      <div class="mobile-search">
+        <input type="text" placeholder="상품 검색..." class="mobile-search-input" id="mobile-search-input">
+        <button class="mobile-search-btn" id="mobile-search-btn">검색</button>
+      </div>
       <ul>
         <li><a href="coins.html">금화 보기</a></li>
         <li><a href="gold-price.html">금 시세</a></li>
         <li><a href="contact.html">구매 문의</a></li>
         <li><a href="#" id="mobile-auth-link" class="auth-btn-pending">로그인</a></li>
       </ul>`;
+
+    /* ── 검색창 이벤트 (모바일) ── */
+    const mobileSearchInput = document.getElementById('mobile-search-input');
+    const mobileSearchBtn = document.getElementById('mobile-search-btn');
+    if (mobileSearchInput && mobileSearchBtn) {
+      mobileSearchBtn.addEventListener('click', function () {
+        goSearch(mobileSearchInput.value);
+      });
+      mobileSearchInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          goSearch(mobileSearchInput.value);
+        }
+      });
+    }
   }
 
   /* ── 햄버거 이벤트 ── */
