@@ -23,13 +23,20 @@
     .logo-text-block { display:flex; flex-direction:column; gap:2px; min-width:0; overflow:hidden; }
     .logo-brand { font-family:'Cinzel',serif; font-size:22px; font-weight:700; letter-spacing:4px; line-height:1; background:linear-gradient(135deg,#C8A84B 0%,#F5E090 40%,#C8A84B 60%,#9A7B2E 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .logo-sub-kr { font-family:'Noto Serif KR',serif; font-size:10px; letter-spacing:3px; color:#B8960C; font-weight:400; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    @media (max-width: 400px) {
+    @media (max-width: 480px) {
+      .header-inner { padding-left:14px; padding-right:14px; gap:10px; }
       .logo-symbol { width:40px; height:40px; }
       .logo-wrap { gap:10px; }
       .logo-brand { font-size:18px; letter-spacing:2px; }
       .logo-sub-kr { font-size:9px; letter-spacing:1.5px; }
       .header-icons { gap:2px; }
       .icon-btn { padding:6px; }
+    }
+    @media (max-width: 350px) {
+      .logo-symbol { width:32px; height:32px; }
+      .logo-wrap { gap:8px; }
+      .logo-brand { font-size:15px; letter-spacing:1px; }
+      .logo-sub-kr { font-size:8px; letter-spacing:1px; }
     }
     .custom-dropdown { position:relative; }
     .custom-dropdown-btn {
