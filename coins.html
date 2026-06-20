@@ -84,6 +84,7 @@
   <script type="module" src="auth.js"></script>
   <script src="footer.js"></script>
   <script src="nav.js"></script>
+  <script src="products.js"></script>
   <script>
     // ===== URL 쿼리스트링 기반 키워드 필터 =====
     const urlParams = new URLSearchParams(location.search);
@@ -174,113 +175,26 @@
       setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    // ===== 이미지 매핑 =====
-    const IMAGE_MAP = [
-      { keywords: ['2026 메이플', '2026 maple'],                           file: 'products-maple-2026.png' },
-      { keywords: ['2026 브리타니아', '2026 britannia'],                   file: 'products-britannia-2026.png' },
-      { keywords: ['2026 캥거루', '2026 kangaroo'],                        file: 'products-kangaroo-2026.png' },
-      { keywords: ['2026 버팔로', '2026 buffalo'],                         file: 'products-buffalo-2026.png' },
-      { keywords: ['2026 이글', '2026 eagle'],                             file: 'products-eagle-2026.png' },
-      { keywords: ['2026 필하모닉', '2026 philharmonic'],                  file: 'products-philharmonic-2026.png' },
-      { keywords: ['2026 크루거', '2026 krugerrand'],                      file: 'products-krugerrand-2026.png' },
-      { keywords: ['2026 판다', '2026 panda'],                             file: 'products-panda-2026.png' },
-      { keywords: ['2026 코뿔소', '2026 rhino'],                           file: 'products-rhino-2026.png' },
-      { keywords: ['2026 성조지', '2026 세인트조지', '2026 george'],       file: 'products-st-george-dragon-2026.png' },
-      { keywords: ['2026 퀸즈라이언', '2026 queens lion'],                 file: 'products-queens-lion-2026.png' },
-      { keywords: ['2026 라이언이글', '2026 lion eagle'],                  file: 'products-lion-eagle-2026.png' },
-      { keywords: ['2026 말띠', '2026 horse', '2026 year of horse'],       file: 'products-horse-2026.png' },
-      { keywords: ['2026 네스호', '2026 loch ness'],                       file: 'products-loch-ness-2026.png' },
-      { keywords: ['2026 스완', '2026 swan'],                              file: 'products-swan-2026.png' },
-      { keywords: ['2026 체코라이언', '2026 czech lion'],                  file: 'products-czech-lion-2026.png' },
-      { keywords: ['2026 아웃백', '2026 outback'],                         file: 'products-outback-2026.png' },
-      { keywords: ['2026 케이브라이언', '2026 cave lion'],                 file: 'products-cave-lion-2026.png' },
-      { keywords: ['2026 로얄드래곤', '2026 royal dragon'],                file: 'products-royal-dragon-2026.png' },
-      { keywords: ['2026 브리티시라이언', '2026 british lion'],            file: 'products-british-lion-2026.png' },
-      { keywords: ['2025 레이디저스티스', '2025 lady justice'],            file: 'products-lady-justice-2025.png' },
-    ];
+    // ===== IMAGE_MAP / getImageForProduct / getCategoryFilter /
+    // createProductCard / SHEET_ID / fetchProductsFromSheet는
+    // products.js(공용 파일)로 이동함. 이 페이지(coins.html)는
+    // products.js를 <script src="products.js">로 먼저 로드해서 사용함.
 
-    function getImageForProduct(name) {
-      const lower = name.toLowerCase();
-      for (const entry of IMAGE_MAP) {
-        if (entry.keywords.some(k => lower.includes(k))) return `images/${entry.file}`;
-      }
-      return null;
-    }
+    // coins.html 전용 카드 옵션: 클릭 시 coin-detail.html?name=... 으로
+    // 이동, 가격 미로딩 시 "로딩중..." 표시, lazy 이미지 적용 — 기존 동작 그대로.
+    const COINS_CARD_OPTIONS = {
+      linkTemplate: (product) => `coin-detail.html?name=${encodeURIComponent(product.name)}`,
+      loadingPriceText: '로딩중...',
+      lazyImage: true,
+      soldoutBtnText: '상품 보기', // coins.html은 품절 상품도 "상품 보기" 버튼 노출
+    };
 
-    function getCategoryFilter(category) {
-      const map = {
-        'gold_1oz': 'gold', 'gold': 'gold',
-        'silver_1oz': 'silver', 'silver': 'silver',
-        'collectible': 'collectible', 'other': 'other',
-        'accessories': 'accessories', 'merchandise': 'merchandise'
-      };
-      return map[category] || category;
-    }
-
-    // ===== 카드 생성 =====
-    function createProductCard(product, krwPrice) {
-      const { name, brand, category, premium, available } = product;
-      const imgSrc = getImageForProduct(name);
-      const filterCategory = getCategoryFilter(category);
-      const price = krwPrice
-        ? `₩${(Math.round(krwPrice * premium / 1000) * 1000).toLocaleString()}`
-        : '로딩중...';
-      const imgHTML = imgSrc
-        ? `<img src="${imgSrc}" alt="${name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-        : '';
-      const placeholderHTML = `<div class="product-img-placeholder" style="${imgSrc ? 'display:none' : 'display:flex'}"><span>${name.substring(0, 6)}</span></div>`;
-      const isAvailable = available === 'TRUE' || available === true;
-
-      const detailUrl = `coin-detail.html?name=${encodeURIComponent(name)}`;
-
-      let btnHTML;
-      if (!isAvailable) {
-        btnHTML = `<button class="btn-cart btn-soldout" onclick="event.stopPropagation(); location.href='${detailUrl}'">상품 보기</button>`;
-      } else {
-        btnHTML = `<button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='${detailUrl}'">상품 보기</button>`;
-      }
-
-      return `
-        <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}"
-          onclick="location.href='${detailUrl}'">
-          <div class="product-img-area">
-            ${imgHTML}${placeholderHTML}
-            ${!isAvailable ? '<div class="soldout-overlay"><span>SOLD OUT</span></div>' : ''}
-          </div>
-          <div class="product-info">
-            <p class="product-brand">${brand}</p>
-            <h3 class="product-name">${name}</h3>
-            <div class="product-price-wrap">
-              <span class="product-price card-price">${price}</span>
-            </div>
-            <div class="btn-cart-wrap">${btnHTML}</div>
-          </div>
-        </div>`;
-    }
-
-    // ===== 구글 시트 연동 =====
-    const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
     let currentKrwPrice = null;
     let productsData = [];
 
     async function loadProducts() {
       try {
-        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=상품`;
-        const res = await fetch(url);
-        const text = await res.text();
-        const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
-        const rows = json.table.rows;
-        productsData = rows.map(row => ({
-          name:      row.c[0]?.v || '',
-          brand:     row.c[1]?.v || '',
-          category:  row.c[2]?.v || 'gold',
-          premium:   parseFloat(row.c[3]?.v) || 1.03,
-          available: String(row.c[4]?.v).toUpperCase(),
-          same_day:  String(row.c[5]?.v).toUpperCase(),
-          visible:   row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',
-          order:     row.c[7] ? parseInt(row.c[7].v) || 9999 : 9999,
-        })).filter(p => p.name && (p.visible === 'all' || p.visible === 'coins'));
-
+        productsData = await fetchProductsFromSheet({ visibleValues: ['all', 'coins'] });
         renderProducts();
       } catch (e) {
         console.error('상품 목록 로딩 오류:', e);
@@ -321,7 +235,7 @@
         grid.parentNode.insertBefore(banner, grid);
       }
 
-      grid.innerHTML = sorted.map(p => createProductCard(p, currentKrwPrice)).join('');
+      grid.innerHTML = sorted.map(p => createProductCard(p, currentKrwPrice, COINS_CARD_OPTIONS)).join('');
 
       const activeTab = document.querySelector('.ptab.active');
       if (activeTab) {
