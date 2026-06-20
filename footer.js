@@ -30,7 +30,7 @@
                삭제함 (2026-06-21). 각 페이지가 생기면 다시 추가. -->
         </ul>
       </div>
-      <div class="footer-locations" id="footer-locations">
+      <div class="footer-locations">
         <h4>오시는 길</h4>
         <div class="location-grid">
           <div class="location-item">
