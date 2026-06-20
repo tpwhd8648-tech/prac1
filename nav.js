@@ -241,10 +241,10 @@
     mobile.innerHTML = `
       <button class="mobile-menu-close" id="mobile-menu-close">✕</button>
       <ul>
-        <li><a href="#" id="mobile-auth-link" class="auth-btn-pending">로그인</a></li>
         <li><a href="coins.html">금화 보기</a></li>
         <li><a href="gold-price.html">금 시세</a></li>
         <li><a href="contact.html">구매 문의</a></li>
+        <li><a href="#" id="mobile-auth-link" class="auth-btn-pending">로그인</a></li>
       </ul>`;
   }
 
