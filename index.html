@@ -236,23 +236,10 @@
   <!-- Footer -->
   <footer id="site-footer"></footer>
 
-  <!-- Cart Sidebar -->
-  <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
-  <div class="cart-sidebar" id="cart-sidebar">
-    <div class="cart-header">
-      <h3>장바구니</h3>
-      <button onclick="closeCart()">✕</button>
-    </div>
-    <div class="cart-items" id="cart-items">
-      <div class="cart-empty"><p>장바구니가 비어있습니다</p></div>
-    </div>
-    <div class="cart-footer" id="cart-footer" style="display:none">
-      <div class="cart-total"><span>합계</span><span id="cart-total-price">₩0</span></div>
-      <button class="btn-checkout">구매 문의하기</button>
-    </div>
-  </div>
-
-  <div class="toast" id="toast"></div>
+  <!-- 장바구니 사이드바: 사용자 결정으로 제거함. 담기 버튼이 사이트
+       어디에도 없어 진입점이 없는 죽은 UI였고, 구매 문의는
+       coin-detail.html의 단일 "구매 문의하기"(카카오톡 연결) 버튼으로
+       통일됨. (toast 알림 UI도 같이 정리함) -->
 
   <script type="module" src="auth.js"></script>
   <script src="footer.js"></script>

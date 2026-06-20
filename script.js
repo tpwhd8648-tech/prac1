@@ -42,84 +42,9 @@ document.querySelectorAll('.ptab').forEach(tab => {
   });
 });
 
-// ===== CART =====
-let cart = [];
-
-function openCart() {
-  document.getElementById('cart-sidebar').classList.add('open');
-  document.getElementById('cart-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeCart() {
-  document.getElementById('cart-sidebar').classList.remove('open');
-  document.getElementById('cart-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function getCardPrice(btn) {
-  const card = btn.closest('.product-card');
-  const priceEl = card.querySelector('.product-price');
-  const raw = priceEl.textContent.replace(/[₩,]/g, '').trim();
-  return parseInt(raw) || 0;
-}
-
-function addToCart(btn, name, price) {
-  if (!price || price === 0) {
-    showToast('가격 로딩 중입니다. 잠시 후 다시 시도해주세요.');
-    return;
-  }
-  const existing = cart.find(i => i.name === name);
-  if (existing) {
-    existing.qty++;
-  } else {
-    cart.push({ name, price, qty: 1 });
-  }
-  updateCartUI();
-  showToast(`${name} 장바구니에 담겼습니다`);
-  btn.textContent = '✓ 담겼습니다';
-  setTimeout(() => { btn.textContent = '장바구니 담기'; }, 2000);
-}
-
-function removeFromCart(index) {
-  cart.splice(index, 1);
-  updateCartUI();
-}
-
-function updateCartUI() {
-  const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-  const count = cart.reduce((sum, i) => sum + i.qty, 0);
-  const cartCountEl = document.querySelector('.cart-count');
-  if (cartCountEl) cartCountEl.textContent = count;
-  const cartTotalEl = document.getElementById('cart-total-price');
-  if (cartTotalEl) cartTotalEl.textContent = `₩${total.toLocaleString()}`;
-
-  const itemsEl = document.getElementById('cart-items');
-  const footerEl = document.getElementById('cart-footer');
-  if (!itemsEl || !footerEl) return;
-
-  if (cart.length === 0) {
-    itemsEl.innerHTML = `<div class="cart-empty"><p>장바구니가 비어있습니다</p></div>`;
-    footerEl.style.display = 'none';
-  } else {
-    itemsEl.innerHTML = cart.map((item, i) => `
-      <div class="cart-item">
-        <div class="cart-item-name">${item.name}${item.qty > 1 ? ` × ${item.qty}` : ''}</div>
-        <div class="cart-item-price">₩${(item.price * item.qty).toLocaleString()}</div>
-        <button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button>
-      </div>`).join('');
-    footerEl.style.display = 'block';
-  }
-}
-
-// ===== TOAST =====
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3000);
-}
-
-// ===== 상품 카드 / 이미지 매핑 / 시트 로딩 공용 로직 =====
+// ===== 장바구니/TOAST 관련 함수: 장바구니 사이드바 제거에 따라
+// 함께 삭제함 (openCart/closeCart/getCardPrice/addToCart/removeFromCart/
+// updateCartUI/showToast — 모두 호출하는 곳이 없던 죽은 코드였음)
 // IMAGE_MAP, getImageForProduct, getCategoryFilter, createProductCard,
 // SHEET_ID, fetchProductsFromSheet는 products.js(공용 파일)로 이동함.
 // index.html에서 products.js를 script.js보다 먼저 로드해야 함.

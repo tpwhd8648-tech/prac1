@@ -64,22 +64,10 @@
 
   <footer id="site-footer"></footer>
 
-  <!-- Cart Sidebar -->
-  <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
-  <div class="cart-sidebar" id="cart-sidebar">
-    <div class="cart-header">
-      <h3>장바구니</h3>
-      <button onclick="closeCart()">✕</button>
-    </div>
-    <div class="cart-items" id="cart-items">
-      <div class="cart-empty"><p>장바구니가 비어있습니다</p></div>
-    </div>
-    <div class="cart-footer" id="cart-footer" style="display:none">
-      <div class="cart-total"><span>합계</span><span id="cart-total-price">₩0</span></div>
-      <button class="btn-checkout">구매 문의하기</button>
-    </div>
-  </div>
-  <div class="toast" id="toast"></div>
+  <!-- 장바구니 사이드바: 사용자 결정으로 제거함. 담기 버튼이 사이트
+       어디에도 없어 진입점이 없는 죽은 UI였고, 구매 문의는
+       coin-detail.html의 단일 "구매 문의하기"(카카오톡 연결) 버튼으로
+       통일됨. (이 페이지에서만 쓰이던 toast 알림 UI도 같이 정리함) -->
 
   <script type="module" src="auth.js"></script>
   <script src="footer.js"></script>
@@ -125,57 +113,9 @@
       });
     });
 
-    // ===== CART =====
-    let cart = [];
-
-    function openCart() {
-      document.getElementById('cart-sidebar').classList.add('open');
-      document.getElementById('cart-overlay').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeCart() {
-      document.getElementById('cart-sidebar').classList.remove('open');
-      document.getElementById('cart-overlay').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    function getCardPrice(btn) {
-      const card = btn.closest('.product-card');
-      const priceEl = card.querySelector('.product-price');
-      const raw = priceEl.textContent.replace(/[₩,]/g, '').trim();
-      return parseInt(raw) || 0;
-    }
-    function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
-    function updateCartUI() {
-      const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-      const count = cart.reduce((sum, i) => sum + i.qty, 0);
-      const countEl = document.querySelector('.cart-count');
-      if (countEl) countEl.textContent = count;
-      document.getElementById('cart-total-price').textContent = `₩${total.toLocaleString()}`;
-      const itemsEl = document.getElementById('cart-items');
-      const footerEl = document.getElementById('cart-footer');
-      if (cart.length === 0) {
-        itemsEl.innerHTML = `<div class="cart-empty"><p>장바구니가 비어있습니다</p></div>`;
-        footerEl.style.display = 'none';
-      } else {
-        itemsEl.innerHTML = cart.map((item, i) => `
-          <div class="cart-item">
-            <div class="cart-item-name">${item.name}${item.qty > 1 ? ` × ${item.qty}` : ''}</div>
-            <div class="cart-item-price">₩${(item.price * item.qty).toLocaleString()}</div>
-            <button class="cart-item-remove" onclick="removeFromCart(${i})">✕</button>
-          </div>`).join('');
-        footerEl.style.display = 'block';
-      }
-    }
-
-    // ===== TOAST =====
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    // ===== IMAGE_MAP / getImageForProduct / getCategoryFilter /
+    // ===== 장바구니/TOAST 관련 함수: 장바구니 사이드바 제거에 따라
+    // 함께 삭제함 (openCart/closeCart/getCardPrice/removeFromCart/
+    // updateCartUI/showToast — 모두 호출하는 곳이 없던 죽은 코드였음)
     // createProductCard / SHEET_ID / fetchProductsFromSheet는
     // products.js(공용 파일)로 이동함. 이 페이지(coins.html)는
     // products.js를 <script src="products.js">로 먼저 로드해서 사용함.
