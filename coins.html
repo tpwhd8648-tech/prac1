@@ -95,6 +95,23 @@
       return div.innerHTML;
     }
 
+    // 한글 합성어 오매칭 방지: 키워드 앞/뒤에 다른 한글 글자가 바로 붙어있으면
+    // 별개 단어(예: '라이언이글'의 '이글')로 보고 제외한다.
+    function matchesKeyword(name, keyword) {
+      const lowerName = name.toLowerCase();
+      const lowerKeyword = keyword.toLowerCase();
+      const isHangul = ch => /[\uac00-\ud7a3]/.test(ch);
+      let idx = lowerName.indexOf(lowerKeyword);
+      while (idx !== -1) {
+        const before = idx === 0 ? '' : lowerName[idx - 1];
+        const afterIdx = idx + lowerKeyword.length;
+        const after = afterIdx >= lowerName.length ? '' : lowerName[afterIdx];
+        if (!isHangul(before) && !isHangul(after)) return true;
+        idx = lowerName.indexOf(lowerKeyword, idx + 1);
+      }
+      return false;
+    }
+
     // ===== PRODUCT TABS =====
     document.querySelectorAll('.ptab').forEach(tab => {
       tab.addEventListener('click', () => {
@@ -285,7 +302,7 @@
 
       let matched = true;
       if (queryKeyword) {
-        const filtered = sorted.filter(p => p.name.toLowerCase().includes(queryKeyword.toLowerCase()));
+        const filtered = sorted.filter(p => matchesKeyword(p.name, queryKeyword));
         if (filtered.length > 0) {
           sorted = filtered;
         } else {
