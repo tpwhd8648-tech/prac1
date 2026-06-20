@@ -283,24 +283,25 @@
         return a.order - b.order;
       });
 
+      let matched = true;
       if (queryKeyword) {
-        sorted = sorted.filter(p => p.name.toLowerCase().includes(queryKeyword.toLowerCase()));
+        const filtered = sorted.filter(p => p.name.toLowerCase().includes(queryKeyword.toLowerCase()));
+        if (filtered.length > 0) {
+          sorted = filtered;
+        } else {
+          matched = false; // 일치하는 상품 없으면 필터 없이 전체 상품 표시
+        }
       }
 
       // 키워드 필터 안내 배너 (있으면 중복 추가 방지를 위해 먼저 제거)
       const existingBanner = document.getElementById('query-filter-banner');
       if (existingBanner) existingBanner.remove();
-      if (queryKeyword) {
+      if (queryKeyword && matched) {
         const banner = document.createElement('div');
         banner.id = 'query-filter-banner';
         banner.style.cssText = 'grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:13px;color:#666;font-family:"Noto Sans KR",sans-serif;';
         banner.innerHTML = `<span>'${escapeHTML(queryKeyword)}' 검색 결과</span><a href="coins.html" style="color:#C8A84B;text-decoration:none;">전체 상품 보기 ›</a>`;
         grid.parentNode.insertBefore(banner, grid);
-      }
-
-      if (queryKeyword && sorted.length === 0) {
-        grid.innerHTML = `<p style="grid-column:1/-1;color:#888;text-align:center;padding:2rem;font-family:'Noto Sans KR',sans-serif;">'${escapeHTML(queryKeyword)}' 관련 상품을 찾지 못했습니다.<br><a href="coins.html" style="color:#C8A84B;">전체 상품 보기 ›</a></p>`;
-        return;
       }
 
       grid.innerHTML = sorted.map(p => createProductCard(p, currentKrwPrice)).join('');
