@@ -120,11 +120,6 @@ const COIN_DESCRIPTIONS = [
     specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
-    keywords: ['2026 세인트조지드래곤', '2026 st george dragon'],
-    detail: `'성 조지와 용' 도안을 주제로 한 골드 코인입니다. 용을 물리치는 기사의\n모습은 승리와 보호를 상징하는 유럽의 대표적인 전통 도안으로, 묵직한 존재감의\n부조 디자인이 특징입니다.`,
-    specs: { year: '2026', mint: '확인 중', country: '확인 중', purity: '확인 중', weight: '1oz (31.1g)', diameter: '확인 중', thickness: '확인 중', condition: 'Brilliant Uncirculated', verified: false }
-  },
-  {
     keywords: ['2025 레이디저스티스', '2025 lady justice'],
     detail: `독일 게르마니아 민트(Germania Mint)가 발행하는 '레이디 저스티스(Lady Justice)'\n시리즈 골드 코인입니다. 정의의 여신 유스티치아(Justitia)를 형상화한 디자인으로,\n공정함과 균형을 상징합니다. 매년 색상·디자인이 조금씩 변형되어 발행되며\n순도 99.99%(.9999) 순금으로 제작됩니다.`,
     specs: { year: '2025', mint: '게르마니아 민트 (Germania Mint)', country: '독일', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }

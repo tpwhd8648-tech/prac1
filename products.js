@@ -52,7 +52,6 @@ const IMAGE_MAP = [
   { keywords: ['2026 케이브라이언', '2026 cave lion'],                 file: 'products-cave-lion-2026.png' },
   { keywords: ['2026 로얄드래곤', '2026 royal dragon'],                file: 'products-royal-dragon-2026.png' },
   { keywords: ['2026 브리티시라이언', '2026 british lion'],            file: 'products-british-lion-2026.png' },
-  { keywords: ['2026 세인트조지드래곤', '2026 st george dragon'],      file: 'products-st-george-dragon-2026.png' },
   { keywords: ['2025 레이디저스티스', '2025 lady justice'],            file: 'products-lady-justice-2025.png' },
 ];
 
