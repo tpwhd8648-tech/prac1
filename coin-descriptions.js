@@ -57,7 +57,7 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 판다', '2026 panda'],
     detail: `중국조폐총공사(China Gold Coin Incorporation)가 발행하는 중국의 대표 골드 불리온\n코인입니다. 1982년 첫 발행 이후 자이언트 판다 도안이 매년 새롭게 바뀌는 것이\n가장 큰 특징으로, 코인 자체의 투자 가치와 더불어 매년 다른 도안을 모으는 컬렉터들\n사이에서도 인기가 높습니다. 순도 99.9% 이상의 높은 순도로 제작됩니다.`,
-    specs: { year: '2026', mint: '중국조폐총공사 (China Gold Coin Incorporation)', country: '중국', purity: '99.9% 이상 (.999+) 순금', weight: '1oz (31.1g)', diameter: '32mm', thickness: '2.7mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '중국조폐총공사 (China Gold Coin Incorporation)', country: '중국', purity: '99.9% 이상 (.999+) 순금', weight: '30g', diameter: '32mm', thickness: '2.7mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 성조지', '2026 세인트조지', '2026 george'],
