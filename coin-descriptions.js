@@ -60,11 +60,6 @@ const COIN_DESCRIPTIONS = [
     specs: { year: '2026', mint: '중국조폐총공사 (China Gold Coin Incorporation)', country: '중국', purity: '99.9% 이상 (.999+) 순금', weight: '1oz (31.1g)', diameter: '32mm', thickness: '2.7mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
-    keywords: ['2026 코뿔소', '2026 rhino'],
-    detail: `남아공 조폐국이 발행하는 'Big Five' 시리즈 중 코뿔소를 주제로 한 골드 불리온\n코인입니다. 아프리카를 대표하는 5대 동물(빅 파이브)을 매년 순서대로 다루는\n시리즈로, 멸종 위기종 보호 메시지를 함께 담고 있어 투자 가치와 의미를 동시에\n지닌 코인으로 평가받습니다. 순도 99.99%(.9999) 순금으로 제작됩니다.`,
-    specs: { year: '2026', mint: '남아공 조폐국 (South African Mint)', country: '남아프리카공화국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '확인 중', thickness: '확인 중', condition: 'Brilliant Uncirculated', verified: true }
-  },
-  {
     keywords: ['2026 성조지', '2026 세인트조지', '2026 george'],
     detail: `'성 조지와 용(St George and the Dragon)' 도안을 모티프로 한 골드 코인입니다.\n용을 물리치는 기사 성 조지의 모습은 유럽 동전 도안 중에서도 가장 오랜 전통을\n가진 상징적인 이미지로, 승리와 보호의 의미를 담고 있어 선물용으로도 선호됩니다.`,
     specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }

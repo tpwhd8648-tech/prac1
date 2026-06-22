@@ -40,7 +40,6 @@ const IMAGE_MAP = [
   { keywords: ['2026 필하모닉', '2026 philharmonic'],                  file: 'products-philharmonic-2026.png' },
   { keywords: ['2026 크루거', '2026 krugerrand'],                      file: 'products-krugerrand-2026.png' },
   { keywords: ['2026 판다', '2026 panda'],                             file: 'products-panda-2026.png' },
-  { keywords: ['2026 코뿔소', '2026 rhino'],                           file: 'products-rhino-2026.png' },
   { keywords: ['2026 성조지', '2026 세인트조지', '2026 george'],       file: 'products-st-george-dragon-2026.png' },
   { keywords: ['2026 퀸즈라이언', '2026 queens lion'],                 file: 'products-queens-lion-2026.png' },
   { keywords: ['2026 라이언이글', '2026 lion eagle'],                  file: 'products-lion-eagle-2026.png' },
