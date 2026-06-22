@@ -97,7 +97,7 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 아웃백', '2026 outback'],
     detail: `호주 퍼스 민트가 발행하는 'Australian Outback' 시리즈 골드 불리온 코인입니다.\n호주 내륙(아웃백)의 광활한 자연과 야생동물을 테마로 하며, 매년 새로운 도안으로\n발행되어 컬렉터들의 수집 욕구를 자극합니다. 순도 99.99%(.9999) 순금으로 제작됩니다.`,
-    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.1mm', thickness: '2.65mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.6mm', thickness: '2.65mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 케이브라이언', '2026 cave lion'],
