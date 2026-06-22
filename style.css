@@ -147,8 +147,11 @@ img { max-width: 100%; display: block; }
 .product-img-area img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.4s; }
 .product-card:hover .product-img-area img { transform: scale(1.05); }
 
-/* ===== 당일수령 뱃지 (상품 카드 / 상세페이지 공용) =====
-   사이트 기본 골드 톤(--gold)을 유지해 차분하게 표시한다. */
+/* ===== 뱃지 (상품 카드 / 상세페이지 공용) ===== */
+@keyframes badge-shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
 .badge-instock,
 .badge-presale {
   position: absolute;
@@ -161,16 +164,19 @@ img { max-width: 100%; display: block; }
   font-weight: 500;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  border: none;
+  background-size: 300% auto;
+  animation: badge-shimmer linear infinite;
 }
 .badge-instock {
-  background: rgba(184, 134, 11, 0.12);
-  color: var(--gold);
-  border: 1px solid rgba(184, 134, 11, 0.3);
+  background-image: linear-gradient(90deg, #d4ae3a, #d4ae3a, #f5e080, #d4ae3a, #d4ae3a);
+  color: #4a2e00;
+  animation-duration: 12s;
 }
 .badge-presale {
-  background: rgba(205, 127, 50, 0.12);
-  color: #cd7f32;
-  border: 1px solid rgba(205, 127, 50, 0.3);
+  background-image: linear-gradient(90deg, #d4bc70, #d4bc70, #eada9e, #d4bc70, #d4bc70);
+  color: #6a5010;
+  animation-duration: 16s;
 }
 
 .product-info {
