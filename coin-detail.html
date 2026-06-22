@@ -67,8 +67,6 @@
     .product-price-value.loading { font-size: 16px; color: #999; font-family: 'Noto Sans KR', sans-serif; }
     .product-price-note { font-size: 11px; color: #aaa; font-family: 'Noto Sans KR', sans-serif; margin-top: 4px; }
 
-    .product-description { font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: #555; line-height: 1.9; white-space: pre-line; }
-
     .btn-inquiry {
       display: block; width: 100%; padding: 16px;
       background: #C8A84B; color: #fff;
@@ -89,6 +87,25 @@
     .btn-back-coins:hover { border-color: #999; color: #444; }
 
     .soldout-badge { display: inline-block; padding: 6px 16px; background: #2a2a2a; color: #666; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 3px; border: 1px solid #333; }
+
+    /* ── 상세 탭 (상품설명 / 상품정보 / 구매안내) ── */
+    .detail-tabs-section { margin-top: 56px; }
+    .detail-tabs { display: flex; gap: 0; border-bottom: 2px solid #e8e4d9; margin-bottom: 28px; flex-wrap: wrap; }
+    .dtab { background: none; border: none; padding: 12px 24px; font-size: 14px; font-family: 'Noto Sans KR', sans-serif; color: #888; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+    .dtab.active, .dtab:hover { color: #C8A84B; border-bottom-color: #C8A84B; font-weight: 600; }
+    @media (max-width: 480px) { .dtab { padding: 10px 14px; font-size: 13px; } }
+
+    .detail-tab-panel { display: none; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: #555; line-height: 1.9; max-width: 760px; }
+    .detail-tab-panel.active { display: block; }
+    .tab-short-desc { white-space: pre-line; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dashed #e8e4d9; }
+    .tab-detail-desc { white-space: pre-line; }
+    .tab-empty-note { color: #aaa; font-size: 13px; }
+
+    .spec-table { width: 100%; border-collapse: collapse; }
+    .spec-table tr { border-bottom: 1px solid #eee; }
+    .spec-table th { text-align: left; width: 110px; padding: 14px 0; color: #999; font-weight: 500; font-size: 13px; vertical-align: top; }
+    .spec-table td { padding: 14px 0; color: #333; }
+    .spec-unverified-note { margin-top: 18px; font-size: 12px; color: #bbb; line-height: 1.6; }
 
     .detail-loading { display: flex; flex-direction: column; align-items: center; padding: 6rem 0; gap: 1rem; color: #888; }
     .loading-spinner { width: 36px; height: 36px; border: 3px solid #2a2a2a; border-top-color: #C8A84B; border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -128,6 +145,7 @@
   <script src="footer.js"></script>
   <script src="nav.js"></script>
   <script src="products.js"></script>
+  <script src="coin-descriptions.js"></script>
   <script>
     function buildImageList(imageFile) {
       if (!imageFile) return [];
@@ -177,6 +195,48 @@
         ? `<a href="https://open.kakao.com/o/sB6Gduni" target="_blank" rel="noopener noreferrer" class="btn-inquiry" id="inquiry-btn">구매 문의하기</a>`
         : `<div style="text-align:center;padding:12px 0;"><span class="soldout-badge">현재 품절된 상품입니다</span></div>`;
 
+      const coinExtra = (typeof getCoinDescription === 'function') ? getCoinDescription(name) : null;
+      const detailText = coinExtra ? coinExtra.detail.trim() : '';
+      const specs = coinExtra ? coinExtra.specs : null;
+
+      const descTabHTML = `
+        ${description ? `<div class="tab-short-desc">${description}</div>` : ''}
+        ${detailText
+          ? `<div class="tab-detail-desc">${detailText}</div>`
+          : (!description ? `<p class="tab-empty-note">상세 설명이 준비 중입니다.</p>` : '')}
+      `;
+
+      const infoTabHTML = specs ? `
+        <table class="spec-table">
+          <tr><th>발행처</th><td>${specs.mint}</td></tr>
+          <tr><th>발행국</th><td>${specs.country}</td></tr>
+          <tr><th>순도</th><td>${specs.purity}</td></tr>
+          <tr><th>중량</th><td>${specs.weight}</td></tr>
+        </table>
+        ${specs.verified === false ? `<p class="spec-unverified-note">* 위 발행처/순도 정보는 최종 확인 전 추정치입니다. 정확한 스펙은 구매 문의 시 안내해 드립니다.</p>` : ''}
+      ` : `<p class="tab-empty-note">상품정보가 준비 중입니다. 구매 문의를 통해 정확한 스펙을 안내받으실 수 있습니다.</p>`;
+
+      const guideTabHTML = `
+        <p>본 상품의 판매가는 실시간 국제 금 시세와 환율을 반영하여 매일 변동됩니다.</p>
+        <p>구매를 원하시면 하단의 [구매 문의하기] 버튼을 통해 카카오톡 채널로 문의해 주세요.
+        담당자가 결제 방법, 배송(또는 매장 수령), 정품 보증서 발급 등을 안내해 드립니다.</p>
+        <p>상품 이미지의 IN STOCK / PRE SALE 뱃지로 당일 수령 가능 여부를 확인할 수 있습니다.</p>
+        <p>교환·환불 등 세부 정책은 문의 시 담당자를 통해 정확히 안내받으실 수 있습니다.</p>
+      `;
+
+      const detailTabsHTML = `
+        <div class="detail-tabs-section">
+          <div class="detail-tabs">
+            <button class="dtab active" data-tab="desc" onclick="switchDetailTab('desc')">상품설명</button>
+            <button class="dtab" data-tab="info" onclick="switchDetailTab('info')">상품정보</button>
+            <button class="dtab" data-tab="guide" onclick="switchDetailTab('guide')">구매안내</button>
+          </div>
+          <div class="detail-tab-panel active" data-panel="desc">${descTabHTML}</div>
+          <div class="detail-tab-panel" data-panel="info">${infoTabHTML}</div>
+          <div class="detail-tab-panel" data-panel="guide">${guideTabHTML}</div>
+        </div>
+      `;
+
       document.getElementById('detail-content').innerHTML = `
         <div class="product-detail">
           <div class="gallery">
@@ -197,13 +257,18 @@
               <div class="product-price-label">판매가</div>
               ${priceHTML}
             </div>
-            ${description ? `<div class="product-description">${description}</div>` : ''}
             <div>
               ${inquiryBtn}
               <a href="coins.html" class="btn-back-coins">← 목록으로 돌아가기</a>
             </div>
           </div>
-        </div>`;
+        </div>
+        ${detailTabsHTML}`;
+    }
+
+    function switchDetailTab(tabName) {
+      document.querySelectorAll('.dtab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
+      document.querySelectorAll('.detail-tab-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === tabName));
     }
 
     function switchImage(index) {
