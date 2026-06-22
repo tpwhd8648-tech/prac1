@@ -92,7 +92,7 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 체코라이언', '2026 czech lion'],
     detail: `체코 조폐국(Czech Mint)이 발행하는 체코 사자(Czech Lion) 골드 불리온 코인입니다.\n체코의 국가 문장에 등장하는 쌍꼬리 사자를 모티프로 하며, 정교한 디테일과\n유럽 중부 조폐국 특유의 정밀한 타각 기술이 특징입니다. 순도 99.99%(.9999)\n순금으로 제작됩니다.`,
-    specs: { year: '2026', mint: '체코 조폐국 (Czech Mint)', country: '니우에', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '37mm', thickness: '확인 중', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '체코 조폐국 (Czech Mint)', country: '니우에', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '37mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 아웃백', '2026 outback'],
@@ -102,7 +102,7 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 케이브라이언', '2026 cave lion'],
     detail: `선사시대에 서식했던 '케이브라이언(동굴사자)'을 주제로 한 이색 테마 골드 코인입니다.\n멸종된 고대 동물을 정교한 부조로 재현해 자연사·고생물학에 관심 있는 컬렉터들\n사이에서 특별한 소장 가치를 지닙니다.`,
-    specs: { year: '2026', mint: '게르마니아 민트 (Germania Mint)', country: '라이베리아', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32mm', thickness: '확인 중', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '게르마니아 민트 (Germania Mint)', country: '라이베리아', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 로얄드래곤', '2026 royal dragon'],
