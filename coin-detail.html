@@ -209,6 +209,42 @@
       const detailText = coinExtra ? coinExtra.detail.trim() : '';
       const specs = coinExtra ? coinExtra.specs : null;
 
+      // JSON-LD Product 구조화 데이터 — 고정 스펙 기반으로 head에 삽입
+      // (가격은 실시간 연동이라 제외, 네이버/구글 크롤러가 읽는 용도)
+      const existingLd = document.getElementById('ld-product');
+      if (existingLd) existingLd.remove();
+      if (specs) {
+        const imageFile = image || '';
+        const baseImg = imageFile.replace(/\.png$/i, '');
+        const ldData = {
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: name,
+          description: (detailText || description || '').replace(/\n/g, ' ').substring(0, 300),
+          image: `https://tpwhd8648-tech.github.io/images/${baseImg}.png`,
+          brand: { '@type': 'Brand', name: brand || 'MIDAS BULLION' },
+          offers: {
+            '@type': 'Offer',
+            url: `https://tpwhd8648-tech.github.io/coin-detail.html?name=${encodeURIComponent(name)}`,
+            priceCurrency: 'KRW',
+            availability: isAvailable ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+            seller: { '@type': 'Organization', name: 'MIDAS BULLION' }
+          },
+          additionalProperty: [
+            { '@type': 'PropertyValue', name: '순도', value: specs.purity },
+            { '@type': 'PropertyValue', name: '중량', value: specs.weight },
+            { '@type': 'PropertyValue', name: '발행처', value: specs.mint },
+            { '@type': 'PropertyValue', name: '발행국', value: specs.country },
+            ...(specs.diameter ? [{ '@type': 'PropertyValue', name: '직경', value: specs.diameter }] : []),
+          ]
+        };
+        const ldScript = document.createElement('script');
+        ldScript.type = 'application/ld+json';
+        ldScript.id = 'ld-product';
+        ldScript.textContent = JSON.stringify(ldData);
+        document.head.appendChild(ldScript);
+      }
+
       const descTabHTML = `
         ${description ? `<div class="tab-short-desc">${description}</div>` : ''}
         ${detailText
