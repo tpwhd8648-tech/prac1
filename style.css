@@ -286,6 +286,7 @@ img { max-width: 100%; display: block; }
   .brand-grid { grid-template-columns: repeat(2, 1fr); }
   .product-tabs { gap: 0; }
   .ptab { padding: 8px 12px; font-size: 12px; }
+  .badge-sameday { font-size: 9px; padding: 2px 5px; top: 6px; right: 6px; letter-spacing: 0; }
 }
 
 /* ===== 로그인 버튼 (헤더) ===== */
