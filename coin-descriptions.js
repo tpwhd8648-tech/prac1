@@ -32,12 +32,12 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 캥거루', '2026 kangaroo'],
     detail: `호주 퍼스 민트(Perth Mint)가 발행하는 골드 불리온 코인으로, 'Australian Kangaroo'\n시리즈로도 불립니다. 순도 99.99%(.9999) 순금이며, 매년 새롭게 디자인되는 캥거루\n도안이 특징으로 컬렉터들 사이에서도 수집 가치가 높습니다. 퍼스 민트의 엄격한\n품질 관리와 정부 보증 덕분에 신뢰도가 높고, 유럽·아시아 시장에서도 활발히 거래됩니다.`,
-    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.1mm', thickness: '2.65mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.6mm', thickness: '2.65mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 버팔로', '2026 buffalo'],
     detail: `미국 조폐국(United States Mint)이 발행하는 미국 최초의 99.99% 순금 불리온 코인입니다.\n1913년 미국 5센트 동전(버팔로 니켈) 디자인을 그대로 계승해 아메리카 들소와\n아메리카 원주민 초상이 새겨져 있습니다. 아메리칸 이글과 달리 합금 없이 순금\n99.99%로 제작되어, 순도를 중시하는 투자자들에게 특히 선호됩니다.`,
-    specs: { year: '2026', mint: '미국 조폐국 (United States Mint)', country: '미국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '미국 조폐국 (United States Mint)', country: '미국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.7mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 이글', '2026 eagle'],
