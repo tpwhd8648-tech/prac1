@@ -116,8 +116,8 @@ const COIN_DESCRIPTIONS = [
   },
   {
     keywords: ['2025 레이디저스티스', '2025 lady justice'],
-    detail: `독일 게르마니아 민트(Germania Mint)가 발행하는 '레이디 저스티스(Lady Justice)'\n시리즈 골드 코인입니다. 정의의 여신 유스티치아(Justitia)를 형상화한 디자인으로,\n공정함과 균형을 상징합니다. 매년 색상·디자인이 조금씩 변형되어 발행되며\n순도 99.99%(.9999) 순금으로 제작됩니다.`,
-    specs: { year: '2025', mint: '게르마니아 민트 (Germania Mint)', country: '독일', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
+    detail: `니우에(Niue)에서 발행되고 스코츠데일 민트(Scottsdale Mint)가 제조하는 '레이디 저스티스(Lady Justice)'\n시리즈 골드 코인입니다. 정의의 여신 유스티치아(Justitia)를 형상화한 디자인으로,\n공정함과 균형을 상징합니다. 매년 색상·디자인이 조금씩 변형되어 발행되며\n순도 99.99%(.9999) 순금으로 제작됩니다.`,
+    specs: { year: '2025', mint: '스코츠데일 민트 (Scottsdale Mint)', country: '니우에', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '31.75mm', thickness: '2.4mm', condition: 'Brilliant Uncirculated', verified: true }
   },
 ];
 
