@@ -127,7 +127,7 @@ function createProductCard(product, krwPrice, options) {
         ${imgHTML}
         ${placeholderHTML}
         ${isAvailable && isSameDay ? '<span class="badge-instock">IN STOCK</span>' : ''}
-        ${isAvailable && !isSameDay ? '<span class="badge-presale">PRE-SALE</span>' : ''}
+        ${isAvailable && !isSameDay ? '<span class="badge-presale">PRE SALE</span>' : ''}
         ${!isAvailable ? '<div class="soldout-overlay"><span>SOLD OUT</span></div>' : ''}
       </div>
       <div class="product-info">
