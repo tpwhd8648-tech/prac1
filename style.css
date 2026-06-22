@@ -147,6 +147,24 @@ img { max-width: 100%; display: block; }
 .product-img-area img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.4s; }
 .product-card:hover .product-img-area img { transform: scale(1.05); }
 
+/* ===== 당일수령 뱃지 (상품 카드 / 상세페이지 공용) =====
+   사이트 기본 골드 톤(--gold)을 유지해 차분하게 표시한다. */
+.badge-sameday {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 11px;
+  padding: 3px 9px;
+  border-radius: 3px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  background: rgba(184, 134, 11, 0.12);
+  color: var(--gold);
+  border: 1px solid rgba(184, 134, 11, 0.3);
+  white-space: nowrap;
+}
+
 .product-info {
   padding: 14px;
   flex: 1;

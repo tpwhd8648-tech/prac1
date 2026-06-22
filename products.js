@@ -91,10 +91,11 @@ function createProductCard(product, krwPrice, options) {
   const loadingPriceText = opts.loadingPriceText !== undefined ? opts.loadingPriceText : '';
   const lazyImage = !!opts.lazyImage;
 
-  const { name, brand, category, premium, available } = product;
+  const { name, brand, category, premium, available, same_day } = product;
   const imgSrc = getImageForProduct(name);
   const filterCategory = getCategoryFilter(category);
   const linkUrl = linkTemplate(product);
+  const isSameDay = same_day === 'TRUE' || same_day === true;
 
   const price = krwPrice
     ? `₩${(Math.round(krwPrice * premium / 1000) * 1000).toLocaleString()}`
@@ -125,6 +126,7 @@ function createProductCard(product, krwPrice, options) {
       <div class="product-img-area">
         ${imgHTML}
         ${placeholderHTML}
+        ${isAvailable && isSameDay ? '<span class="badge-sameday">당일수령</span>' : ''}
         ${!isAvailable ? '<div class="soldout-overlay"><span>SOLD OUT</span></div>' : ''}
       </div>
       <div class="product-info">

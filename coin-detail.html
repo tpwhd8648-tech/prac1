@@ -151,8 +151,9 @@
 
     function renderDetail(product) {
       currentProduct = product;
-      const { name, brand, available, description, image } = product;
+      const { name, brand, available, same_day, description, image } = product;
       const isAvailable = available === 'TRUE' || available === true;
+      const isSameDay = same_day === 'TRUE' || same_day === true;
       const images = buildImageList(image);
 
       const priceHTML = `
@@ -181,6 +182,7 @@
           <div class="gallery">
             <div class="gallery-main">
               ${mainImgHTML}
+              ${isAvailable && isSameDay ? '<span class="badge-sameday">당일수령</span>' : ''}
               <div id="gallery-no-img" class="gallery-no-image" style="display:none">${name.substring(0,6)}</div>
             </div>
             <div class="gallery-thumbs" id="gallery-thumbs">
