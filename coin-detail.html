@@ -182,7 +182,8 @@
           <div class="gallery">
             <div class="gallery-main">
               ${mainImgHTML}
-              ${isAvailable && isSameDay ? '<span class="badge-sameday">당일수령</span>' : ''}
+              ${isAvailable && isSameDay ? '<span class="badge-instock">IN STOCK</span>' : ''}
+              ${isAvailable && !isSameDay ? '<span class="badge-presale">PRE-SALE</span>' : ''}
               <div id="gallery-no-img" class="gallery-no-image" style="display:none">${name.substring(0,6)}</div>
             </div>
             <div class="gallery-thumbs" id="gallery-thumbs">

@@ -126,7 +126,8 @@ function createProductCard(product, krwPrice, options) {
       <div class="product-img-area">
         ${imgHTML}
         ${placeholderHTML}
-        ${isAvailable && isSameDay ? '<span class="badge-sameday">당일수령</span>' : ''}
+        ${isAvailable && isSameDay ? '<span class="badge-instock">IN STOCK</span>' : ''}
+        ${isAvailable && !isSameDay ? '<span class="badge-presale">PRE-SALE</span>' : ''}
         ${!isAvailable ? '<div class="soldout-overlay"><span>SOLD OUT</span></div>' : ''}
       </div>
       <div class="product-info">
