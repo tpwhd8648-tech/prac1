@@ -241,7 +241,6 @@ img { max-width: 100%; display: block; }
 }
 @media (max-width: 768px) {
   .header-search { display: none; }
-  .search-category.custom-dropdown { display: block; }
   .nav-list { display: none; }
   .hamburger { display: flex; }
   .category-banners { grid-template-columns: 1fr; }
