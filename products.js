@@ -147,9 +147,13 @@ const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
 
 // options:
 //   - visibleValues: 이 페이지에서 보여줄 visible 컬럼 값 배열 (기본 ['all','main'])
+//   - includeAll: true면 visible 필터를 적용하지 않고 전체 상품을 반환한다.
+//       (coin-detail.html처럼 목록 노출 여부와 무관하게 상품 1개를 이름으로
+//       찾아야 하는 페이지용 — visibleValues 목록을 일일이 맞출 필요가 없다.)
 async function fetchProductsFromSheet(options) {
   const opts = options || {};
   const visibleValues = opts.visibleValues || ['all', 'main'];
+  const includeAll = !!opts.includeAll;
 
   const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=상품`;
   const res = await fetch(url);
@@ -168,5 +172,5 @@ async function fetchProductsFromSheet(options) {
     order:       row.c[7] ? parseInt(row.c[7].v) || 9999 : 9999,
     description: row.c[8]?.v || '',
     image:       row.c[9]?.v || '',
-  })).filter(p => p.name && visibleValues.includes(p.visible));
+  })).filter(p => p.name && (includeAll || visibleValues.includes(p.visible)));
 }

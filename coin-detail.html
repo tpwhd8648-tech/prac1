@@ -127,9 +127,8 @@
   <script type="module" src="auth.js"></script>
   <script src="footer.js"></script>
   <script src="nav.js"></script>
+  <script src="products.js"></script>
   <script>
-    const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
-
     function buildImageList(imageFile) {
       if (!imageFile) return [];
       const base = imageFile.replace(/\.png$/i, '');
@@ -381,24 +380,13 @@
 
     async function loadProduct(targetName) {
       try {
-        const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=상품`;
-        const res = await fetch(url);
-        const text = await res.text();
-        const json = JSON.parse(text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/)[1]);
-        const rows = json.table.rows;
-
-        const product = rows.map(row => ({
-          name:        row.c[0]?.v || '',
-          brand:       row.c[1]?.v || '',
-          category:    row.c[2]?.v || 'gold',
-          premium:     parseFloat(row.c[3]?.v) || 1.03,
-          available:   String(row.c[4]?.v).toUpperCase(),
-          same_day:    String(row.c[5]?.v).toUpperCase(),
-          visible:     row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',
-          order:       row.c[7] ? parseInt(row.c[7].v) || 9999 : 9999,
-          description: row.c[8]?.v || '',
-          image:       row.c[9]?.v || '',
-        })).find(p => p.name === targetName);
+        // 시트 fetch/파싱은 products.js의 fetchProductsFromSheet()를 그대로 재사용한다.
+        // (이전에는 이 파일 안에 동일한 로직을 따로 작성해 중복 유지하고 있었음 —
+        //  컬럼 추가/변경 시 한쪽만 고치는 사고를 막기 위해 통합함.)
+        // 상세페이지는 목록 노출 여부(visible)와 무관하게 상품을 찾아야 하므로
+        // includeAll: true로 필터를 건너뛴다.
+        const products = await fetchProductsFromSheet({ includeAll: true });
+        const product = products.find(p => p.name === targetName);
 
         if (!product) {
           document.getElementById('detail-content').innerHTML =
