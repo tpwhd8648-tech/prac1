@@ -52,7 +52,7 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 크루거', '2026 krugerrand'],
     detail: `남아프리카공화국 조폐국(South African Mint)이 1967년부터 발행해온, 세계에서 가장\n오래되고 누적 발행량이 많은 골드 불리온 코인입니다. 남아공 초대 대통령 폴 크루거와\n스프링복(영양)이 새겨져 있습니다. 이글과 마찬가지로 22K(91.67%) 합금으로 제작되어\n내구성이 뛰어나며, 오랜 역사와 압도적인 글로벌 유동성 덕분에 전 세계 불리온\n시장의 기준점 역할을 하는 코인입니다.`,
-    specs: { year: '2026', mint: '남아공 조폐국 (South African Mint)', country: '남아프리카공화국', purity: '91.67% (22K, 순금 1oz 함량 기준)', weight: '순금 1oz 함량 (총중량 약 33.93g)', diameter: '32.77mm', thickness: '2.84mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '남아공 조폐국 (South African Mint)', country: '남아프리카공화국', purity: '91.67% (22K, 순금 1oz 함량 기준)', weight: '순금 1oz 함량 (총중량 약 33.93g)', diameter: '32.8mm', thickness: '2.84mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 판다', '2026 panda'],
@@ -62,27 +62,27 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 성조지', '2026 세인트조지', '2026 george'],
     detail: `'성 조지와 용(St George and the Dragon)' 도안을 모티프로 한 골드 코인입니다.\n용을 물리치는 기사 성 조지의 모습은 유럽 동전 도안 중에서도 가장 오랜 전통을\n가진 상징적인 이미지로, 승리와 보호의 의미를 담고 있어 선물용으로도 선호됩니다.`,
-    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 퀸즈라이언', '2026 queens lion'],
     detail: `영국 왕립 조폐국의 '퀸즈 비스트(Queen's Beasts)' 시리즈 중 사자(Lion)를 주제로 한\n골드 불리온 코인입니다. 영국 왕실 문장에 등장하는 신화적 동물들을 시리즈로 다루는\n이 컬렉션은 정교한 부조 디자인과 왕실 조폐국의 명성으로 컬렉터와 투자자 모두에게\n사랑받고 있습니다. 순도 99.99%(.9999) 순금으로 제작됩니다.`,
-    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 라이언이글', '2026 lion eagle'],
     detail: `사자와 독수리, 두 강력한 상징 동물을 함께 담은 디자인의 골드 코인입니다.\n힘과 권위를 상징하는 두 동물을 한 코인에 결합한 독특한 구성으로, 일반적인\n국가 발행 시리즈와는 차별화된 소장 포인트를 지니고 있습니다.`,
-    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 말띠', '2026 horse', '2026 year of horse'],
     detail: `호주 퍼스 민트의 '루나(Lunar) 시리즈' 중 말의 해(年)를 기념하는 골드 불리온\n코인입니다. 12간지를 매년 순서대로 다루는 루나 시리즈는 동양의 띠 문화를\n서양식 불리온 코인으로 풀어낸 대표 사례로, 아시아권 투자자와 컬렉터들에게\n특히 인기가 높습니다. 순도 99.99%(.9999) 순금으로 제작됩니다.`,
-    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.6mm', thickness: '2.50mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.6mm', thickness: '2.95mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 네스호', '2026 loch ness'],
     detail: `전설의 괴생물체로 알려진 '네스호의 괴물(Loch Ness Monster)'을 주제로 한\n이색 테마 골드 코인입니다. 스코틀랜드의 신비로운 전설을 모티프로 한 독특한\n도안으로, 투자 목적뿐 아니라 테마 컬렉션 아이템으로도 소장 가치가 있습니다.`,
-    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 스완', '2026 swan'],
@@ -97,7 +97,7 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 아웃백', '2026 outback'],
     detail: `호주 퍼스 민트가 발행하는 'Australian Outback' 시리즈 골드 불리온 코인입니다.\n호주 내륙(아웃백)의 광활한 자연과 야생동물을 테마로 하며, 매년 새로운 도안으로\n발행되어 컬렉터들의 수집 욕구를 자극합니다. 순도 99.99%(.9999) 순금으로 제작됩니다.`,
-    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.6mm', thickness: '2.65mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.6mm', thickness: '2.95mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 케이브라이언', '2026 cave lion'],
@@ -107,12 +107,12 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 로얄드래곤', '2026 royal dragon'],
     detail: `용(Dragon)을 주제로 한 '로얄드래곤' 골드 코인입니다. 동서양을 막론하고 힘과\n권위, 길운을 상징하는 용 도안은 꾸준히 인기 있는 테마로, 화려하고 입체적인\n부조 디자인이 시각적인 만족도를 더합니다.`,
-    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 브리티시라이언', '2026 british lion'],
     detail: `영국을 상징하는 사자(Lion)를 주제로 한 영국 발행 골드 불리온 코인입니다.\n영국 왕실과 깊은 연관이 있는 사자 문장은 힘과 권위의 상징으로 오랫동안\n사랑받아온 디자인이며, 영국 조폐국 특유의 섬세한 마감이 돋보입니다.`,
-    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2025 레이디저스티스', '2025 lady justice'],
