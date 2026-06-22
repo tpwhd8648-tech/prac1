@@ -27,17 +27,17 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 브리타니아', '2026 britannia'],
     detail: `영국 왕립 조폐국(The Royal Mint)이 발행하는 대표 골드 불리온 코인입니다.\n2013년부터 순도 99.99%(.9999) 순금으로 제작되며, 영국을 상징하는 여신 '브리타니아'가\n디자인의 중심을 이룹니다. 매년 새로운 보안 요소(라티스 백그라운드 등)가 적용되어\n위변조 방지 기술이 뛰어난 코인으로 평가받습니다. 오랜 역사와 왕실 조폐국이라는\n발행 신뢰도 덕분에 유럽은 물론 전 세계 투자자들에게 꾸준히 인기 있는 상품입니다.`,
-    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', thickness: '2.30mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 캥거루', '2026 kangaroo'],
     detail: `호주 퍼스 민트(Perth Mint)가 발행하는 골드 불리온 코인으로, 'Australian Kangaroo'\n시리즈로도 불립니다. 순도 99.99%(.9999) 순금이며, 매년 새롭게 디자인되는 캥거루\n도안이 특징으로 컬렉터들 사이에서도 수집 가치가 높습니다. 퍼스 민트의 엄격한\n품질 관리와 정부 보증 덕분에 신뢰도가 높고, 유럽·아시아 시장에서도 활발히 거래됩니다.`,
-    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.6mm', thickness: '2.65mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.6mm', thickness: '2.95mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 버팔로', '2026 buffalo'],
     detail: `미국 조폐국(United States Mint)이 발행하는 미국 최초의 99.99% 순금 불리온 코인입니다.\n1913년 미국 5센트 동전(버팔로 니켈) 디자인을 그대로 계승해 아메리카 들소와\n아메리카 원주민 초상이 새겨져 있습니다. 아메리칸 이글과 달리 합금 없이 순금\n99.99%로 제작되어, 순도를 중시하는 투자자들에게 특히 선호됩니다.`,
-    specs: { year: '2026', mint: '미국 조폐국 (United States Mint)', country: '미국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.7mm', thickness: '2.87mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '미국 조폐국 (United States Mint)', country: '미국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.7mm', thickness: '2.95mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 이글', '2026 eagle'],
@@ -47,7 +47,7 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 필하모닉', '2026 philharmonic'],
     detail: `오스트리아 민트(Austrian Mint)가 발행하는 유럽에서 가장 거래량이 많은 골드 불리온\n코인 중 하나입니다. 빈 필하모닉 오케스트라의 다양한 악기를 형상화한 디자인이\n특징으로, 음악과 예술의 도시 빈을 상징합니다. 순도 99.99%(.9999) 순금으로 제작되며,\n유럽연합 내에서 부가세 면제 등 거래 편의성이 높아 유럽 투자자들에게 특히 인기가 많습니다.`,
-    specs: { year: '2026', mint: '오스트리아 민트 (Austrian Mint)', country: '오스트리아', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '37mm', thickness: '2.37mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '오스트리아 민트 (Austrian Mint)', country: '오스트리아', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '37mm', thickness: '2.00mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 크루거', '2026 krugerrand'],
@@ -77,7 +77,7 @@ const COIN_DESCRIPTIONS = [
   {
     keywords: ['2026 말띠', '2026 horse', '2026 year of horse'],
     detail: `호주 퍼스 민트의 '루나(Lunar) 시리즈' 중 말의 해(年)를 기념하는 골드 불리온\n코인입니다. 12간지를 매년 순서대로 다루는 루나 시리즈는 동양의 띠 문화를\n서양식 불리온 코인으로 풀어낸 대표 사례로, 아시아권 투자자와 컬렉터들에게\n특히 인기가 높습니다. 순도 99.99%(.9999) 순금으로 제작됩니다.`,
-    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.6mm', thickness: '2.95mm', condition: 'Brilliant Uncirculated', verified: true }
+    specs: { year: '2026', mint: '퍼스 민트 (Perth Mint)', country: '호주', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.6mm', thickness: '2.50mm', condition: 'Brilliant Uncirculated', verified: true }
   },
   {
     keywords: ['2026 네스호', '2026 loch ness'],
