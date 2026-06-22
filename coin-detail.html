@@ -208,10 +208,13 @@
 
       const infoTabHTML = specs ? `
         <table class="spec-table">
+          <tr><th>연도</th><td>${specs.year || '확인 중'}</td></tr>
           <tr><th>발행처</th><td>${specs.mint}</td></tr>
           <tr><th>발행국</th><td>${specs.country}</td></tr>
           <tr><th>순도</th><td>${specs.purity}</td></tr>
           <tr><th>중량</th><td>${specs.weight}</td></tr>
+          <tr><th>직경</th><td>${specs.diameter || '확인 중'}</td></tr>
+          <tr><th>상태</th><td>${specs.condition || 'Brilliant Uncirculated'}</td></tr>
         </table>
 
       ` : `<p class="tab-empty-note">상품정보가 준비 중입니다. 구매 문의를 통해 정확한 스펙을 안내받으실 수 있습니다.</p>`;
