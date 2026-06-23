@@ -66,7 +66,7 @@ const COIN_DESCRIPTIONS = [
   },
   {
     keywords: ['2026 퀸즈라이언', '2026 queens lion'],
-    detail: `영국 왕립 조폐국의 '퀸즈 비스트(Queen's Beasts)' 시리즈 중 사자(Lion)를 주제로 한\n골드 불리온 코인입니다. 영국 왕실 문장에 등장하는 신화적 동물들을 시리즈로 다루는\n이 컬렉션은 정교한 부조 디자인과 왕실 조폐국의 명성으로 컬렉터와 투자자 모두에게\n사랑받고 있습니다. 순도 99.99%(.9999) 순금으로 제작됩니다.`,
+    detail: `영국 왕립 조폐국의 '로열 튜더 비스트(Royal Tudor Beasts)' 시리즈 중 사자(Lion)를 주제로 한\n골드 불리온 코인입니다. 헨리 8세 시대 햄튼 코트 궁전을 지키던 신화적 동물 석상들을\n모티프로 한 이 컬렉션은 정교한 부조 디자인과 왕실 조폐국의 명성으로 컬렉터와 투자자\n모두에게 사랑받고 있습니다. 순도 99.99%(.9999) 순금으로 제작됩니다.`,
     specs: { year: '2026', mint: '영국 왕립 조폐국 (The Royal Mint)', country: '영국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.69mm', condition: '미사용 (Brilliant Uncirculated)', verified: true }
   },
   {
