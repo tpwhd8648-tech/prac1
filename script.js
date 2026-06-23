@@ -1,34 +1,57 @@
 // ===== HERO SLIDER =====
-let currentSlide = 0;
-const slides = document.querySelectorAll('.slide');
-const dots = document.querySelectorAll('.dot');
-const track = document.getElementById('slider-track');
-const totalSlides = slides.length;
+// initHeroSlider()로 감싸서 DOM 조회를 "로드 시점"이 아닌 "호출 시점"으로
+// 늦춘다. index.html의 인라인 스크립트가 .slide/.dot을 동적으로 먼저
+// 채워 넣는 구조라, 두 스크립트의 로드 순서가 바뀌면(script.js를 head로
+// 옮기거나 defer를 걸거나 합치는 등) querySelectorAll이 빈 NodeList를
+// 캡처해 슬라이더가 조용히 멈출 수 있었음. 이 함수는 .hero-slider가
+// 없으면(다른 페이지) 그냥 종료하고, 있으면 매번 새로 슬라이드를
+// 조회하므로 로드 순서·재호출 어느 쪽에도 안전하다.
+function initHeroSlider() {
+  const heroSlider = document.querySelector('.hero-slider');
+  if (!heroSlider) return; // 이 페이지에 슬라이더 자체가 없으면 종료
 
-function goToSlide(n) {
-  currentSlide = (n + totalSlides) % totalSlides;
-  track.style.transform = `translateX(-${currentSlide * 100}%)`;
-  dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+  const track = document.getElementById('slider-track');
+  const totalSlides = slides.length;
+  if (!track || totalSlides === 0) return; // 슬라이드가 아직 없으면 종료(0으로 나누기 방지)
+
+  function goToSlide(n) {
+    currentSlide = (n + totalSlides) % totalSlides;
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+  }
+
+  const prevBtn = document.getElementById('slider-prev');
+  const nextBtn = document.getElementById('slider-next');
+  if (prevBtn) prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+  if (nextBtn) nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
+
+  let autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
+  heroSlider.addEventListener('mouseenter', () => clearInterval(autoSlide));
+  heroSlider.addEventListener('mouseleave', () => {
+    autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
+  });
+
+  let touchStartX = 0;
+  heroSlider.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  });
+  heroSlider.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) goToSlide(diff > 0 ? currentSlide + 1 : currentSlide - 1);
+  });
 }
 
-document.getElementById('slider-prev').addEventListener('click', () => goToSlide(currentSlide - 1));
-document.getElementById('slider-next').addEventListener('click', () => goToSlide(currentSlide + 1));
-dots.forEach((dot, i) => dot.addEventListener('click', () => goToSlide(i)));
-
-let autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
-document.querySelector('.hero-slider').addEventListener('mouseenter', () => clearInterval(autoSlide));
-document.querySelector('.hero-slider').addEventListener('mouseleave', () => {
-  autoSlide = setInterval(() => goToSlide(currentSlide + 1), 5000);
-});
-
-let touchStartX = 0;
-document.querySelector('.hero-slider').addEventListener('touchstart', e => {
-  touchStartX = e.touches[0].clientX;
-});
-document.querySelector('.hero-slider').addEventListener('touchend', e => {
-  const diff = touchStartX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 50) goToSlide(diff > 0 ? currentSlide + 1 : currentSlide - 1);
-});
+// DOM 준비 상태에 따라 즉시 또는 DOMContentLoaded 이후 실행 —
+// script.js가 head로 옮겨지거나 defer가 걸려도 항상 안전하게 동작.
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initHeroSlider);
+} else {
+  initHeroSlider();
+}
 
 // ===== PRODUCT TABS =====
 document.querySelectorAll('.ptab').forEach(tab => {
