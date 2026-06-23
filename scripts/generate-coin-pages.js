@@ -179,6 +179,7 @@ function renderCoinPage(coin, krwPerOz, todayStr) {
       priceCurrency: 'KRW',
       priceValidUntil: priceValidUntil,
       availability: available ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      itemCondition: 'https://schema.org/NewCondition',
       seller: { '@type': 'Organization', name: 'MIDAS BULLION' },
     },
     additionalProperty: [
