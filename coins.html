@@ -130,10 +130,27 @@
     // products.js(공용 파일)로 이동함. 이 페이지(coins.html)는
     // products.js를 <script src="products.js">로 먼저 로드해서 사용함.
 
-    // coins.html 전용 카드 옵션: 클릭 시 coin-detail.html?name=... 으로
-    // 이동, 가격 미로딩 시 "로딩중..." 표시, lazy 이미지 적용 — 기존 동작 그대로.
+    // 상품명 → slug 변환: IMAGE_MAP의 file 값(products-{slug}.png)에서 slug 추출.
+    // 매칭 실패 시 fallback으로 coin-detail.html?name=... 사용.
+    function getSlugForProduct(name) {
+      const lower = name.toLowerCase();
+      for (const entry of IMAGE_MAP) {
+        if (entry.keywords.some(k => lower.includes(k))) {
+          // 'products-maple-2026.png' → 'maple-2026'
+          return entry.file.replace(/^products-/, '').replace(/\.png$/, '');
+        }
+      }
+      return null;
+    }
+
+    // coins.html 전용 카드 옵션: 클릭 시 coin-{slug}.html 으로 이동.
+    // 슬러그 매칭 실패 시 coin-detail.html?name=... 으로 fallback.
+    // 가격 미로딩 시 "로딩중..." 표시, lazy 이미지 적용.
     const COINS_CARD_OPTIONS = {
-      linkTemplate: (product) => `coin-detail.html?name=${encodeURIComponent(product.name)}`,
+      linkTemplate: (product) => {
+        const slug = getSlugForProduct(product.name);
+        return slug ? `coin-${slug}.html` : `coin-detail.html?name=${encodeURIComponent(product.name)}`;
+      },
       loadingPriceText: '로딩중...',
       lazyImage: true,
       soldoutBtnText: '상품 보기', // coins.html은 품절 상품도 "상품 보기" 버튼 노출
