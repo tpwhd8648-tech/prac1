@@ -64,7 +64,7 @@ async function fetchSheetRows() {
       premium:   parseFloat(row.c[3]?.v) || 1.03,
       available: String(row.c[4]?.v).toUpperCase() === 'TRUE',
       same_day:  String(row.c[5]?.v).toUpperCase() === 'TRUE',
-      visible:   row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',
+      visible:   row.c[6] ? (String(row.c[6].v ?? '').toLowerCase() || 'all') : 'all',
       order:     row.c[7] ? parseInt(row.c[7].v) || 9999 : 9999,
     }))
     .filter(p => p.name);
