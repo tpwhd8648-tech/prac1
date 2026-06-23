@@ -58,10 +58,14 @@ async function fetchSheetRows() {
   const json = JSON.parse(match[1]);
   return json.table.rows
     .map(row => ({
-      name: row.c[0]?.v || '',
-      brand: row.c[1]?.v || '',
-      premium: parseFloat(row.c[3]?.v) || 1.03,
+      name:      row.c[0]?.v || '',
+      brand:     row.c[1]?.v || '',
+      category:  row.c[2]?.v || 'gold',
+      premium:   parseFloat(row.c[3]?.v) || 1.03,
       available: String(row.c[4]?.v).toUpperCase() === 'TRUE',
+      same_day:  String(row.c[5]?.v).toUpperCase() === 'TRUE',
+      visible:   row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',
+      order:     row.c[7] ? parseInt(row.c[7].v) || 9999 : 9999,
     }))
     .filter(p => p.name);
 }
@@ -633,7 +637,128 @@ ${JSON.stringify(jsonLd, null, 2)}
 `;
 }
 
-// ── 5. sitemap.xml 생성 (고정 페이지 + 코인별 페이지) ──
+// ── 5. 상품 그리드 정적 HTML 생성 ──
+// products.js의 createProductCard와 동일한 마크업을 생성한다.
+// 가격은 data-premium attribute만 박아두고, 브라우저에서 JS가
+// updateCardPricesFromSheet()로 실시간 갱신한다.
+function getSlugFromImageMap(name) {
+  const lower = name.toLowerCase();
+  for (const entry of IMAGE_MAP) {
+    if (entry.keywords.some(k => lower.includes(k.toLowerCase()))) {
+      return entry.file.replace(/^products-/, '').replace(/\.png$/, '');
+    }
+  }
+  return null;
+}
+
+function getImageFileFromImageMap(name) {
+  const lower = name.toLowerCase();
+  for (const entry of IMAGE_MAP) {
+    if (entry.keywords.some(k => lower.includes(k.toLowerCase()))) {
+      return `images/${entry.file}`;
+    }
+  }
+  return null;
+}
+
+function getCategoryFilter(category) {
+  const map = {
+    'gold_1oz': 'gold', 'gold': 'gold',
+    'silver_1oz': 'silver', 'silver': 'silver',
+    'collectible': 'collectible', 'other': 'other',
+    'accessories': 'accessories', 'merchandise': 'merchandise',
+  };
+  return map[category] || category;
+}
+
+function renderProductCard(product, linkUrl, opts = {}) {
+  const { name, brand, category, premium, available, same_day } = product;
+  const imgSrc = getImageFileFromImageMap(name);
+  const filterCategory = getCategoryFilter(category);
+  const isSameDay = same_day === true;
+  const isAvailable = available === true;
+
+  const imgHTML = imgSrc
+    ? `<img src="${imgSrc}" alt="${name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    : '';
+  const placeholderHTML = `<div class="product-img-placeholder" style="${imgSrc ? 'display:none' : 'display:flex'}"><span>${name.substring(0, 6)}</span></div>`;
+
+  let badgeHTML = '';
+  if (isAvailable && isSameDay)  badgeHTML = '<span class="badge-instock">IN STOCK</span>';
+  if (isAvailable && !isSameDay) badgeHTML = '<span class="badge-presale">PRE SALE</span>';
+  if (!isAvailable)              badgeHTML = '<div class="soldout-overlay"><span>SOLD OUT</span></div>';
+
+  const btnText = !isAvailable ? (opts.soldoutBtnText || '품절') : '상품 보기';
+  const btnClass = !isAvailable ? 'btn-cart btn-soldout' : 'btn-cart btn-buy';
+  const btnHTML = `<button class="${btnClass}" onclick="event.stopPropagation(); location.href='${linkUrl}'">${btnText}</button>`;
+
+  return `
+    <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}"
+      onclick="location.href='${linkUrl}'">
+      <div class="product-img-area">
+        ${imgHTML}
+        ${placeholderHTML}
+        ${badgeHTML}
+      </div>
+      <div class="product-info">
+        <p class="product-brand">${brand}</p>
+        <h3 class="product-name">${name}</h3>
+        <div class="product-price-wrap">
+          <span class="product-price card-price">${isAvailable ? '' : '품절'}</span>
+        </div>
+        <div class="btn-cart-wrap">
+          ${btnHTML}
+        </div>
+      </div>
+    </div>`;
+}
+
+// index.html용: visible='main' or 'all', 클릭 시 coin-{slug}.html 이동
+function renderIndexGrid(sheetRows) {
+  const products = sheetRows
+    .filter(p => ['all', 'main'].includes(p.visible))
+    .sort((a, b) => {
+      if (a.available !== b.available) return a.available ? -1 : 1;
+      return a.order - b.order;
+    });
+
+  return products.map(p => {
+    const slug = getSlugFromImageMap(p.name);
+    const linkUrl = slug ? `coin-${slug}.html` : `coin-detail.html?name=${encodeURIComponent(p.name)}`;
+    return renderProductCard(p, linkUrl, {});
+  }).join('\n');
+}
+
+// coins.html용: visible='coins' or 'all', 클릭 시 coin-{slug}.html 이동
+function renderCoinsGrid(sheetRows) {
+  const products = sheetRows
+    .filter(p => ['all', 'coins'].includes(p.visible))
+    .sort((a, b) => {
+      if (a.available !== b.available) return a.available ? -1 : 1;
+      return a.order - b.order;
+    });
+
+  return products.map(p => {
+    const slug = getSlugFromImageMap(p.name);
+    const linkUrl = slug ? `coin-${slug}.html` : `coin-detail.html?name=${encodeURIComponent(p.name)}`;
+    return renderProductCard(p, linkUrl, { soldoutBtnText: '상품 보기' });
+  }).join('\n');
+}
+
+// HTML 파일의 #products-grid 내부를 정적 카드 HTML로 교체한다.
+// 마커: <!-- SSG_GRID_START --> ... <!-- SSG_GRID_END -->
+function injectGrid(html, gridHtml) {
+  const START = '<!-- SSG_GRID_START -->';
+  const END   = '<!-- SSG_GRID_END -->';
+  const startIdx = html.indexOf(START);
+  const endIdx   = html.indexOf(END);
+  if (startIdx === -1 || endIdx === -1) {
+    throw new Error(`SSG_GRID 마커를 찾을 수 없습니다. HTML에 ${START} ... ${END} 마커를 추가해주세요.`);
+  }
+  return html.slice(0, startIdx + START.length) + '\n' + gridHtml + '\n' + html.slice(endIdx);
+}
+
+// ── 6. sitemap.xml 생성 (고정 페이지 + 코인별 페이지) ──
 function renderSitemap(coinEntries, todayStr) {
   const fixedUrls = [
     { loc: `${SITE_URL}/`, changefreq: 'daily', priority: '1.0' },
@@ -701,6 +826,29 @@ async function main() {
     fs.writeFileSync(sitemapPath, newSitemap, 'utf8');
     console.log('  ✓ sitemap.xml 갱신');
     changedCount++;
+  }
+
+  // ── index.html / coins.html 상품 그리드 정적 주입 ──
+  const gridFiles = [
+    { file: 'index.html',  gridFn: renderIndexGrid,  label: 'index.html 상품 그리드' },
+    { file: 'coins.html',  gridFn: renderCoinsGrid,  label: 'coins.html 상품 그리드' },
+  ];
+  for (const { file, gridFn, label } of gridFiles) {
+    const filePath = path.join(ROOT, file);
+    const prev = fs.readFileSync(filePath, 'utf8');
+    try {
+      const gridHtml = gridFn(sheetRows);
+      const next = injectGrid(prev, gridHtml);
+      if (prev !== next) {
+        fs.writeFileSync(filePath, next, 'utf8');
+        changedCount++;
+        console.log(`  ✓ ${label} 갱신`);
+      } else {
+        console.log(`  - ${label} 변경 없음`);
+      }
+    } catch (e) {
+      console.warn(`  ⚠ ${label} 주입 실패: ${e.message}`);
+    }
   }
 
   console.log(`\n총 ${entries.length}개 페이지 생성 대상, ${changedCount}개 파일 변경됨.`);
