@@ -1,0 +1,53 @@
+name: Generate coin static pages
+
+# 코인 정적 상세페이지(coin-*.html)와 sitemap.xml을 자동 생성한다.
+# - coin-descriptions.js / products.js를 고치고 push하면 즉시 재생성
+# - 구글 시트에 신상품이 추가되는 경우를 대비해 하루 1회도 자동 실행
+# - 필요하면 Actions 탭에서 수동 실행도 가능 (workflow_dispatch)
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'coin-descriptions.js'
+      - 'products.js'
+      - 'scripts/generate-coin-pages.js'
+  schedule:
+    # 매일 00:00 KST = 전날 15:00 UTC
+    - cron: '0 15 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 레포 체크아웃
+        uses: actions/checkout@v4
+        with:
+          # images 폴더는 용량만 크고 이 작업엔 불필요
+          sparse-checkout: |
+            /*
+            !images
+          sparse-checkout-cone-mode: false
+
+      - name: Node.js 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 코인 정적 페이지 생성
+        run: node scripts/generate-coin-pages.js
+
+      - name: 변경사항 확인 및 커밋
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet; then
+            echo "변경된 파일 없음 — 커밋 생략"
+          else
+            git add coin-*.html sitemap.xml
+            git commit -m "chore: 코인 정적 페이지 자동 생성/갱신 [skip ci]"
+            git push
+          fi
