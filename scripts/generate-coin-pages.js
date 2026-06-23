@@ -232,6 +232,11 @@ function renderCoinPage(coin, krwPerOz, todayStr) {
   <meta property="og:image" content="${mainImgUrl}">
   <meta property="og:site_name" content="MIDAS BULLION">
   <meta property="og:locale" content="ko_KR">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MIDAS BULLION | ${safeName} - 투자 금화 구매">
+  <meta name="twitter:description" content="${escapeAttr(shortDesc)}">
+  <meta name="twitter:image" content="${mainImgUrl}">
   <!-- JSON-LD: Product (price는 빌드 시점 금시세 기준, priceValidUntil로 변동 가능성 명시) -->
   <script type="application/ld+json">
 ${JSON.stringify(jsonLd, null, 2)}
