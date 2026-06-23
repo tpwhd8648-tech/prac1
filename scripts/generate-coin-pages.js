@@ -230,6 +230,9 @@ function renderCoinPage(coin, krwPerOz, todayStr) {
   <meta property="og:title" content="MIDAS BULLION | ${safeName} - 투자 금화 구매">
   <meta property="og:description" content="${escapeAttr(shortDesc)}">
   <meta property="og:image" content="${mainImgUrl}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta property="og:image:alt" content="${coin.name} 금화 - MIDAS BULLION">
   <meta property="og:site_name" content="MIDAS BULLION">
   <meta property="og:locale" content="ko_KR">
   <!-- Twitter Card -->
