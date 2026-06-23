@@ -207,14 +207,14 @@ function renderCoinPage(coin, krwPerOz, todayStr) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MIDAS BULLION | ${safeName}</title>
+  <title>MIDAS BULLION | ${safeName} - 투자 금화 구매</title>
   <meta name="description" content="${escapeAttr(shortDesc)} 중량, 순도, 발행처 등 상세 정보와 실시간 국제 시세를 확인하고 안전하게 구매하세요. MIDAS BULLION이 정품을 보증합니다.">
   <link rel="canonical" href="${pageUrl}">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <!-- Open Graph -->
   <meta property="og:type" content="product">
   <meta property="og:url" content="${pageUrl}">
-  <meta property="og:title" content="MIDAS BULLION | ${safeName}">
+  <meta property="og:title" content="MIDAS BULLION | ${safeName} - 투자 금화 구매">
   <meta property="og:description" content="${escapeAttr(shortDesc)}">
   <meta property="og:image" content="${mainImgUrl}">
   <meta property="og:site_name" content="MIDAS BULLION">
