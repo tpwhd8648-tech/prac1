@@ -7,6 +7,7 @@
   <meta name="description" content="영국을 상징하는 사자(Lion)를 주제로 한 영국 발행 골드 불리온 코인입니다. 중량, 순도, 발행처 등 상세 정보와 실시간 국제 시세를 확인하고 안전하게 구매하세요. MIDAS BULLION이 정품을 보증합니다.">
   <link rel="canonical" href="https://tpwhd8648-tech.github.io/coin-british-lion-2026.html">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preload" as="image" href="https://tpwhd8648-tech.github.io/images/products-british-lion-2026.png" fetchpriority="high">
   <!-- Open Graph -->
   <meta property="og:type" content="product">
   <meta property="og:url" content="https://tpwhd8648-tech.github.io/coin-british-lion-2026.html">
@@ -30,7 +31,7 @@
   "offers": {
     "@type": "Offer",
     "url": "https://tpwhd8648-tech.github.io/coin-british-lion-2026.html",
-    "price": 6343000,
+    "price": 6332000,
     "priceCurrency": "KRW",
     "priceValidUntil": "2026-06-24",
     "availability": "https://schema.org/OutOfStock",
@@ -64,6 +65,33 @@
       "@type": "PropertyValue",
       "name": "직경",
       "value": "32.69mm"
+    }
+  ]
+}
+  </script>
+  <!-- JSON-LD: BreadcrumbList (화면 빵 부스러기와 동일한 경로) -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "홈으로",
+      "item": "https://tpwhd8648-tech.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "금화 보기",
+      "item": "https://tpwhd8648-tech.github.io/coins.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "2026 브리티시라이언 1oz",
+      "item": "https://tpwhd8648-tech.github.io/coin-british-lion-2026.html"
     }
   ]
 }
@@ -184,7 +212,7 @@
         <div class="product-detail">
           <div class="gallery">
             <div class="gallery-main">
-              <img id="gallery-main-img" src="images/products-british-lion-2026.png" alt="2026 브리티시라이언 1oz"
+              <img id="gallery-main-img" src="images/products-british-lion-2026.png" alt="2026 브리티시라이언 1oz 앞면" fetchpriority="high"
                 onerror="this.style.display='none';document.getElementById('gallery-no-img').style.display='flex'">
               <span class="badge-instock" id="stock-badge" style="display:none">IN STOCK</span>
               <span class="badge-presale" id="presale-badge" style="display:none">PRE SALE</span>
@@ -192,11 +220,11 @@
             </div>
             <div class="gallery-thumbs" id="gallery-thumbs">
               <div class="gallery-thumb active" onclick="switchImage(0)" data-index="0">
-                <img src="images/products-british-lion-2026.png" alt="앞면" loading="lazy"
+                <img src="images/products-british-lion-2026.png" alt="2026 브리티시라이언 1oz 앞면" loading="lazy"
                   onerror="this.parentElement.style.display='none'">
               </div>
               <div class="gallery-thumb" onclick="switchImage(1)" data-index="1">
-                <img src="images/products-british-lion-2026-back.png" alt="뒷면" loading="lazy"
+                <img src="images/products-british-lion-2026-back.png" alt="2026 브리티시라이언 1oz 뒷면" loading="lazy"
                   onerror="this.parentElement.style.display='none'">
               </div>
             </div>
@@ -338,12 +366,15 @@
       if (!mainImg) return;
 
       thumbs.forEach((t, i) => t.classList.toggle('active', i === index));
-      const src = thumbs[index]?.querySelector('img')?.src;
+      const thumbImg = thumbs[index]?.querySelector('img');
+      const src = thumbImg?.src;
+      const altText = thumbImg?.alt;
       if (src) {
         mainImg.style.transition = 'opacity 0.15s ease, transform 0.3s ease';
         mainImg.style.opacity = '0';
         setTimeout(() => {
           mainImg.src = src;
+          if (altText) mainImg.alt = altText;
           mainImg.style.display = '';
           if (noImg) noImg.style.display = 'none';
           mainImg.style.opacity = '1';
