@@ -190,6 +190,18 @@ function renderCoinPage(coin, krwPerOz, todayStr) {
     ],
   };
 
+  // 화면에 보이는 빵 부스러기(홈으로 / 금화 보기 / 코인명)와 동일한 경로를
+  // 구조화 데이터로도 제공 — 검색 결과에 경로(breadcrumb)가 표시되도록 함.
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: '홈으로', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: '금화 보기', item: `${SITE_URL}/coins.html` },
+      { '@type': 'ListItem', position: 3, name: name, item: pageUrl },
+    ],
+  };
+
   const specRows = `
               <tr><th>연도</th><td>${escapeHtml(specs.year || '확인 중')}</td></tr>
               <tr><th>발행처</th><td>${escapeHtml(specs.mint)}</td></tr>
@@ -211,6 +223,7 @@ function renderCoinPage(coin, krwPerOz, todayStr) {
   <meta name="description" content="${escapeAttr(shortDesc)} 중량, 순도, 발행처 등 상세 정보와 실시간 국제 시세를 확인하고 안전하게 구매하세요. MIDAS BULLION이 정품을 보증합니다.">
   <link rel="canonical" href="${pageUrl}">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preload" as="image" href="${mainImgUrl}" fetchpriority="high">
   <!-- Open Graph -->
   <meta property="og:type" content="product">
   <meta property="og:url" content="${pageUrl}">
@@ -222,6 +235,10 @@ function renderCoinPage(coin, krwPerOz, todayStr) {
   <!-- JSON-LD: Product (price는 빌드 시점 금시세 기준, priceValidUntil로 변동 가능성 명시) -->
   <script type="application/ld+json">
 ${JSON.stringify(jsonLd, null, 2)}
+  </script>
+  <!-- JSON-LD: BreadcrumbList (화면 빵 부스러기와 동일한 경로) -->
+  <script type="application/ld+json">
+${JSON.stringify(breadcrumbJsonLd, null, 2)}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -339,7 +356,7 @@ ${JSON.stringify(jsonLd, null, 2)}
         <div class="product-detail">
           <div class="gallery">
             <div class="gallery-main">
-              <img id="gallery-main-img" src="images/${baseImg}.png" alt="${safeNameAttr}"
+              <img id="gallery-main-img" src="images/${baseImg}.png" alt="${safeNameAttr} 앞면" fetchpriority="high"
                 onerror="this.style.display='none';document.getElementById('gallery-no-img').style.display='flex'">
               <span class="badge-instock" id="stock-badge" style="display:none">IN STOCK</span>
               <span class="badge-presale" id="presale-badge" style="display:none">PRE SALE</span>
@@ -347,11 +364,11 @@ ${JSON.stringify(jsonLd, null, 2)}
             </div>
             <div class="gallery-thumbs" id="gallery-thumbs">
               <div class="gallery-thumb active" onclick="switchImage(0)" data-index="0">
-                <img src="images/${baseImg}.png" alt="앞면" loading="lazy"
+                <img src="images/${baseImg}.png" alt="${safeNameAttr} 앞면" loading="lazy"
                   onerror="this.parentElement.style.display='none'">
               </div>
               <div class="gallery-thumb" onclick="switchImage(1)" data-index="1">
-                <img src="images/${baseImg}-back.png" alt="뒷면" loading="lazy"
+                <img src="images/${baseImg}-back.png" alt="${safeNameAttr} 뒷면" loading="lazy"
                   onerror="this.parentElement.style.display='none'">
               </div>
             </div>
@@ -483,12 +500,15 @@ ${JSON.stringify(jsonLd, null, 2)}
       if (!mainImg) return;
 
       thumbs.forEach((t, i) => t.classList.toggle('active', i === index));
-      const src = thumbs[index]?.querySelector('img')?.src;
+      const thumbImg = thumbs[index]?.querySelector('img');
+      const src = thumbImg?.src;
+      const altText = thumbImg?.alt;
       if (src) {
         mainImg.style.transition = 'opacity 0.15s ease, transform 0.3s ease';
         mainImg.style.opacity = '0';
         setTimeout(() => {
           mainImg.src = src;
+          if (altText) mainImg.alt = altText;
           mainImg.style.display = '';
           if (noImg) noImg.style.display = 'none';
           mainImg.style.opacity = '1';
