@@ -7,11 +7,16 @@
 //
 // ── 빌드 시점에 박는 것 (정적) ──
 //   상품 정식명(시트 name 컬럼), 스펙/설명(coin-descriptions.js),
-//   canonical/og/JSON-LD, 갤러리 이미지 경로
+//   canonical/og/JSON-LD(가격 포함 — 아래 설명 참고), 갤러리 이미지 경로
 // ── 빌드 시점에 안 박는 것 (브라우저에서 실시간) ──
-//   가격, 재고(available/same_day), 짧은 설명(시트 description 컬럼)
-//   → 네이버봇이 못 읽어도 가격은 매일 바뀌니 정적 파일에 고정하면
-//     위험하다는 1단계(coin-maple-2026.html)와 동일한 원칙.
+//   화면에 보이는 실제 가격/재고 뱃지, 짧은 설명(시트 description 컬럼)
+//   → 화면 표시 가격은 여전히 매일 바뀌니 그대로 nav.js가 시트를 실시간
+//     fetch해서 갱신함. 단 JSON-LD(검색엔진용 구조화 데이터)의 price는
+//     "계산" 시트의 빌드 시점 금시세×환율로 계산해 정적으로 박아넣는다.
+//     리치 스니펫에 필요한 price 필드가 없으면 구글이 Offer 자체를 무시
+//     하므로, 100% 실시간보다는 "어제~오늘 시세 기준"이라도 박는 쪽을
+//     택함. priceValidUntil(다음 빌드일)로 시세가 변동될 수 있음을 명시.
+//     매일 1회(KST 00:00) Actions 빌드가 돌므로 최대 1일 지연.
 //
 // 실행: node scripts/generate-coin-pages.js  (레포 루트에서)
 // =====================================================================
@@ -41,8 +46,10 @@ function loadConstFromFile(filePath, constName) {
 const COIN_DESCRIPTIONS = loadConstFromFile(path.join(ROOT, 'coin-descriptions.js'), 'COIN_DESCRIPTIONS');
 const IMAGE_MAP = loadConstFromFile(path.join(ROOT, 'products.js'), 'IMAGE_MAP');
 
-// ── 2. 구글 시트에서 상품 정식명(name)만 가져온다 (가격/재고는 안 씀) ──
-async function fetchSheetNames() {
+// ── 2. 구글 시트 "상품" 탭에서 name/brand/premium/available을 가져온다.
+//      (컬럼 순서는 products.js의 fetchProductsFromSheet와 동일:
+//       A=name, B=brand, C=category, D=premium, E=available, F=same_day) ──
+async function fetchSheetRows() {
   const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=상품`;
   const res = await fetch(url);
   const text = await res.text();
@@ -53,8 +60,29 @@ async function fetchSheetNames() {
     .map(row => ({
       name: row.c[0]?.v || '',
       brand: row.c[1]?.v || '',
+      premium: parseFloat(row.c[3]?.v) || 1.03,
+      available: String(row.c[4]?.v).toUpperCase() === 'TRUE',
     }))
     .filter(p => p.name);
+}
+
+// ── 2-1. 구글 시트 "계산" 탭에서 금시세(USD/oz)·환율(KRW/USD)을 가져와
+//        krwPerOz(원/oz)를 계산한다. nav.js의 updateNavPrices()와 동일한
+//        컬럼 순서(0=금, 4=환율)를 사용해 화면에 뜨는 가격과 일치시킨다. ──
+async function fetchGoldRateKrwPerOz() {
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=계산`;
+  const res = await fetch(url);
+  const text = await res.text();
+  const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*?)\);/);
+  if (!match) throw new Error('"계산" 시트 응답 형식을 파싱할 수 없습니다.');
+  const json = JSON.parse(match[1]);
+  const row = json.table.rows[0].c;
+  const goldPriceUsd = row[0]?.v;
+  const exchangeRate = row[4]?.v;
+  if (!goldPriceUsd || !exchangeRate) {
+    throw new Error('"계산" 시트에서 금시세 또는 환율 값을 찾지 못했습니다.');
+  }
+  return Number(goldPriceUsd) * Number(exchangeRate);
 }
 
 function matchByKeyword(text, keywords) {
@@ -91,6 +119,8 @@ function buildCoinEntries(sheetRows) {
       imageFile: imageEntry.file,
       name: sheetRow.name,
       brand: sheetRow.brand || 'MIDAS BULLION',
+      premium: sheetRow.premium,
+      available: sheetRow.available,
     });
   }
 
@@ -110,8 +140,8 @@ function escapeAttr(str) {
 
 // ── 4. 코인 1개 → coin-{slug}.html 전체 문자열 생성 ──
 //      (coin-maple-2026.html 1차 템플릿과 동일한 마크업/스크립트 구조)
-function renderCoinPage(coin) {
-  const { slug, name, brand, detail, specs, imageFile, keywords } = coin;
+function renderCoinPage(coin, krwPerOz, todayStr) {
+  const { slug, name, brand, detail, specs, imageFile, keywords, premium, available } = coin;
   const baseImg = imageFile.replace(/\.png$/i, '');
   const pageUrl = `${SITE_URL}/coin-${slug}.html`;
   const mainImgUrl = `${SITE_URL}/images/${imageFile}`;
@@ -120,6 +150,16 @@ function renderCoinPage(coin) {
   const safeBrand = escapeHtml(brand);
   const shortDesc = detail.split('\n')[0].slice(0, 80);
   const jsonLdDescription = detail.replace(/\n/g, ' ').slice(0, 300);
+
+  // 화면에 실제로 표시되는 가격과 동일한 공식
+  // (updateCardPricesFromSheet() / products.js renderProductCard()와 일치).
+  // krwPerOz는 "계산" 시트의 금시세(USD/oz) × 환율(KRW/USD)로 빌드 시점에 계산됨.
+  const price = Math.round((krwPerOz * premium) / 1000) * 1000;
+  // 빌드는 매일 1회(KST 00:00) 또는 코드 push 시 갱신되므로, 다음 빌드 전까지만
+  // 유효한 가격임을 명시 (schema.org Offer의 priceValidUntil 권장 필드).
+  const priceValidUntil = new Date(new Date(todayStr).getTime() + 24 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 10);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -131,8 +171,10 @@ function renderCoinPage(coin) {
     offers: {
       '@type': 'Offer',
       url: pageUrl,
+      price: price,
       priceCurrency: 'KRW',
-      availability: 'https://schema.org/InStock',
+      priceValidUntil: priceValidUntil,
+      availability: available ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       seller: { '@type': 'Organization', name: 'MIDAS BULLION' },
     },
     additionalProperty: [
@@ -173,7 +215,7 @@ function renderCoinPage(coin) {
   <meta property="og:image" content="${mainImgUrl}">
   <meta property="og:site_name" content="MIDAS BULLION">
   <meta property="og:locale" content="ko_KR">
-  <!-- JSON-LD: Product (정적 스펙 기반, 가격은 실시간 연동이라 제외) -->
+  <!-- JSON-LD: Product (price는 빌드 시점 금시세 기준, priceValidUntil로 변동 가능성 명시) -->
   <script type="application/ld+json">
 ${JSON.stringify(jsonLd, null, 2)}
   </script>
@@ -622,9 +664,13 @@ ${body}
 
 // ── 메인 실행 ──
 async function main() {
-  console.log('구글 시트에서 상품명 가져오는 중...');
-  const sheetRows = await fetchSheetNames();
+  console.log('구글 시트에서 상품 정보(이름/프리미엄/재고) 가져오는 중...');
+  const sheetRows = await fetchSheetRows();
   console.log(`시트 상품 ${sheetRows.length}개 로드 완료`);
+
+  console.log('구글 시트 "계산" 탭에서 금시세/환율 가져오는 중...');
+  const krwPerOz = await fetchGoldRateKrwPerOz();
+  console.log(`krwPerOz = ${krwPerOz.toLocaleString()}원/oz`);
 
   const { entries, skipped } = buildCoinEntries(sheetRows);
   console.log(`코인 페이지 생성 대상: ${entries.length}개`);
@@ -633,10 +679,13 @@ async function main() {
     skipped.forEach(s => console.log(`  - [${s.keywords.join(', ')}] ${s.reason}`));
   }
 
+  // KST 기준 날짜로 lastmod/priceValidUntil 기록
+  const kstDate = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
   let changedCount = 0;
   for (const coin of entries) {
     const filePath = path.join(ROOT, `coin-${coin.slug}.html`);
-    const html = renderCoinPage(coin);
+    const html = renderCoinPage(coin, krwPerOz, kstDate);
     const prev = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : null;
     if (prev !== html) {
       fs.writeFileSync(filePath, html, 'utf8');
@@ -645,8 +694,6 @@ async function main() {
     }
   }
 
-  // KST 기준 날짜로 lastmod 기록
-  const kstDate = new Date(Date.now() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10);
   const sitemapPath = path.join(ROOT, 'sitemap.xml');
   const newSitemap = renderSitemap(entries, kstDate);
   const prevSitemap = fs.existsSync(sitemapPath) ? fs.readFileSync(sitemapPath, 'utf8') : null;
