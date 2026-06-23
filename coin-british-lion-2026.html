@@ -260,6 +260,20 @@
     // ===== 이 코인의 매칭 키워드 (coin-descriptions.js / IMAGE_MAP과 동일 패턴) =====
     const COIN_KEYWORDS = ["2026 브리티시라이언","2026 british lion"];
 
+    // nav.js가 시세를 갱신할 때 호출하는 공통 함수명과 동일하게 선언.
+    // premium은 loadPriceAndStock()에서 시트를 받아온 뒤 채워진다.
+    let _coinPremium = null;
+
+    function updateCardPricesFromSheet(krwPerOz) {
+      if (_coinPremium === null) return; // 아직 시트 로딩 전
+      const price = Math.round(krwPerOz * _coinPremium / 1000) * 1000;
+      const priceEl = document.getElementById('detail-price-value');
+      if (priceEl) {
+        priceEl.textContent = `₩${price.toLocaleString()}`;
+        priceEl.classList.remove('loading');
+      }
+    }
+
     function findThisCoinInSheet(products) {
       return products.find(p => {
         const lower = p.name.toLowerCase();
@@ -278,6 +292,8 @@
           return;
         }
 
+        _coinPremium = product.premium;
+
         const isAvailable = product.available === 'TRUE' || product.available === true;
         const isSameDay = product.same_day === 'TRUE' || product.same_day === true;
 
@@ -290,20 +306,15 @@
             '<div style="text-align:center;padding:12px 0;"><span class="soldout-badge">현재 품절된 상품입니다</span></div>';
         }
 
+        // nav.js의 tb-gold/tb-rate가 이미 채워져 있으면 즉시 가격 표시.
+        // 아직 안 채워진 경우엔 nav.js가 updateNavPrices() 완료 후
+        // updateCardPricesFromSheet()를 직접 호출해 줌.
         const tbGold = document.getElementById('tb-gold');
         const tbRate = document.getElementById('tb-rate');
         if (tbGold && tbRate) {
-          const goldText = tbGold.textContent.replace('$', '').trim();
-          const rateText = tbRate.textContent.replace('원', '').replace(/,/g, '').trim();
-          const gold = parseFloat(goldText);
-          const rate = parseFloat(rateText);
-          if (gold > 0 && rate > 0) {
-            const krwPerOz = gold * rate;
-            const price = Math.round(krwPerOz * product.premium / 1000) * 1000;
-            const priceEl = document.getElementById('detail-price-value');
-            priceEl.textContent = `₩${price.toLocaleString()}`;
-            priceEl.classList.remove('loading');
-          }
+          const gold = parseFloat(tbGold.textContent.replace('$', '').trim());
+          const rate = parseFloat(tbRate.textContent.replace('원', '').replace(/,/g, '').trim());
+          if (gold > 0 && rate > 0) updateCardPricesFromSheet(gold * rate);
         }
       } catch (e) {
         console.error('가격 로딩 오류:', e);
