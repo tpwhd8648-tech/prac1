@@ -326,6 +326,26 @@
 // ===== 탑바 시세 업데이트 (모든 페이지 공통) =====
 (function () {
   const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
+  const CACHE_KEY = 'midas_price_cache';
+  const CACHE_TTL = 30000; // 30초 (setInterval 주기와 동일)
+
+  function applyPrices(goldPrice, silverPrice, platPrice, exchangeRate) {
+    if (goldPrice)    document.getElementById('tb-gold').textContent     = `$${Number(goldPrice).toFixed(2)}`;
+    if (silverPrice)  document.getElementById('tb-silver').textContent   = `$${Number(silverPrice).toFixed(2)}`;
+    if (platPrice)    document.getElementById('tb-platinum').textContent = `$${Number(platPrice).toFixed(2)}`;
+    if (exchangeRate) document.getElementById('tb-rate').textContent     = `${Number(exchangeRate).toLocaleString()}원`;
+
+    const goldVal   = document.getElementById('gold-val');
+    const silverVal = document.getElementById('silver-val');
+    const rateVal   = document.getElementById('rate-val');
+    if (goldVal   && goldPrice)    goldVal.textContent   = `$${Number(goldPrice).toFixed(2)}`;
+    if (silverVal && silverPrice)  silverVal.textContent = `$${Number(silverPrice).toFixed(2)}`;
+    if (rateVal   && exchangeRate) rateVal.textContent   = `${Number(exchangeRate).toLocaleString()}`;
+
+    if (goldPrice && exchangeRate && typeof updateCardPricesFromSheet === 'function') {
+      updateCardPricesFromSheet(goldPrice * exchangeRate);
+    }
+  }
 
   async function updateNavPrices() {
     try {
@@ -342,31 +362,31 @@
       const platPrice    = row[2]?.v;
       const exchangeRate = row[4]?.v;
 
-      if (goldPrice)    document.getElementById('tb-gold').textContent     = `$${Number(goldPrice).toFixed(2)}`;
-      if (silverPrice)  document.getElementById('tb-silver').textContent   = `$${Number(silverPrice).toFixed(2)}`;
-      if (platPrice)    document.getElementById('tb-platinum').textContent = `$${Number(platPrice).toFixed(2)}`;
-      if (exchangeRate) document.getElementById('tb-rate').textContent     = `${Number(exchangeRate).toLocaleString()}원`;
+      // 캐시 저장
+      try {
+        sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+          goldPrice, silverPrice, platPrice, exchangeRate, ts: Date.now()
+        }));
+      } catch (_) {}
 
-      const goldVal   = document.getElementById('gold-val');
-      const silverVal = document.getElementById('silver-val');
-      const rateVal   = document.getElementById('rate-val');
-      if (goldVal   && goldPrice)    goldVal.textContent   = `$${Number(goldPrice).toFixed(2)}`;
-      if (silverVal && silverPrice)  silverVal.textContent = `$${Number(silverPrice).toFixed(2)}`;
-      if (rateVal   && exchangeRate) rateVal.textContent   = `${Number(exchangeRate).toLocaleString()}`;
-
-      if (goldPrice && exchangeRate && typeof updateCardPricesFromSheet === 'function') {
-        updateCardPricesFromSheet(goldPrice * exchangeRate);
-      }
+      applyPrices(goldPrice, silverPrice, platPrice, exchangeRate);
 
     } catch (e) {
       console.error('시세 연동 오류:', e);
     }
   }
 
-  setTimeout(() => {
-    updateNavPrices();
-    setInterval(updateNavPrices, 30000);
-  }, 300);
+  // 캐시가 있으면 즉시 표시 (딜레이 없음)
+  try {
+    const cached = JSON.parse(sessionStorage.getItem(CACHE_KEY) || 'null');
+    if (cached && (Date.now() - cached.ts) < CACHE_TTL) {
+      applyPrices(cached.goldPrice, cached.silverPrice, cached.platPrice, cached.exchangeRate);
+    }
+  } catch (_) {}
+
+  // 300ms 딜레이 제거 — 즉시 fetch 후 30초마다 갱신
+  updateNavPrices();
+  setInterval(updateNavPrices, 30000);
 })();
 
 // ===== 로그인 / 회원가입 모달 + 인증 상태 토글 =====

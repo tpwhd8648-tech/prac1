@@ -527,15 +527,13 @@
         renderDetail(product);
         setTimeout(initMagnifier, 100);
 
-        const tbGold = document.getElementById('tb-gold');
-        const tbRate = document.getElementById('tb-rate');
-        if (tbGold && tbRate) {
-          const goldText = tbGold.textContent.replace('$', '').trim();
-          const rateText = tbRate.textContent.replace('원', '').replace(/,/g, '').trim();
-          const gold = parseFloat(goldText);
-          const rate = parseFloat(rateText);
-          if (gold > 0 && rate > 0) updateCardPricesFromSheet(gold * rate);
-        }
+        // sessionStorage 캐시에서 직접 읽기 (DOM 텍스트 파싱 간접 참조 제거)
+        try {
+          const cached = JSON.parse(sessionStorage.getItem('midas_price_cache') || 'null');
+          if (cached && cached.goldPrice && cached.exchangeRate) {
+            updateCardPricesFromSheet(cached.goldPrice * cached.exchangeRate);
+          }
+        } catch (_) {}
 
       } catch (e) {
         console.error('상품 로딩 오류:', e);
