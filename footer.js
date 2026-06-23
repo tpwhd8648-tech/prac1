@@ -24,7 +24,12 @@
         </ul>
         <h4 style="margin-top:1.5rem">관련 정보</h4>
         <ul>
-          <li><a href="contact.html#contact-map">› 오시는 길</a></li>
+          <!-- 지도 섹션(contact.html의 #contact-map)이 실제 주소 확정 전까지
+               주석 처리돼 있어 앵커가 존재하지 않음. 그래서 지금은 앵커 없이
+               단순히 contact.html로만 이동시킴. 주소 확정되어 contact.html의
+               지도 섹션 주석을 해제하면, 아래 href를
+               "contact.html#contact-map"으로 다시 바꿀 것. -->
+          <li><a href="contact.html">› 오시는 길</a></li>
           <!-- 회사 소개 / 온라인 예약 / 거래 안내 / 귀금속 투명성 / 정품 인증 /
                서비스 약관 / 자주 묻는 질문: 연결할 실제 페이지가 아직 없어
                삭제함 (2026-06-21). 각 페이지가 생기면 다시 추가. -->
