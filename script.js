@@ -60,41 +60,16 @@ if (document.readyState === 'loading') {
 // SHEET_ID, fetchProductsFromSheet는 products.js(공용 파일)로 이동함.
 // index.html에서 products.js를 script.js보다 먼저 로드해야 함.
 
-let currentKrwPrice = null;
-let productsData = [];
-
-// 메인페이지 전용 카드 옵션: 클릭 시 coins.html 이동(상품명 쿼리 없음),
-// 가격 미로딩 시 빈 문자열 표시, lazy 이미지 미적용 — 기존 동작 그대로.
-const MAIN_CARD_OPTIONS = {
-  linkTemplate: () => 'coins.html',
-  loadingPriceText: '',
-  lazyImage: false,
-};
-
-async function loadProducts() {
-  try {
-    productsData = await fetchProductsFromSheet({ visibleValues: ['all', 'main'] });
-    renderProducts();
-  } catch (e) {
-    console.error('상품 목록 로딩 오류:', e);
-    document.getElementById('products-grid').innerHTML =
-      '<p style="color:#888;text-align:center;padding:2rem;">상품을 불러오는 중 오류가 발생했습니다.</p>';
-  }
-}
-
-function renderProducts() {
-  const grid = document.getElementById('products-grid');
-  if (!productsData.length) return;
-
-  grid.innerHTML = productsData
-    .map(p => createProductCard(p, currentKrwPrice, MAIN_CARD_OPTIONS))
-    .join('');
-
-  applyScrollAnimation(document.querySelectorAll('.product-card'));
-}
-
+// ===== 메인페이지 상품 카드: SSG(GitHub Actions)가 만든 정적 카드를
+// 그대로 사용한다. 예전에는 loadProducts()가 페이지 로드 시 구글
+// 시트를 fetch해 grid.innerHTML을 통째로 새로 그렸는데, 이 때문에
+// 크롤러가 보는 최초 HTML(SSG 정적 카드)이 로드 직후 JS가 다시 그린
+// 카드로 즉시 교체되어 SSG의 SEO 효과가 무력화되는 문제가 있었음.
+// 가격만 시세에 맞춰 갱신하면 되므로, 카드 구조는 그대로 두고
+// updateCardPricesFromSheet()(nav.js가 실시간 시세 수신 시 호출)로
+// 가격 텍스트만 갈아끼운다. 새 코인 추가/숨김/순서 변경은 시트 수정
+// 후 GitHub Actions 재실행으로 반영한다.
 function updateCardPricesFromSheet(krwPerOz) {
-  currentKrwPrice = krwPerOz;
   document.querySelectorAll('.product-card').forEach(card => {
     const premium = parseFloat(card.dataset.premium) || 1.03;
     const price = Math.round(krwPerOz * premium / 1000) * 1000;
@@ -102,8 +77,6 @@ function updateCardPricesFromSheet(krwPerOz) {
     if (priceEl) priceEl.textContent = `₩${price.toLocaleString()}`;
   });
 }
-
-loadProducts();
 
 // ===== SCROLL ANIMATIONS =====
 function applyScrollAnimation(els) {
@@ -127,6 +100,7 @@ function applyScrollAnimation(els) {
   });
 }
 
+applyScrollAnimation(document.querySelectorAll('.product-card'));
 applyScrollAnimation(document.querySelectorAll('.brand-card, .cat-banner'));
 
 // ===== HEADER SCROLL SHADOW =====

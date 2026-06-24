@@ -613,7 +613,36 @@
       });
     }
 
-    loadProducts();
+    // SSG(GitHub Actions)가 만든 정적 카드를 기본으로 사용한다. 검색
+    // 쿼리(?q=...)가 없으면 시트를 다시 fetch해 grid를 통째로 새로
+    // 그릴 필요가 없으므로 호출하지 않는다 — 크롤러가 보는 최초 HTML이
+    // 그대로 유지되어 SSG의 SEO 효과가 보존된다. 가격은
+    // updateCardPricesFromSheet()(nav.js가 실시간 시세 수신 시 호출)가
+    // SSG 카드의 가격 텍스트만 갈아끼우고, 탭 필터(위 PRODUCT TABS)도
+    // SSG 카드에 직접 display 토글을 거니 영향 없다. 검색 쿼리가 있을
+    // 때만 시트를 fetch해 필터링된 결과로 다시 그린다.
+    if (queryKeyword) {
+      loadProducts();
+    } else {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+            }, i * 80);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0 });
+
+      document.querySelectorAll('.product-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(el);
+      });
+    }
   </script>
 </body>
 </html>
