@@ -56,7 +56,7 @@ const COIN_DESCRIPTIONS = [
   },
   {
     keywords: ['2026 판다', '2026 panda'],
-    detail: `중국조폐총공사(China Gold Coin Incorporation)가 발행하는 중국의 대표 골드 불리온\n코인입니다. 1982년 첫 발행 이후 앞면에는 베이징 천단(Temple of Heaven)이,\n뒷면에는 자이언트 판다 도안이 매년 새롭게 바뀌는 것이 가장 큰 특징으로,\n코인 자체의 투자 가치와 더불어 매년 다른 도안을 모으는 컬렉터들 사이에서도\n인기가 높습니다. 순도 99.9%(.999) 순금으로 제작됩니다.`,
+    detail: `중국조폐총공사(China Gold Coin Incorporation)가 발행하는 중국의 대표 골드 불리온\n코인입니다. 1982년 첫 발행 이후 앞면에는 자이언트 판다 도안이 매년 새롭게 바뀌는 것이 가장 큰 특징으로,\n뒷면에는 베이징 천단(Temple of Heaven)이 새겨져 있습니다.\n코인 자체의 투자 가치와 더불어 매년 다른 도안을 모으는 컬렉터들 사이에서도\n인기가 높습니다. 순도 99.9%(.999) 순금으로 제작됩니다.`,
     specs: { year: '2026', mint: '중국조폐총공사 (China Gold Coin Incorporation)', country: '중국', purity: '99.9% 이상 (.999+) 순금', weight: '30g', diameter: '32mm', thickness: '2.7mm', condition: '미사용 (Brilliant Uncirculated)', verified: true }
   },
   {
