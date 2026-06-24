@@ -33,8 +33,6 @@ img { max-width: 100%; display: block; }
 .header { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .header-inner { max-width: 1300px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 20px; }
 .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.logo-main { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 700; color: var(--gold); line-height: 1; letter-spacing: 3px; }
-.logo-sub { display: block; font-size: 10px; color: var(--gray); letter-spacing: 1px; margin-top: 2px; }
 .header-search { flex: 1; display: flex; border: 1px solid var(--border); border-radius: 2px; overflow: visible; max-width: 700px; position: relative; }
 .search-category select { border: none; border-right: 1px solid var(--border); padding: 0 12px; font-size: 13px; background: #f9f9f9; color: #444; outline: none; cursor: pointer; height: 44px; }
 .search-input { flex: 1; border: none; padding: 0 16px; font-size: 14px; outline: none; height: 44px; }
