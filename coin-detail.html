@@ -115,7 +115,6 @@
 
     .detail-tab-panel { display: none; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: #555; line-height: 1.9; max-width: 760px; min-height: 320px; }
     .detail-tab-panel.active { display: block; }
-    .tab-short-desc { white-space: pre-line; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dashed #e8e4d9; }
     .tab-detail-desc { white-space: pre-line; }
     .tab-empty-note { color: #aaa; font-size: 13px; }
 
@@ -165,6 +164,14 @@
   <script src="products.js"></script>
   <script src="coin-descriptions.js"></script>
   <script>
+    // ── HTML escape 유틸 (generate-coin-pages.js와 동일 구현) ──
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
     function buildImageList(imageFile) {
       if (!imageFile) return [];
       const base = imageFile.replace(/\.png$/i, '');
@@ -187,7 +194,7 @@
 
     function renderDetail(product) {
       currentProduct = product;
-      const { name, brand, available, same_day, description, image } = product;
+      const { name, brand, available, same_day, image } = product;
       const isAvailable = available === 'TRUE' || available === true;
       const isSameDay = same_day === 'TRUE' || same_day === true;
       const images = buildImageList(image);
@@ -228,7 +235,7 @@
           '@context': 'https://schema.org',
           '@type': 'Product',
           name: name,
-          description: (detailText || description || '').replace(/\n/g, ' ').substring(0, 300),
+          description: (detailText || '').replace(/\n/g, ' ').substring(0, 300),
           image: `https://tpwhd8648-tech.github.io/images/${baseImg}.png`,
           brand: { '@type': 'Brand', name: brand || 'MIDAS BULLION' },
           offers: {
@@ -254,10 +261,9 @@
       }
 
       const descTabHTML = `
-        ${description ? `<div class="tab-short-desc">${description}</div>` : ''}
         ${detailText
-          ? `<div class="tab-detail-desc">${detailText}</div>`
-          : (!description ? `<p class="tab-empty-note">상세 설명이 준비 중입니다.</p>` : '')}
+          ? `<div class="tab-detail-desc">${escapeHtml(detailText)}</div>`
+          : `<p class="tab-empty-note">상세 설명이 준비 중입니다.</p>`}
       `;
 
       const infoTabHTML = specs ? `
