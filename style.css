@@ -202,8 +202,6 @@ img { max-width: 100%; display: block; }
 .product-price-wrap { margin-bottom: 12px; margin-top: auto; }
 .product-price { font-size: 16px; font-weight: 700; color: var(--gold); }
 
-.btn-cart-wrap { }
-
 .btn-cart { width: 100%; background: var(--dark); color: #fff; border: none; padding: 10px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: background 0.2s; letter-spacing: 1px; }
 .btn-cart:hover { background: var(--gold); }
 
