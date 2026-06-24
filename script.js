@@ -53,18 +53,6 @@ if (document.readyState === 'loading') {
   initHeroSlider();
 }
 
-// ===== PRODUCT TABS =====
-document.querySelectorAll('.ptab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    const filter = tab.dataset.filter;
-    document.querySelectorAll('.product-card').forEach(card => {
-      card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
-    });
-  });
-});
-
 // ===== 장바구니/TOAST 관련 함수: 장바구니 사이드바 제거에 따라
 // 함께 삭제함 (openCart/closeCart/getCardPrice/addToCart/removeFromCart/
 // updateCartUI/showToast — 모두 호출하는 곳이 없던 죽은 코드였음)
@@ -101,14 +89,6 @@ function renderProducts() {
   grid.innerHTML = productsData
     .map(p => createProductCard(p, currentKrwPrice, MAIN_CARD_OPTIONS))
     .join('');
-
-  const activeTab = document.querySelector('.ptab.active');
-  if (activeTab) {
-    const filter = activeTab.dataset.filter;
-    document.querySelectorAll('.product-card').forEach(card => {
-      card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
-    });
-  }
 
   applyScrollAnimation(document.querySelectorAll('.product-card'));
 }

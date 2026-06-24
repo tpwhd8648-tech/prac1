@@ -40,17 +40,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    .products-loading { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; padding: 4rem 0; color: #888; gap: 1rem; }
-    .loading-spinner { width: 36px; height: 36px; border: 3px solid #2a2a2a; border-top-color: #C8A84B; border-radius: 50%; animation: spin 0.8s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .product-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); color: #C8A84B; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 2px; text-align: center; padding: 1rem; }
-    .btn-cart-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 5px; }
-    .btn-buy { width: 100%; background: #C8A84B; color: #fff; border: none; padding: 10px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: background 0.2s, color 0.2s; letter-spacing: 1px; }
-    .btn-buy:hover { background: #F5E090; color: #1a1200; }
-    .btn-soldout { background: #2a2a2a; color: #555; border: 1px solid #333; padding: 10px 16px; font-size: 13px; letter-spacing: 2px; cursor: not-allowed; border-radius: 3px; }
-    .card-soldout { opacity: 0.6; }
-    .soldout-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; }
-    .soldout-overlay span { font-family: 'Cinzel', serif; font-size: 18px; letter-spacing: 4px; color: #fff; border: 1px solid #fff; padding: 6px 14px; opacity: 0.8; }
+    /* 카드 공통 CSS → style.css로 이동 */
     #products-grid { box-sizing: border-box; }
     #products-grid .product-card {
       min-width: calc((100% - 60px) / 4);
