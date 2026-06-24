@@ -22,12 +22,13 @@
 //   - sortFn: productsData 배열을 정렬할 함수. 기본값 없음(시트 순서 그대로).
 //       coins.html은 재고순 + order 필드로 정렬하는 함수를 넘김.
 //
-// description/image 컬럼(row.c[8], row.c[9])은 coin-detail.html에서만
-// 실제로 쓰이지만, 다른 페이지에서도 일관되게 읽어두면(쓰지 않더라도)
-// 나중에 카드에 description/image를 노출하고 싶을 때 시트 파싱 로직을
-// 또 건드릴 필요가 없다. 즉 "있으면 쓰고 없으면 무시"하는 옵션 필드로
-// 취급한다 — productsData에는 들어있지만 createProductCard()는 현재
-// description/image를 렌더링하지 않는다(필요해지면 그때 추가).
+// image 컬럼(row.c[8])은 coin-detail.html에서만 실제로 쓰이지만, 다른
+// 페이지에서도 일관되게 읽어두면(쓰지 않더라도) 나중에 카드에 image를
+// 노출하고 싶을 때 시트 파싱 로직을 또 건드릴 필요가 없다. 즉 "있으면
+// 쓰고 없으면 무시"하는 옵션 필드로 취급한다 — productsData에는 들어있지만
+// createProductCard()는 현재 image를 렌더링하지 않는다(필요해지면 그때 추가).
+// (2026-06-24: description 컬럼은 시트에서 삭제됨 — "추후 예정" placeholder만
+//  들어있던 미사용 컬럼이었음. 이에 따라 image 컬럼 인덱스가 9→8로 당겨짐)
 // =====================================================================
 
 // ===== 상품명 → 이미지 파일명 매핑 =====
@@ -142,8 +143,10 @@ function createProductCard(product, krwPrice, options) {
 }
 
 // ===== 구글 시트 연동 =====
-// 공통 SHEET_ID. row.c[7](order), row.c[8](description), row.c[9](image)는
+// 공통 SHEET_ID. row.c[7](order), row.c[8](image)는
 // 시트에 없으면 undefined/빈값으로 채워지므로 안전하게 옵션 필드로 동작한다.
+// (2026-06-24: description 컬럼은 시트에서 삭제됨 — 미사용 placeholder였음.
+//  이에 따라 image 컬럼 인덱스가 9→8로 한 칸 당겨짐)
 const SHEET_ID = '1gMqKhtWwTAizoBGlrGDpm6sl5c6vmbotGzg3qXl16-w';
 
 // options:
@@ -171,7 +174,6 @@ async function fetchProductsFromSheet(options) {
     same_day:    String(row.c[5]?.v).toUpperCase(),
     visible:     row.c[6] ? String(row.c[6].v ?? 'all').toLowerCase() : 'all',
     order:       row.c[7] ? parseInt(row.c[7].v) || 9999 : 9999,
-    description: row.c[8]?.v || '',
-    image:       row.c[9]?.v || '',
+    image:       row.c[8]?.v || '',
   })).filter(p => p.name && (includeAll || visibleValues.includes(p.visible)));
 }
