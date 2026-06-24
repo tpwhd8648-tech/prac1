@@ -28,13 +28,11 @@ img { max-width: 100%; display: block; }
 .price-val.gold { color: #FFD700; }
 .price-val.silver { color: #C0C0C0; }
 .price-val.platinum { color: #E5E4E2; }
-.top-bar-right { display: flex; align-items: center; gap: 16px; }
 
 /* ===== HEADER ===== */
 .header { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .header-inner { max-width: 1300px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 20px; }
 .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-.logo-icon svg { width: 44px; height: 44px; }
 .logo-main { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 700; color: var(--gold); line-height: 1; letter-spacing: 3px; }
 .logo-sub { display: block; font-size: 10px; color: var(--gray); letter-spacing: 1px; margin-top: 2px; }
 .header-search { flex: 1; display: flex; border: 1px solid var(--border); border-radius: 2px; overflow: visible; max-width: 700px; position: relative; }
@@ -240,7 +238,6 @@ img { max-width: 100%; display: block; }
    (카카오톡 연결) 버튼으로 통일됨. */
 
 /* ===== PRODUCT CARD COMMON (index.html / coins.html 공용) ===== */
-.products-loading { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; padding: 4rem 0; color: #888; gap: 1rem; }
 .loading-spinner { width: 36px; height: 36px; border: 3px solid #2a2a2a; border-top-color: #C8A84B; border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
