@@ -796,7 +796,7 @@ function renderRelatedCoins(currentSlug, allEntries, sheetRows) {
         <div class="related-coins-section">
           <div class="related-coins-header">
             <h2 class="related-coins-title">당일수령 가능 금화</h2>
-            <a href="coins.html?instock" class="related-coins-more">전체 보기 ›</a>
+            <a href="coins.html?instock" class="related-coins-more">당일수령 더보기 ›</a>
           </div>
           <div class="related-coins-grid">
             ${cards}
