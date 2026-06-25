@@ -186,7 +186,7 @@
               <a class="custom-dropdown-item" href="contact.html">구매 문의</a>
             </div>
           </div>
-          <input type="text" placeholder="금화 이름으로 검색 (예: 메이플, 버팔로)" class="search-input" autocomplete="off">
+          <input type="text" placeholder="금화 검색" class="search-input" autocomplete="off">
           <div class="search-suggest" id="search-suggest"></div>
           <button class="search-btn">검색</button>
         </div>
