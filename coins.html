@@ -549,8 +549,19 @@
       });
       document.addEventListener('click', () => menu.classList.remove('open'));
 
-      // ?brand=1 파라미터가 있으면 드롭다운 자동 열기
-      if (urlParams.has('brand')) {
+      // ?brand=브랜드명 파라미터 처리
+      // - 브랜드명이 있으면 해당 브랜드 자동 필터 적용
+      // - ?brand=1 처럼 브랜드명이 아니면 드롭다운만 열기
+      const brandValue = urlParams.get('brand');
+      if (brandValue && brandValue !== '1') {
+        setTimeout(() => {
+          btn.innerHTML = brandValue + ' <span class="ptab-arrow">▾</span>';
+          btn.classList.add('active');
+          document.querySelectorAll('.ptab:not(.ptab-brand-btn)').forEach(t => t.classList.remove('active'));
+          applyTabFilter('brand:' + brandValue);
+          btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 100);
+      } else if (brandValue === '1') {
         setTimeout(() => {
           menu.classList.add('open');
           btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
