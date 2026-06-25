@@ -92,14 +92,14 @@ function createProductCard(product, krwPrice, options) {
   }
 
   return `
-    <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}"
+    <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-brand="${brand}" data-premium="${premium}"
       onclick="location.href='${linkUrl}'">
       <div class="product-img-area">
         ${imgHTML}
         ${placeholderHTML}
         ${isAvailable && isSameDay ? '<span class="badge-instock">IN STOCK</span>' : ''}
         ${isAvailable && !isSameDay ? '<span class="badge-presale">PRE SALE</span>' : ''}
-        ${!isAvailable ? '<div class="soldout-overlay"><span>SOLD OUT</span></div>' : ''}
+        ${!isAvailable ? '<span class="badge-soldout">SOLD OUT</span>' : ''}
       </div>
       <div class="product-info">
         <p class="product-brand">${brand}</p>
