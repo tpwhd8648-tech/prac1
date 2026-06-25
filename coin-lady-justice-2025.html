@@ -39,7 +39,7 @@
   "offers": {
     "@type": "Offer",
     "url": "https://tpwhd8648-tech.github.io/coin-lady-justice-2025.html",
-    "price": 6138000,
+    "price": 6139000,
     "priceCurrency": "KRW",
     "priceValidUntil": "2026-06-26",
     "availability": "https://schema.org/OutOfStock",
@@ -208,6 +208,28 @@
     .related-coins-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     @media (max-width: 768px) { .related-coins-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
     .related-card-current { outline: 2px solid #C8A84B; }
+
+    .acc-item { border: 1px solid #e8e3d8; margin-bottom: -1px; background: #fff; }
+    .acc-btn { width: 100%; display: flex; align-items: center; gap: 16px; padding: 18px 20px; cursor: pointer; background: none; border: none; text-align: left; transition: background 0.2s; }
+    .acc-btn:hover { background: #faf8f2; }
+    .acc-btn.active { background: #faf8f2; border-left: 3px solid #C8A84B; }
+    .acc-num { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #C8A84B; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', serif; font-size: 11px; color: #C8A84B; flex-shrink: 0; transition: all 0.2s; }
+    .acc-btn.active .acc-num { background: #C8A84B; color: #fff; }
+    .acc-btn-text { flex: 1; }
+    .acc-btn-text strong { display: block; font-family: 'Noto Serif KR', serif; font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+    .acc-btn-text span { font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: #aaa; }
+    .acc-arrow { font-size: 16px; color: #C8A84B; transition: transform 0.3s; flex-shrink: 0; }
+    .acc-btn.active .acc-arrow { transform: rotate(180deg); }
+    .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .acc-body.open { max-height: 600px; }
+    .acc-body-inner { padding: 16px 20px 20px 64px; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; color: #555; line-height: 1.9; border-top: 1px solid #f0ece2; }
+    .acc-body-inner ul { padding-left: 16px; margin: 0; }
+    .acc-body-inner ul li { margin-bottom: 6px; }
+    .acc-body-inner .acc-step { display: flex; flex-direction: column; gap: 10px; }
+    .acc-body-inner .step-row { display: flex; align-items: flex-start; gap: 12px; }
+    .acc-body-inner .step-dot { width: 8px; height: 8px; border-radius: 50%; background: #C8A84B; flex-shrink: 0; margin-top: 6px; }
+    .acc-body-inner .step-text strong { display: block; font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+    .acc-body-inner .step-text span { font-size: 12px; color: #aaa; }
   </style>
 </head>
 <body>
@@ -289,11 +311,112 @@
             </table>
           </div>
           <div class="detail-tab-panel" data-panel="guide">
-            <p>본 상품의 판매가는 실시간 국제 금 시세와 환율을 반영하여 매일 변동됩니다.</p>
-            <p>구매를 원하시면 하단의 [구매 문의하기] 버튼을 통해 카카오톡 채널로 문의해 주세요.
-            담당자가 결제 방법, 배송(또는 매장 수령), 정품 보증서 발급 등을 안내해 드립니다.</p>
-            <p>상품 이미지의 IN STOCK / PRE SALE 뱃지로 당일 수령 가능 여부를 확인할 수 있습니다.</p>
-            <p>교환·환불 등 세부 정책은 문의 시 담당자를 통해 정확히 안내받으실 수 있습니다.</p>
+            <div class="acc-item">
+              <button class="acc-btn" onclick="toggleAcc(this)">
+                <div class="acc-num">1</div>
+                <div class="acc-btn-text">
+                  <strong>자주 묻는 질문 (FAQ)</strong>
+                  <span>구매 전 꼭 확인하세요</span>
+                </div>
+                <span class="acc-arrow">▾</span>
+              </button>
+              <div class="acc-body">
+                <div class="acc-body-inner">
+                  <ul>
+                    <li>금화는 법정화폐로 인정되며 투자 및 수집 목적으로 구매 가능합니다.</li>
+                    <li>모든 상품은 공인 조폐국 발행 정품이며 진품 보증서가 포함됩니다.</li>
+                    <li>부가세(VAT)는 금 투자 상품에 한해 면세 적용됩니다.</li>
+                    <li>소량(1oz 미만)부터 대량 구매까지 모두 상담 가능합니다.</li>
+                    <li>IN STOCK 상품은 당일 매장 수령, PRE SALE 상품은 입고 후 안내드립니다.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-btn" onclick="toggleAcc(this)">
+                <div class="acc-num">2</div>
+                <div class="acc-btn-text">
+                  <strong>가격 및 시세 안내</strong>
+                  <span>금화 가격은 어떻게 결정되나요?</span>
+                </div>
+                <span class="acc-arrow">▾</span>
+              </button>
+              <div class="acc-body">
+                <div class="acc-body-inner">
+                  <ul>
+                    <li>금화 가격은 국제 금 현물 시세(XAU/USD)에 연동됩니다.</li>
+                    <li>환율 및 프리미엄(제조·유통 비용)이 반영된 최종 가격으로 안내드립니다.</li>
+                    <li>표시 가격은 매일 시세 기준으로 갱신되며 구매 시점에 재확인됩니다.</li>
+                    <li>대량 구매 시 별도 협의 가격 적용이 가능합니다.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-btn" onclick="toggleAcc(this)">
+                <div class="acc-num">3</div>
+                <div class="acc-btn-text">
+                  <strong>구매 절차</strong>
+                  <span>문의부터 수령까지의 과정</span>
+                </div>
+                <span class="acc-arrow">▾</span>
+              </button>
+              <div class="acc-body">
+                <div class="acc-body-inner">
+                  <div class="acc-step">
+                    <div class="step-row">
+                      <div class="step-dot"></div>
+                      <div class="step-text">
+                        <strong>1단계 · 문의 및 상담</strong>
+                        <span>카카오톡 채널로 원하시는 상품과 수량 문의</span>
+                      </div>
+                    </div>
+                    <div class="step-row">
+                      <div class="step-dot"></div>
+                      <div class="step-text">
+                        <strong>2단계 · 견적 확인</strong>
+                        <span>실시간 시세 기반 최종 가격 안내</span>
+                      </div>
+                    </div>
+                    <div class="step-row">
+                      <div class="step-dot"></div>
+                      <div class="step-text">
+                        <strong>3단계 · 결제</strong>
+                        <span>계좌이체 또는 협의된 결제 방식으로 진행</span>
+                      </div>
+                    </div>
+                    <div class="step-row">
+                      <div class="step-dot"></div>
+                      <div class="step-text">
+                        <strong>4단계 · 수령</strong>
+                        <span>매장 직접 수령 또는 안전 포장 후 등기 발송</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-btn" onclick="toggleAcc(this)">
+                <div class="acc-num">4</div>
+                <div class="acc-btn-text">
+                  <strong>배송 및 교환·환불 안내</strong>
+                  <span>안전하게 받아보시는 방법</span>
+                </div>
+                <span class="acc-arrow">▾</span>
+              </button>
+              <div class="acc-body">
+                <div class="acc-body-inner">
+                  <ul>
+                    <li>모든 금화는 전문 안전 포장재로 이중 포장 후 등기 또는 특송으로 발송됩니다.</li>
+                    <li>배송비는 구매 금액 및 수량에 따라 별도 안내드립니다.</li>
+                    <li>직접 방문 수령을 원하시면 사전 예약 후 가능합니다.</li>
+                    <li>금 시세 상품의 특성상 단순 변심에 의한 교환·환불은 어렵습니다.</li>
+                    <li>상품 하자 또는 오배송의 경우 수령일로부터 7일 이내 문의해 주세요.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -461,6 +584,13 @@
     function switchDetailTab(tabName) {
       document.querySelectorAll('.dtab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
       document.querySelectorAll('.detail-tab-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === tabName));
+    }
+
+    function toggleAcc(btn) {
+      const body = btn.nextElementSibling;
+      const isOpen = body.classList.contains('open');
+      btn.classList.toggle('active', !isOpen);
+      body.classList.toggle('open', !isOpen);
     }
 
     function switchImage(index) {
