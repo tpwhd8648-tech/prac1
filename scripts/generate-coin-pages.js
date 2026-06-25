@@ -865,7 +865,7 @@ function renderProductCard(product, linkUrl, opts = {}) {
   const btnHTML = `<button class="${btnClass}" onclick="event.stopPropagation(); location.href='${linkUrl}'">${btnText}</button>`;
 
   return `
-    <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-premium="${premium}"
+    <div class="product-card ${!isAvailable ? 'card-soldout' : ''}" data-category="${filterCategory}" data-brand="${brand}" data-premium="${premium}"
       onclick="location.href='${linkUrl}'">
       <div class="product-img-area">
         ${imgHTML}

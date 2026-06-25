@@ -56,11 +56,15 @@
       <div class="product-tabs" style="margin-bottom:28px;">
         <button class="ptab active" data-filter="gold">금화</button>
         <button class="ptab" data-filter="instock">당일수령</button>
+        <div class="ptab-brand-wrap" id="ptab-brand-wrap">
+          <button class="ptab ptab-brand-btn" id="ptab-brand-btn" type="button">브랜드별 <span class="ptab-arrow">▾</span></button>
+          <div class="ptab-brand-menu" id="ptab-brand-menu"></div>
+        </div>
       </div>
       <div class="products-grid" id="products-grid">
 <!-- SSG_GRID_START -->
 
-    <div class="product-card " data-category="gold" data-premium="1.12"
+    <div class="product-card " data-category="gold" data-premium="1.12" data-brand="US Mint"
       onclick="location.href='coin-buffalo-2026.html'">
       <div class="product-img-area">
         <img src="images/products-buffalo-2026.png" alt="2026 버팔로 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -79,7 +83,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1.106"
+    <div class="product-card " data-category="gold" data-premium="1.106" data-brand="Canadian Mint"
       onclick="location.href='coin-maple-2026.html'">
       <div class="product-img-area">
         <img src="images/products-maple-2026.png" alt="2026 메이플리프 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -98,7 +102,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1.107"
+    <div class="product-card " data-category="gold" data-premium="1.107" data-brand="Royal Mint"
       onclick="location.href='coin-britannia-2026.html'">
       <div class="product-img-area">
         <img src="images/products-britannia-2026.png" alt="2026 브리타니아 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -117,7 +121,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1.104"
+    <div class="product-card " data-category="gold" data-premium="1.104" data-brand="Perth Mint"
       onclick="location.href='coin-kangaroo-2026.html'">
       <div class="product-img-area">
         <img src="images/products-kangaroo-2026.png" alt="2026 캥거루 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -136,7 +140,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1.118"
+    <div class="product-card " data-category="gold" data-premium="1.118" data-brand="US Mint"
       onclick="location.href='coin-eagle-2026.html'">
       <div class="product-img-area">
         <img src="images/products-eagle-2026.png" alt="2026 아메리칸이글 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -155,7 +159,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1.117"
+    <div class="product-card " data-category="gold" data-premium="1.117" data-brand="Austrian Mint"
       onclick="location.href='coin-philharmonic-2026.html'">
       <div class="product-img-area">
         <img src="images/products-philharmonic-2026.png" alt="2026 필하모닉 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -174,7 +178,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1"
+    <div class="product-card " data-category="gold" data-premium="1" data-brand="South African Mint"
       onclick="location.href='coin-krugerrand-2026.html'">
       <div class="product-img-area">
         <img src="images/products-krugerrand-2026.png" alt="2026 크루거랜드 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -193,7 +197,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1"
+    <div class="product-card " data-category="gold" data-premium="1" data-brand="China Gold Coin"
       onclick="location.href='coin-panda-2026.html'">
       <div class="product-img-area">
         <img src="images/products-panda-2026.png" alt="2026 판다 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -212,7 +216,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1"
+    <div class="product-card " data-category="gold" data-premium="1" data-brand="Royal Mint"
       onclick="location.href='coin-st-george-2026.html'">
       <div class="product-img-area">
         <img src="images/products-st-george-2026.png" alt="2026 성조지 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -231,7 +235,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1"
+    <div class="product-card " data-category="gold" data-premium="1" data-brand="Royal Mint"
       onclick="location.href='coin-queens-lion-2026.html'">
       <div class="product-img-area">
         <img src="images/products-queens-lion-2026.png" alt="2026 퀸즈라이언 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -250,7 +254,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1"
+    <div class="product-card " data-category="gold" data-premium="1" data-brand="Royal Mint"
       onclick="location.href='coin-lion-eagle-2026.html'">
       <div class="product-img-area">
         <img src="images/products-lion-eagle-2026.png" alt="2026 라이언이글 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -269,7 +273,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1"
+    <div class="product-card " data-category="gold" data-premium="1" data-brand="Perth Mint"
       onclick="location.href='coin-swan-2026.html'">
       <div class="product-img-area">
         <img src="images/products-swan-2026.png" alt="2026 스완 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -288,7 +292,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1"
+    <div class="product-card " data-category="gold" data-premium="1" data-brand="Czech Mint"
       onclick="location.href='coin-czech-lion-2026.html'">
       <div class="product-img-area">
         <img src="images/products-czech-lion-2026.png" alt="2026 체코라이언 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -307,7 +311,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1"
+    <div class="product-card " data-category="gold" data-premium="1" data-brand="Perth Mint"
       onclick="location.href='coin-outback-2026.html'">
       <div class="product-img-area">
         <img src="images/products-outback-2026.png" alt="2026 아웃백 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -326,7 +330,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1"
+    <div class="product-card " data-category="gold" data-premium="1" data-brand="Germania Mint"
       onclick="location.href='coin-cave-lion-2026.html'">
       <div class="product-img-area">
         <img src="images/products-cave-lion-2026.png" alt="2026 케이브라이언 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -345,7 +349,7 @@
       </div>
     </div>
 
-    <div class="product-card " data-category="gold" data-premium="1"
+    <div class="product-card " data-category="gold" data-premium="1" data-brand="Royal Mint"
       onclick="location.href='coin-royal-dragon-2026.html'">
       <div class="product-img-area">
         <img src="images/products-royal-dragon-2026.png" alt="2026 로얄드래곤 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -364,7 +368,7 @@
       </div>
     </div>
 
-    <div class="product-card card-soldout" data-category="gold" data-premium="1"
+    <div class="product-card card-soldout" data-category="gold" data-premium="1" data-brand="Royal Mint"
       onclick="location.href='coin-loch-ness-2026.html'">
       <div class="product-img-area">
         <img src="images/products-loch-ness-2026.png" alt="2026 네스호 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -383,7 +387,7 @@
       </div>
     </div>
 
-    <div class="product-card card-soldout" data-category="gold" data-premium="1"
+    <div class="product-card card-soldout" data-category="gold" data-premium="1" data-brand="Perth Mint"
       onclick="location.href='coin-horse-2026.html'">
       <div class="product-img-area">
         <img src="images/products-horse-2026.png" alt="2026 말띠 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -402,7 +406,7 @@
       </div>
     </div>
 
-    <div class="product-card card-soldout" data-category="gold" data-premium="1"
+    <div class="product-card card-soldout" data-category="gold" data-premium="1" data-brand="Royal Mint"
       onclick="location.href='coin-british-lion-2026.html'">
       <div class="product-img-area">
         <img src="images/products-british-lion-2026.png" alt="2026 브리티시라이언 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -421,7 +425,7 @@
       </div>
     </div>
 
-    <div class="product-card card-soldout" data-category="gold" data-premium="1"
+    <div class="product-card card-soldout" data-category="gold" data-premium="1" data-brand="Scottsdale Mint"
       onclick="location.href='coin-lady-justice-2025.html'">
       <div class="product-img-area">
         <img src="images/products-lady-justice-2025.png" alt="2025 레이디저스티스 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -495,19 +499,56 @@
           card.style.display = '';
         } else if (filter === 'instock') {
           card.style.display = card.querySelector('.badge-instock') ? '' : 'none';
+        } else if (filter.startsWith('brand:')) {
+          const brand = filter.slice(6);
+          card.style.display = card.dataset.brand === brand ? '' : 'none';
         } else {
           card.style.display = card.dataset.category === filter ? '' : 'none';
         }
       });
     }
 
-    document.querySelectorAll('.ptab').forEach(tab => {
+    document.querySelectorAll('.ptab:not(.ptab-brand-btn)').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
+        document.getElementById('ptab-brand-btn').textContent = '';
+        document.getElementById('ptab-brand-btn').innerHTML = '브랜드별 <span class="ptab-arrow">▾</span>';
         applyTabFilter(tab.dataset.filter);
       });
     });
+
+    // 브랜드 드롭다운 초기화
+    (function initBrandDropdown() {
+      const brands = [];
+      document.querySelectorAll('.product-card').forEach(card => {
+        const b = card.dataset.brand;
+        if (b && !brands.includes(b)) brands.push(b);
+      });
+      brands.sort();
+      const menu = document.getElementById('ptab-brand-menu');
+      brands.forEach(brand => {
+        const item = document.createElement('button');
+        item.className = 'ptab-brand-item';
+        item.textContent = brand;
+        item.addEventListener('click', () => {
+          document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+          const btn = document.getElementById('ptab-brand-btn');
+          btn.innerHTML = brand + ' <span class="ptab-arrow">▾</span>';
+          btn.classList.add('active');
+          menu.classList.remove('open');
+          applyTabFilter('brand:' + brand);
+        });
+        menu.appendChild(item);
+      });
+
+      const btn = document.getElementById('ptab-brand-btn');
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('open');
+      });
+      document.addEventListener('click', () => menu.classList.remove('open'));
+    })();
 
     // ===== 장바구니/TOAST 관련 함수: 장바구니 사이드바 제거에 따라
     // 함께 삭제함 (openCart/closeCart/getCardPrice/removeFromCart/
