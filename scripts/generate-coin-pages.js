@@ -144,7 +144,7 @@ function escapeAttr(str) {
 
 // ── 4. 코인 1개 → coin-{slug}.html 전체 문자열 생성 ──
 //      (coin-maple-2026.html 1차 템플릿과 동일한 마크업/스크립트 구조)
-function renderCoinPage(coin, krwPerOz, todayStr) {
+function renderCoinPage(coin, krwPerOz, todayStr, relatedHtml = '') {
   const { slug, name, brand, detail, specs, imageFile, keywords, premium, available } = coin;
   const baseImg = imageFile.replace(/\.png$/i, '');
   const pageUrl = `${SITE_URL}/coin-${slug}.html`;
@@ -343,6 +343,12 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
     .spec-table td { padding: 14px 0; color: #333; }
 
     .error-msg { text-align: center; padding: 4rem; color: #888; font-family: 'Noto Sans KR', sans-serif; }
+
+    .related-coins-section { margin-top: 64px; padding-top: 48px; border-top: 1px solid #e8e4d9; }
+    .related-coins-title { font-family: 'Cinzel', serif; font-size: 15px; letter-spacing: 3px; color: #C8A84B; text-transform: uppercase; margin: 0 0 24px; font-weight: 500; }
+    .related-coins-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 768px) { .related-coins-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+    .related-card-current { outline: 2px solid #C8A84B; }
   </style>
 </head>
 <body>
@@ -421,6 +427,7 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
         </div>
       </div>
     </div>
+${relatedHtml}
   </section>
 
   <footer id="site-footer"></footer>
@@ -741,6 +748,56 @@ function renderProductCard(product, linkUrl, opts = {}) {
     </div>`;
 }
 
+// ── 5-1. 당일수령 가능 금화 섹션 ──
+// 자기 자신 포함 IN STOCK 코인을 order 순으로 최대 4개 표시.
+// 빌드 시점 기준이므로 매일 00:00 KST Actions 빌드 때 갱신됨.
+function renderRelatedCoins(currentSlug, allEntries, sheetRows) {
+  // allEntries 중 IN STOCK(available=true, same_day=true)인 것을 최대 4개
+  const related = [];
+  for (const entry of allEntries) {
+    if (related.length >= 4) break;
+    const row = sheetRows.find(r => matchByKeyword(r.name, entry.keywords));
+    if (!row) continue;
+    if (row.available !== true || row.same_day !== true) continue;
+    related.push({ entry, row });
+  }
+
+  if (related.length === 0) return '';
+
+  const cards = related.map(({ entry, row }) => {
+    const linkUrl = `coin-${entry.slug}.html`;
+    const imgSrc = `images/${entry.imageFile}`;
+    const isCurrent = entry.slug === currentSlug;
+    return `
+      <div class="product-card${isCurrent ? ' related-card-current' : ''}" onclick="location.href='${linkUrl}'" style="cursor:pointer;">
+        <div class="product-img-area">
+          <img src="${imgSrc}" alt="${escapeAttr(row.name)}" loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="product-img-placeholder" style="display:none"><span>${escapeHtml(row.name.substring(0, 6))}</span></div>
+          <span class="badge-instock">IN STOCK</span>
+        </div>
+        <div class="product-info">
+          <p class="product-brand">${escapeHtml(row.brand || 'MIDAS BULLION')}</p>
+          <h3 class="product-name">${escapeHtml(row.name)}</h3>
+          <div class="product-price-wrap">
+            <span class="product-price card-price"></span>
+          </div>
+          <div class="btn-cart-wrap">
+            <button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='${linkUrl}'">상품 보기</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('\n');
+
+  return `
+        <div class="related-coins-section">
+          <h2 class="related-coins-title">당일수령 가능 금화</h2>
+          <div class="related-coins-grid">
+            ${cards}
+          </div>
+        </div>`;
+}
+
 // index.html용: visible='main' or 'all', 클릭 시 coin-{slug}.html 이동
 function renderIndexGrid(sheetRows) {
   const products = sheetRows
@@ -838,7 +895,8 @@ async function main() {
   let changedCount = 0;
   for (const coin of entries) {
     const filePath = path.join(ROOT, `coin-${coin.slug}.html`);
-    const html = renderCoinPage(coin, krwPerOz, kstDate);
+    const relatedHtml = renderRelatedCoins(coin.slug, entries, sheetRows);
+    const html = renderCoinPage(coin, krwPerOz, kstDate, relatedHtml);
     const prev = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : null;
     if (prev !== html) {
       fs.writeFileSync(filePath, html, 'utf8');
