@@ -40,7 +40,7 @@ const COIN_DESCRIPTIONS = [
     specs: { year: '2026', mint: '미국 조폐국 (United States Mint)', country: '미국', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '32.7mm', thickness: '2.95mm', condition: '미사용 (Brilliant Uncirculated)', verified: true }
   },
   {
-    keywords: ['2026 이글', '2026 eagle'],
+    keywords: ['2026 아메리칸이글', '2026 아메리칸 이글', '2026 eagle'],
     detail: `미국 조폐국이 1986년부터 발행하는 미국의 국가 공식 골드 불리온 코인입니다.\n앞면에는 조각가 Augustus Saint-Gaudens가 설계한 레이디 리버티(Lady Liberty) 전신상이,\n뒷면에는 아메리칸 이글(흰머리수리)이 새겨져 있습니다.\n순금이 아닌 22K(91.67%) 합금으로 제작되어 일반 순금 코인보다 표면이 단단하고\n마모에 강한 것이 특징이며, 순금 1oz 함량을 기준으로 실제 총 중량은 합금 비율만큼\n더 무겁습니다.`,
     specs: { year: '2026', mint: '미국 조폐국 (United States Mint)', country: '미국', purity: '91.67% (22K, 순금 1oz 함량 기준)', weight: '순금 1oz 함량 (총중량 약 33.93g)', diameter: '32.7mm', thickness: '2.87mm', condition: '미사용 (Brilliant Uncirculated)', verified: true }
   },
@@ -51,7 +51,7 @@ const COIN_DESCRIPTIONS = [
   },
   {
     keywords: ['2026 크루거', '2026 krugerrand'],
-    detail: `남아프리카공화국 조폐국(South African Mint)이 1967년부터 발행해온, 세계 최초의 현대\n골드 불리온 코인입니다. 앞면에는 남아공 공화국 대통령이었던 폴 크루거의 초상이,\n뒷면에는 남아공의 상징 동물인 스프링복(springbok)이 새겨져 있습니다.\n이글과 마찬가지로 22K(91.67%) 합금으로 제작되어 내구성이 뛰어나며, 오랜 역사와\n압도적인 글로벌 유동성 덕분에 전 세계 불리온 시장의 기준점 역할을 하는 코인입니다.`,
+    detail: `남아프리카공화국 조폐국(South African Mint)이 1967년부터 발행해온, 세계 최초의 현대\n골드 불리온 코인입니다. 앞면에는 남아공 공화국 대통령이었던 폴 크루거의 초상이,\n뒷면에는 남아공의 상징 동물인 스프링복(springbok)이 새겨져 있습니다.\n아메리칸이글과 마찬가지로 22K(91.67%) 합금으로 제작되어 내구성이 뛰어나며, 오랜 역사와\n압도적인 글로벌 유동성 덕분에 전 세계 불리온 시장의 기준점 역할을 하는 코인입니다.`,
     specs: { year: '2026', mint: '남아공 조폐국 (South African Mint)', country: '남아프리카공화국', purity: '91.67% (22K, 순금 1oz 함량 기준)', weight: '순금 1oz 함량 (총중량 약 33.93g)', diameter: '32.8mm', thickness: '2.84mm', condition: '미사용 (Brilliant Uncirculated)', verified: true }
   },
   {

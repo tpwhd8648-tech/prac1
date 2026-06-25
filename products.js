@@ -37,7 +37,7 @@ const IMAGE_MAP = [
   { keywords: ['2026 브리타니아', '2026 britannia'],                   file: 'products-britannia-2026.png' },
   { keywords: ['2026 캥거루', '2026 kangaroo'],                        file: 'products-kangaroo-2026.png' },
   { keywords: ['2026 버팔로', '2026 buffalo'],                         file: 'products-buffalo-2026.png' },
-  { keywords: ['2026 이글', '2026 eagle'],                             file: 'products-eagle-2026.png' },
+  { keywords: ['2026 아메리칸이글', '2026 아메리칸 이글', '2026 eagle'],                             file: 'products-eagle-2026.png' },
   { keywords: ['2026 필하모닉', '2026 philharmonic'],                  file: 'products-philharmonic-2026.png' },
   { keywords: ['2026 크루거', '2026 krugerrand'],                      file: 'products-krugerrand-2026.png' },
   { keywords: ['2026 판다', '2026 panda'],                             file: 'products-panda-2026.png' },
