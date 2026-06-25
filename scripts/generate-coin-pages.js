@@ -403,6 +403,7 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
                 onerror="this.style.display='none';document.getElementById('gallery-no-img').style.display='flex'">
               <span class="badge-instock" id="stock-badge" style="display:none">IN STOCK</span>
               <span class="badge-presale" id="presale-badge" style="display:none">PRE SALE</span>
+              <span class="badge-soldout" id="soldout-badge" style="display:none">SOLD OUT</span>
               <div id="gallery-no-img" class="gallery-no-image" style="display:none">${escapeHtml(name.slice(0, 6))}</div>
             </div>
             <div class="gallery-thumbs" id="gallery-thumbs">
@@ -423,7 +424,6 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
               <div class="product-price-label">판매가</div>
               <div class="product-price-value loading" id="detail-price-value">로딩 중...</div>
               <div class="product-price-note">* 금 시세에 따라 변동될 수 있습니다</div>
-              <div id="detail-soldout-wrap" style="display:none;margin-top:10px;"><span class="soldout-badge">SOLD OUT</span></div>
             </div>
             <div>
               <a href="https://open.kakao.com/o/sB6Gduni" target="_blank" rel="noopener noreferrer" class="btn-inquiry" id="inquiry-btn">구매 문의하기</a>
@@ -611,9 +611,9 @@ ${relatedHtml}
         if (isAvailable && !isSameDay) document.getElementById('presale-badge').style.display = '';
 
         if (!isAvailable) {
-          document.getElementById('detail-soldout-wrap').style.display = '';
+          document.getElementById('soldout-badge').style.display = '';
           document.getElementById('inquiry-btn').outerHTML =
-            '<div style="text-align:center;padding:12px 0;"><span class="soldout-badge">현재 품절된 상품입니다</span></div>';
+            '<div style="text-align:center;padding:12px 0;"><span class="soldout-badge" style="position:static;font-size:13px;padding:8px 20px;">현재 품절된 상품입니다</span></div>';
         }
 
         // sessionStorage 캐시에서 직접 읽기 (DOM 텍스트 파싱 간접 참조 제거)
