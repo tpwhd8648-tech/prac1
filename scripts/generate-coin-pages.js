@@ -858,7 +858,7 @@ function renderProductCard(product, linkUrl, opts = {}) {
   let badgeHTML = '';
   if (isAvailable && isSameDay)  badgeHTML = '<span class="badge-instock">IN STOCK</span>';
   if (isAvailable && !isSameDay) badgeHTML = '<span class="badge-presale">PRE SALE</span>';
-  if (!isAvailable)              badgeHTML = '<div class="soldout-overlay"><span>SOLD OUT</span></div>';
+  if (!isAvailable)              badgeHTML = '<span class="badge-soldout">SOLD OUT</span>';
 
   const btnText = !isAvailable ? (opts.soldoutBtnText || '품절') : '상품 보기';
   const btnClass = !isAvailable ? 'btn-cart btn-soldout' : 'btn-cart btn-buy';
