@@ -39,7 +39,7 @@
   "offers": {
     "@type": "Offer",
     "url": "https://tpwhd8648-tech.github.io/coin-buffalo-2026.html",
-    "price": 6883000,
+    "price": 6882000,
     "priceCurrency": "KRW",
     "priceValidUntil": "2026-06-26",
     "availability": "https://schema.org/InStock",
@@ -201,7 +201,10 @@
     .error-msg { text-align: center; padding: 4rem; color: #888; font-family: 'Noto Sans KR', sans-serif; }
 
     .related-coins-section { margin-top: 64px; padding-top: 48px; border-top: 1px solid #e8e4d9; }
-    .related-coins-title { font-family: 'Cinzel', serif; font-size: 15px; letter-spacing: 3px; color: #C8A84B; text-transform: uppercase; margin: 0 0 24px; font-weight: 500; }
+    .related-coins-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; }
+    .related-coins-title { font-family: 'Cinzel', serif; font-size: 15px; letter-spacing: 3px; color: #C8A84B; text-transform: uppercase; margin: 0; font-weight: 500; }
+    .related-coins-more { font-size: 13px; color: #C8A84B; text-decoration: none; white-space: nowrap; }
+    .related-coins-more:hover { text-decoration: underline; }
     .related-coins-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     @media (max-width: 768px) { .related-coins-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
     .related-card-current { outline: 2px solid #C8A84B; }
@@ -297,7 +300,10 @@
     </div>
 
         <div class="related-coins-section">
-          <h2 class="related-coins-title">당일수령 가능 금화</h2>
+          <div class="related-coins-header">
+            <h2 class="related-coins-title">당일수령 가능 금화</h2>
+            <a href="coins.html?instock" class="related-coins-more">전체 보기 ›</a>
+          </div>
           <div class="related-coins-grid">
             
       <div class="product-card" onclick="location.href='coin-maple-2026.html'" style="cursor:pointer;">
