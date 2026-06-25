@@ -273,6 +273,7 @@ img { max-width: 100%; display: block; }
   .header-search { display: none; }
   .nav-list { display: none; }
   .hamburger { display: flex; }
+  .header-icons { margin-left: auto; }
   .category-banners { grid-template-columns: 1fr; }
   .cat-banner { height: 180px; }
   .hero-slider { height: 400px; }
