@@ -437,3 +437,8 @@ img { max-width: 100%; display: block; }
 @media (max-width: 480px) {
   .auth-modal { padding: 28px 22px 24px; }
 }
+
+@media (hover: none) {
+  .product-card:hover { box-shadow: none; transform: none; }
+  .product-card:hover .product-img-area img { transform: none; }
+}
