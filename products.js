@@ -65,6 +65,20 @@ function getImageForProduct(name) {
   return null;
 }
 
+// ===== 검색 자동완성용 코인명 목록 (nav.js에서 사용) =====
+// IMAGE_MAP의 keywords[0]은 항상 "연도 + 코인 정식 한글명" 형태이므로,
+// 앞의 연도(4자리 숫자)만 떼면 코인명만 깨끗하게 남는다.
+// 상품을 추가/삭제할 때 이 배열을 따로 손댈 필요 없이 IMAGE_MAP만 고치면
+// 검색 자동완성도 자동으로 동기화된다 (2026-06-25 COIN_NAMES 수동 동기화
+// 누락으로 검색 매칭이 깨졌던 버그의 재발 방지).
+function getCoinNamesForSearch() {
+  return IMAGE_MAP.map(entry => entry.keywords[0].replace(/^\d{4}\s*/, ''));
+}
+// nav.js가 로드 순서와 무관하게 안전하게 가져다 쓸 수 있도록 전역에 노출
+if (typeof window !== 'undefined') {
+  window.getCoinNamesForSearch = getCoinNamesForSearch;
+}
+
 function getCategoryFilter(category) {
   const map = {
     'gold_1oz': 'gold',

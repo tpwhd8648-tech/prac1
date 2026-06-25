@@ -252,12 +252,29 @@
     const searchBtn = header.querySelector('.search-btn');
     const suggestBox = document.getElementById('search-suggest');
 
-    const COIN_NAMES = [
+    // 검색 자동완성용 코인명 목록.
+    // products.js가 로드된 페이지(coins/coin-detail/coin-*-2026 등)는
+    // IMAGE_MAP에서 자동 추출한 최신 목록을 쓴다 — 상품 추가/삭제 시
+    // products.js의 IMAGE_MAP만 고치면 검색 자동완성도 자동 동기화된다.
+    // products.js가 없는 페이지(mypage/contact/gold-price 등)는 아래
+    // FALLBACK_COIN_NAMES를 쓴다. 단, products.js는 nav.js보다 늦게
+    // <script> 태그로 로드되므로, 호출 시점(입력 이벤트 발생 시)에
+    // window.getCoinNamesForSearch 존재 여부를 매번 확인해 지연 평가한다.
+    const FALLBACK_COIN_NAMES = [
       '버팔로', '메이플리프', '브리타니아', '캥거루', '아메리칸이글', '필하모닉',
       '크루거랜드', '판다', '성조지', '퀸즈라이언', '라이언이글',
       '말띠', '네스호', '스완', '체코라이언', '아웃백',
       '케이브라이언', '로얄드래곤', '브리티시라이언', '레이디저스티스'
     ];
+    function getCoinNames() {
+      if (typeof window.getCoinNamesForSearch === 'function') {
+        try {
+          const names = window.getCoinNamesForSearch();
+          if (Array.isArray(names) && names.length) return names;
+        } catch (e) { /* fall through to fallback */ }
+      }
+      return FALLBACK_COIN_NAMES;
+    }
 
     let activeIdx = -1;
 
@@ -265,7 +282,7 @@
       if (!suggestBox) return;
       const trimmed = val.trim();
       if (!trimmed) { hideSuggest(); return; }
-      const matched = COIN_NAMES.filter(n => n.includes(trimmed));
+      const matched = getCoinNames().filter(n => n.includes(trimmed));
       if (!matched.length) { hideSuggest(); return; }
       activeIdx = -1;
       suggestBox.innerHTML = matched.map(n =>
