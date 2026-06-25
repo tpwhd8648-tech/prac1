@@ -44,7 +44,10 @@ function loadConstFromFile(filePath, constName) {
 }
 
 const COIN_DESCRIPTIONS = loadConstFromFile(path.join(ROOT, 'coin-descriptions.js'), 'COIN_DESCRIPTIONS');
-const IMAGE_MAP = loadConstFromFile(path.join(ROOT, 'products.js'), 'IMAGE_MAP');
+// IMAGE_MAP은 2026-06-25 products.js에서 coin-data.js로 분리됨
+// (index.html도 검색 자동완성에 IMAGE_MAP이 필요해져서 — coin-data.js
+// 상단 주석 참고). 이 빌드 스크립트도 같은 파일에서 읽도록 갱신.
+const IMAGE_MAP = loadConstFromFile(path.join(ROOT, 'coin-data.js'), 'IMAGE_MAP');
 
 // ── 2. 구글 시트 "상품" 탭에서 name/brand/premium/available을 가져온다.
 //      (컬럼 순서는 products.js의 fetchProductsFromSheet와 동일:

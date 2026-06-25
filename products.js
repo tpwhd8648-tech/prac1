@@ -2,11 +2,17 @@
 // products.js — index.html(메인) / coins.html(금화보기) 공용 상품 로직
 //
 // script.js와 coins.html에 중복돼 있던 다음 항목을 이 파일로 통합함:
-//   - IMAGE_MAP (상품명 → 이미지 파일명 매핑)
-//   - getImageForProduct()
 //   - getCategoryFilter()
 //   - createProductCard()
 //   - loadProducts() (구글 시트 연동 — A~J 컬럼 전체를 공통으로 읽음)
+//
+// IMAGE_MAP / getImageForProduct() / getCoinNamesForSearch()는
+// coin-data.js로 분리됨 (2026-06-25 — index.html도 검색 자동완성에
+// IMAGE_MAP이 필요했으나 products.js 전체를 로드하긴 부담스러워서
+// 분리. 자세한 배경은 coin-data.js 상단 주석 참고).
+// 이 파일을 쓰는 HTML은 반드시 <script src="coin-data.js">를
+// <script src="products.js"> 앞에 먼저 로드해야 한다 — products.js가
+// IMAGE_MAP/getImageForProduct를 그대로 참조하기 때문.
 //
 // 페이지별로 달랐던 동작은 createProductCard()/loadProducts() 호출 시
 // options 객체로 옵션 처리한다(있으면 사용, 없으면 아래 기본값):
@@ -30,58 +36,6 @@
 // (2026-06-24: description 컬럼은 시트에서 삭제됨 — "추후 예정" placeholder만
 //  들어있던 미사용 컬럼이었음. 이에 따라 image 컬럼 인덱스가 9→8로 당겨짐)
 // =====================================================================
-
-// ===== 상품명 → 이미지 파일명 매핑 =====
-const IMAGE_MAP = [
-  { keywords: ['2026 메이플리프', '2026 메이플 리프', '2026 메이플', '2026 maple'],         file: 'products-maple-2026.png' },
-  { keywords: ['2026 브리타니아', '2026 britannia'],                   file: 'products-britannia-2026.png' },
-  { keywords: ['2026 캥거루', '2026 kangaroo'],                        file: 'products-kangaroo-2026.png' },
-  { keywords: ['2026 버팔로', '2026 buffalo'],                         file: 'products-buffalo-2026.png' },
-  { keywords: ['2026 아메리칸이글', '2026 아메리칸 이글', '2026 eagle'],                             file: 'products-eagle-2026.png' },
-  { keywords: ['2026 필하모닉', '2026 philharmonic'],                  file: 'products-philharmonic-2026.png' },
-  { keywords: ['2026 크루거랜드', '2026 크루거', '2026 krugerrand'],    file: 'products-krugerrand-2026.png' },
-  { keywords: ['2026 판다', '2026 panda'],                             file: 'products-panda-2026.png' },
-  { keywords: ['2026 성조지', '2026 세인트조지', '2026 george'],       file: 'products-st-george-2026.png' },
-  { keywords: ['2026 퀸즈라이언', '2026 queens lion'],                 file: 'products-queens-lion-2026.png' },
-  { keywords: ['2026 라이언이글', '2026 lion eagle'],                  file: 'products-lion-eagle-2026.png' },
-  { keywords: ['2026 말띠', '2026 horse', '2026 year of horse'],       file: 'products-horse-2026.png' },
-  { keywords: ['2026 네스호', '2026 loch ness'],                       file: 'products-loch-ness-2026.png' },
-  { keywords: ['2026 스완', '2026 swan'],                              file: 'products-swan-2026.png' },
-  { keywords: ['2026 체코라이언', '2026 czech lion'],                  file: 'products-czech-lion-2026.png' },
-  { keywords: ['2026 아웃백', '2026 outback'],                         file: 'products-outback-2026.png' },
-  { keywords: ['2026 케이브라이언', '2026 cave lion'],                 file: 'products-cave-lion-2026.png' },
-  { keywords: ['2026 로얄드래곤', '2026 royal dragon'],                file: 'products-royal-dragon-2026.png' },
-  { keywords: ['2026 브리티시라이언', '2026 british lion'],            file: 'products-british-lion-2026.png' },
-  { keywords: ['2025 레이디저스티스', '2025 lady justice'],            file: 'products-lady-justice-2025.png' },
-];
-
-function getImageForProduct(name) {
-  const lower = name.toLowerCase();
-  for (const entry of IMAGE_MAP) {
-    if (entry.keywords.some(k => lower.includes(k))) {
-      return `images/${entry.file}`;
-    }
-  }
-  return null;
-}
-
-// ===== 검색 자동완성용 코인명 목록 (nav.js에서 사용) =====
-// IMAGE_MAP의 keywords[0]은 항상 "연도 + 코인 정식 한글명" 형태이므로,
-// 앞의 연도(4자리 숫자)만 떼면 코인명만 깨끗하게 남는다.
-// 상품을 추가/삭제할 때 이 배열을 따로 손댈 필요 없이 IMAGE_MAP만 고치면
-// 검색 자동완성도 자동으로 동기화된다 (2026-06-25 COIN_NAMES 수동 동기화
-// 누락으로 검색 매칭이 깨졌던 버그의 재발 방지).
-// 주의: 이 자동 동기화는 products.js를 로드하는 페이지(coins.html,
-// coin-detail.html, 정적 coin-*.html)에만 적용된다. index.html은
-// SSG 정적 카드 전환 후 products.js 로드를 제거했으므로(script.js 참고)
-// nav.js의 FALLBACK_COIN_NAMES를 그대로 쓰며, 여전히 수동 동기화가 필요하다.
-function getCoinNamesForSearch() {
-  return IMAGE_MAP.map(entry => entry.keywords[0].replace(/^\d{4}\s*/, ''));
-}
-// nav.js가 로드 순서와 무관하게 안전하게 가져다 쓸 수 있도록 전역에 노출
-if (typeof window !== 'undefined') {
-  window.getCoinNamesForSearch = getCoinNamesForSearch;
-}
 
 function getCategoryFilter(category) {
   const map = {

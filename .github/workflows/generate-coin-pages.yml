@@ -1,7 +1,7 @@
 name: Generate coin static pages
 
 # 코인 정적 상세페이지(coin-*.html)와 sitemap.xml을 자동 생성한다.
-# - coin-descriptions.js / products.js를 고치고 push하면 즉시 재생성
+# - coin-descriptions.js / coin-data.js / products.js를 고치고 push하면 즉시 재생성
 # - 구글 시트에 신상품이 추가되는 경우를 대비해 하루 1회도 자동 실행
 # - 필요하면 Actions 탭에서 수동 실행도 가능 (workflow_dispatch)
 on:
@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - 'coin-descriptions.js'
+      - 'coin-data.js'
       - 'products.js'
       - 'scripts/generate-coin-pages.js'
   schedule:

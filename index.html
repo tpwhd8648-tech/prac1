@@ -404,6 +404,12 @@
 
   <script type="module" src="auth.js"></script>
   <script src="footer.js"></script>
+  <!-- coin-data.js: 검색 자동완성(nav.js)이 IMAGE_MAP 기반으로 코인명을
+       자동 추출해 쓰도록 하기 위해 로드. index.html은 SSG 정적 카드를
+       그대로 쓰므로 products.js(구글 시트 fetch, 카드 렌더링)는 필요
+       없지만, 검색 자동완성용 IMAGE_MAP만큼은 필요해서 분리된 이
+       파일만 가져옴 (2026-06-25, coin-data.js 상단 주석 참고). -->
+  <script src="coin-data.js"></script>
   <script src="nav.js"></script>
   <script src="script.js"></script>
 

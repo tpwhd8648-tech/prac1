@@ -253,19 +253,19 @@
     const suggestBox = document.getElementById('search-suggest');
 
     // 검색 자동완성용 코인명 목록.
-    // products.js가 로드된 페이지(coins/coin-detail/coin-*-2026 등)는
-    // IMAGE_MAP에서 자동 추출한 최신 목록을 쓴다 — 상품 추가/삭제 시
-    // products.js의 IMAGE_MAP만 고치면 검색 자동완성도 자동 동기화된다.
-    // products.js가 없는 페이지(mypage/contact/gold-price 등)는 아래
-    // FALLBACK_COIN_NAMES를 쓴다. 단, products.js는 nav.js보다 늦게
+    // coin-data.js가 로드된 페이지는 IMAGE_MAP에서 자동 추출한 최신
+    // 목록을 쓴다 — 상품 추가/삭제 시 coin-data.js의 IMAGE_MAP만 고치면
+    // 검색 자동완성도 자동 동기화된다. coin-data.js를 로드하는 페이지는
+    // index.html을 포함해 coins.html/coin-detail.html/정적 coin-*.html
+    // 전부다 (2026-06-25부터 — 이전에는 index.html이 빠져 있어 수동
+    // 동기화가 필요했으나, IMAGE_MAP만 분리한 coin-data.js를 만들어
+    // index.html에도 추가함으로써 해소함. 자세한 배경은 coin-data.js
+    // 상단 주석 참고).
+    // 아래 FALLBACK_COIN_NAMES는 coin-data.js 자체가 로드되지 않는
+    // 페이지(mypage/contact/gold-price 등)나, 스크립트 로드 실패 등
+    // 예외 상황을 위한 최후 안전장치다. coin-data.js는 nav.js보다 늦게
     // <script> 태그로 로드되므로, 호출 시점(입력 이벤트 발생 시)에
     // window.getCoinNamesForSearch 존재 여부를 매번 확인해 지연 평가한다.
-    // 주의: index.html도 여기 해당한다 — SSG 정적 카드로 전환하면서
-    // products.js 로드를 제거했기 때문에(script.js 참고), 메인페이지는
-    // IMAGE_MAP과 자동 동기화되지 않고 항상 이 FALLBACK_COIN_NAMES를 쓴다.
-    // 상품 추가/삭제 시 IMAGE_MAP만 고치면 자동 반영되는 페이지는
-    // coins.html/coin-detail.html/정적 coin-*.html뿐이며, index.html은
-    // 여전히 이 배열을 수동으로 맞춰줘야 한다.
     const FALLBACK_COIN_NAMES = [
       '버팔로', '메이플리프', '브리타니아', '캥거루', '아메리칸이글', '필하모닉',
       '크루거랜드', '판다', '성조지', '퀸즈라이언', '라이언이글',
