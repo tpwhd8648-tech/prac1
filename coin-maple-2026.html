@@ -531,7 +531,7 @@ Bullion DNA™ 위변조 방지 기술)가 적용되어 업계 최고 수준의 
       const priceEl = document.getElementById('detail-price-value');
       if (!priceEl) return;
       if (!_isAvailable) {
-        priceEl.textContent = '품절';
+        priceEl.textContent = '-';
         priceEl.classList.remove('loading');
         return;
       }
@@ -572,7 +572,7 @@ Bullion DNA™ 위변조 방지 기술)가 적용되어 업계 최고 수준의 
           document.getElementById('inquiry-btn').outerHTML =
             '<div style="text-align:center;padding:12px 0;"><span class="soldout-badge" style="position:static;font-size:13px;padding:8px 20px;">현재 품절된 상품입니다</span></div>';
           const priceEl = document.getElementById('detail-price-value');
-          priceEl.textContent = '품절';
+          priceEl.textContent = '-';
           priceEl.classList.remove('loading');
         }
 

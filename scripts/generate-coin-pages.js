@@ -580,7 +580,7 @@ ${relatedHtml}
       const priceEl = document.getElementById('detail-price-value');
       if (!priceEl) return;
       if (!_isAvailable) {
-        priceEl.textContent = '품절';
+        priceEl.textContent = '-';
         priceEl.classList.remove('loading');
         return;
       }
@@ -621,7 +621,7 @@ ${relatedHtml}
           document.getElementById('inquiry-btn').outerHTML =
             '<div style="text-align:center;padding:12px 0;"><span class="soldout-badge" style="position:static;font-size:13px;padding:8px 20px;">현재 품절된 상품입니다</span></div>';
           const priceEl = document.getElementById('detail-price-value');
-          priceEl.textContent = '품절';
+          priceEl.textContent = '-';
           priceEl.classList.remove('loading');
         }
 
@@ -885,7 +885,7 @@ function renderProductCard(product, linkUrl, opts = {}) {
         <p class="product-brand">${brand}</p>
         <h3 class="product-name">${name}</h3>
         <div class="product-price-wrap">
-          <span class="product-price card-price">${isAvailable ? '' : '품절'}</span>
+          <span class="product-price card-price">${isAvailable ? '' : '-'}</span>
         </div>
         <div class="btn-cart-wrap">
           ${btnHTML}
