@@ -436,15 +436,12 @@
       nextBtn.addEventListener('mouseenter', () => { nextBtn.style.background = '#C8A84B'; nextBtn.style.color = '#fff'; });
       nextBtn.addEventListener('mouseleave', () => { nextBtn.style.background = '#fff'; nextBtn.style.color = '#C8A84B'; });
     }
-
-    let touchStartX = 0;
-    if (wrap) {
-      wrap.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-      wrap.addEventListener('touchend', e => {
-        const diff = touchStartX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 50) smoothScroll(diff > 0 ? SCROLL_AMOUNT : -SCROLL_AMOUNT);
-      }, { passive: true });
-    }
+    // 모바일 터치 스와이프 가로채기 로직 제거됨 (2026-06-25):
+    // X좌표 차이만으로 스와이프를 판단해 Y축(세로) 이동을 체크하지 않았음.
+    // 세로로 터치를 올려도 손가락의 미세한 가로 흔들림이 50px diff를 넘기면
+    // smoothScroll이 강제 호출되어 캐러셀이 옆으로 튀는 문제가 있었음.
+    // touch-action: pan-y CSS만으로는 이 JS가 위에서 가로채는 동작을 막을 수
+    // 없어, 로직 자체를 제거. 좌우 이동은 carousel-prev/next 버튼으로만 처리.
   })();
   </script>
 
