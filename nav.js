@@ -260,6 +260,12 @@
     // FALLBACK_COIN_NAMES를 쓴다. 단, products.js는 nav.js보다 늦게
     // <script> 태그로 로드되므로, 호출 시점(입력 이벤트 발생 시)에
     // window.getCoinNamesForSearch 존재 여부를 매번 확인해 지연 평가한다.
+    // 주의: index.html도 여기 해당한다 — SSG 정적 카드로 전환하면서
+    // products.js 로드를 제거했기 때문에(script.js 참고), 메인페이지는
+    // IMAGE_MAP과 자동 동기화되지 않고 항상 이 FALLBACK_COIN_NAMES를 쓴다.
+    // 상품 추가/삭제 시 IMAGE_MAP만 고치면 자동 반영되는 페이지는
+    // coins.html/coin-detail.html/정적 coin-*.html뿐이며, index.html은
+    // 여전히 이 배열을 수동으로 맞춰줘야 한다.
     const FALLBACK_COIN_NAMES = [
       '버팔로', '메이플리프', '브리타니아', '캥거루', '아메리칸이글', '필하모닉',
       '크루거랜드', '판다', '성조지', '퀸즈라이언', '라이언이글',

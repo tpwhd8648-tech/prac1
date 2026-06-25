@@ -71,6 +71,10 @@ function getImageForProduct(name) {
 // 상품을 추가/삭제할 때 이 배열을 따로 손댈 필요 없이 IMAGE_MAP만 고치면
 // 검색 자동완성도 자동으로 동기화된다 (2026-06-25 COIN_NAMES 수동 동기화
 // 누락으로 검색 매칭이 깨졌던 버그의 재발 방지).
+// 주의: 이 자동 동기화는 products.js를 로드하는 페이지(coins.html,
+// coin-detail.html, 정적 coin-*.html)에만 적용된다. index.html은
+// SSG 정적 카드 전환 후 products.js 로드를 제거했으므로(script.js 참고)
+// nav.js의 FALLBACK_COIN_NAMES를 그대로 쓰며, 여전히 수동 동기화가 필요하다.
 function getCoinNamesForSearch() {
   return IMAGE_MAP.map(entry => entry.keywords[0].replace(/^\d{4}\s*/, ''));
 }
