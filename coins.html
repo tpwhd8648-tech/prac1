@@ -55,6 +55,7 @@
       </div>
       <div class="product-tabs" style="margin-bottom:28px;">
         <button class="ptab active" data-filter="gold">금화</button>
+        <button class="ptab" data-filter="instock">당일수령</button>
       </div>
       <div class="products-grid" id="products-grid">
 <!-- SSG_GRID_START -->
@@ -458,6 +459,18 @@
     // ===== URL 쿼리스트링 기반 키워드 필터 =====
     const urlParams = new URLSearchParams(location.search);
     const queryKeyword = urlParams.get('q');
+    const instockParam = urlParams.has('instock');
+
+    // ?instock 파라미터가 있으면 "당일수령" 탭 활성화
+    if (instockParam) {
+      document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+      const instockTab = document.querySelector('.ptab[data-filter="instock"]');
+      if (instockTab) instockTab.classList.add('active');
+      // SSG 카드 렌더 후 필터 적용 (DOMContentLoaded 이후)
+      document.addEventListener('DOMContentLoaded', () => applyTabFilter('instock'));
+      // DOMContentLoaded가 이미 지난 경우 대비
+      if (document.readyState !== 'loading') applyTabFilter('instock');
+    }
 
     function escapeHTML(str) {
       const div = document.createElement('div');
@@ -475,14 +488,23 @@
     }
 
     // ===== PRODUCT TABS =====
+    function applyTabFilter(filter) {
+      document.querySelectorAll('.product-card').forEach(card => {
+        if (filter === 'all' || filter === 'gold') {
+          card.style.display = '';
+        } else if (filter === 'instock') {
+          card.style.display = card.querySelector('.badge-instock') ? '' : 'none';
+        } else {
+          card.style.display = card.dataset.category === filter ? '' : 'none';
+        }
+      });
+    }
+
     document.querySelectorAll('.ptab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        const filter = tab.dataset.filter;
-        document.querySelectorAll('.product-card').forEach(card => {
-          card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
-        });
+        applyTabFilter(tab.dataset.filter);
       });
     });
 
