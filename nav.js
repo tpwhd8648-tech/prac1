@@ -68,6 +68,17 @@
       transition:background 0.15s, color 0.15s;
     }
     .custom-dropdown-item:hover { background:#fdf6e3; color:#C8A84B; }
+    .search-suggest {
+      display:none; position:absolute; top:calc(100% + 4px); left:0; right:0;
+      background:#fff; border:1px solid #C8A84B; border-radius:4px;
+      z-index:9999; box-shadow:0 4px 16px rgba(0,0,0,0.1); max-height:260px; overflow-y:auto;
+    }
+    .search-suggest.open { display:block; }
+    .search-suggest-item {
+      padding:10px 16px; font-family:'Noto Sans KR',sans-serif; font-size:13px;
+      color:#333; cursor:pointer; transition:background 0.15s;
+    }
+    .search-suggest-item:hover, .search-suggest-item.active { background:#fdf6e3; color:#C8A84B; }
     .mobile-menu-close {
       position:absolute; top:16px; right:20px;
       background:none; border:none; color:#fff;
@@ -175,7 +186,8 @@
               <a class="custom-dropdown-item" href="contact.html">구매 문의</a>
             </div>
           </div>
-          <input type="text" placeholder="상품 검색..." class="search-input">
+          <input type="text" placeholder="금화 이름으로 검색 (예: 메이플, 버팔로)" class="search-input" autocomplete="off">
+          <div class="search-suggest" id="search-suggest"></div>
           <button class="search-btn">검색</button>
         </div>
         <div class="header-icons">
@@ -238,13 +250,82 @@
     /* ── 검색창 이벤트 (데스크탑) ── */
     const searchInput = header.querySelector('.search-input');
     const searchBtn = header.querySelector('.search-btn');
+    const suggestBox = document.getElementById('search-suggest');
+
+    const COIN_NAMES = [
+      '버팔로', '메이플리프', '브리타니아', '캥거루', '이글', '필하모닉',
+      '크루거랜드', '판다', '성조지드래곤', '퀸즈라이언', '레이디저스티스',
+      '스코티시라이언', '체코라이언', '아테나올빼미', '케이브라이언',
+      '로얄암스', '네덜란드사자', '말타십자가', '브리티시라이언', '레이디포춘'
+    ];
+
+    let activeIdx = -1;
+
+    function showSuggest(val) {
+      if (!suggestBox) return;
+      const trimmed = val.trim();
+      if (!trimmed) { hideSuggest(); return; }
+      const matched = COIN_NAMES.filter(n => n.includes(trimmed));
+      if (!matched.length) { hideSuggest(); return; }
+      activeIdx = -1;
+      suggestBox.innerHTML = matched.map(n =>
+        `<div class="search-suggest-item" data-name="${n}">${n}</div>`
+      ).join('');
+      suggestBox.classList.add('open');
+      suggestBox.querySelectorAll('.search-suggest-item').forEach(item => {
+        item.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          goSearch(this.dataset.name);
+          hideSuggest();
+        });
+      });
+    }
+
+    function hideSuggest() {
+      if (!suggestBox) return;
+      suggestBox.classList.remove('open');
+      suggestBox.innerHTML = '';
+      activeIdx = -1;
+    }
+
     if (searchInput && searchBtn) {
-      searchBtn.addEventListener('click', function () {
+      searchInput.addEventListener('input', function() {
+        showSuggest(this.value);
+      });
+
+      searchInput.addEventListener('keydown', function(e) {
+        const items = suggestBox ? suggestBox.querySelectorAll('.search-suggest-item') : [];
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          activeIdx = Math.min(activeIdx + 1, items.length - 1);
+          items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          activeIdx = Math.max(activeIdx - 1, -1);
+          items.forEach((el, i) => el.classList.toggle('active', i === activeIdx));
+        } else if (e.key === 'Enter') {
+          if (activeIdx >= 0 && items[activeIdx]) {
+            goSearch(items[activeIdx].dataset.name);
+            hideSuggest();
+          } else {
+            goSearch(this.value);
+          }
+        } else if (e.key === 'Escape') {
+          hideSuggest();
+        }
+      });
+
+      searchInput.addEventListener('blur', function() {
+        setTimeout(hideSuggest, 150);
+      });
+
+      searchBtn.addEventListener('click', function() {
         goSearch(searchInput.value);
       });
-      searchInput.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter') {
-          goSearch(searchInput.value);
+
+      document.addEventListener('click', function(e) {
+        if (suggestBox && !searchInput.contains(e.target) && !suggestBox.contains(e.target)) {
+          hideSuggest();
         }
       });
     }
