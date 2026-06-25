@@ -590,12 +590,7 @@
       grid.innerHTML = sorted.map(p => createProductCard(p, currentKrwPrice, COINS_CARD_OPTIONS)).join('');
 
       const activeTab = document.querySelector('.ptab.active');
-      if (activeTab) {
-        const filter = activeTab.dataset.filter;
-        document.querySelectorAll('.product-card').forEach(card => {
-          card.style.display = (filter === 'all' || card.dataset.category === filter) ? '' : 'none';
-        });
-      }
+      if (activeTab) applyTabFilter(activeTab.dataset.filter);
 
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry, i) => {
