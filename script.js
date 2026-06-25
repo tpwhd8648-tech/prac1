@@ -58,7 +58,8 @@ if (document.readyState === 'loading') {
 // updateCartUI/showToast — 모두 호출하는 곳이 없던 죽은 코드였음)
 // IMAGE_MAP, getImageForProduct, getCategoryFilter, createProductCard,
 // SHEET_ID, fetchProductsFromSheet는 products.js(공용 파일)로 이동함.
-// index.html에서 products.js를 script.js보다 먼저 로드해야 함.
+// (2026-06-25: index.html은 더 이상 이 함수들을 쓰지 않아 products.js
+//  로드를 제거함 — coins.html/coin-*.html은 여전히 사용 중이므로 그대로 둠)
 
 // ===== 메인페이지 상품 카드: SSG(GitHub Actions)가 만든 정적 카드를
 // 그대로 사용한다. 예전에는 loadProducts()가 페이지 로드 시 구글
