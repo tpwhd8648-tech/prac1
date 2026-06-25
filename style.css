@@ -305,6 +305,7 @@ img { max-width: 100%; display: block; }
 .auth-btn-label { font-family: 'Noto Serif KR', serif; font-size: 13px; letter-spacing: 0.5px; white-space: nowrap; opacity: 1; transition: opacity 0.15s ease; }
 @media (max-width: 768px) {
   .auth-btn-label { display: none; }
+  #auth-btn { display: none; } /* 모바일에서는 햄버거 메뉴 안의 로그인/마이페이지 링크만 사용 (중복 제거) */
 }
 
 /* Firebase가 로그인 상태를 확인하는 동안 텍스트를 숨겨 "로그인 → 마이페이지" 깜빡임을 방지 */
