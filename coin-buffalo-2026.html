@@ -39,7 +39,7 @@
   "offers": {
     "@type": "Offer",
     "url": "https://tpwhd8648-tech.github.io/coin-buffalo-2026.html",
-    "price": 6908000,
+    "price": 6883000,
     "priceCurrency": "KRW",
     "priceValidUntil": "2026-06-26",
     "availability": "https://schema.org/InStock",
@@ -199,6 +199,12 @@
     .spec-table td { padding: 14px 0; color: #333; }
 
     .error-msg { text-align: center; padding: 4rem; color: #888; font-family: 'Noto Sans KR', sans-serif; }
+
+    .related-coins-section { margin-top: 64px; padding-top: 48px; border-top: 1px solid #e8e4d9; }
+    .related-coins-title { font-family: 'Cinzel', serif; font-size: 15px; letter-spacing: 3px; color: #C8A84B; text-transform: uppercase; margin: 0 0 24px; font-weight: 500; }
+    .related-coins-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    @media (max-width: 768px) { .related-coins-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+    .related-card-current { outline: 2px solid #C8A84B; }
   </style>
 </head>
 <body>
@@ -289,6 +295,88 @@
         </div>
       </div>
     </div>
+
+        <div class="related-coins-section">
+          <h2 class="related-coins-title">당일수령 가능 금화</h2>
+          <div class="related-coins-grid">
+            
+      <div class="product-card" onclick="location.href='coin-maple-2026.html'" style="cursor:pointer;">
+        <div class="product-img-area">
+          <img src="images/products-maple-2026.png" alt="2026 메이플 1oz" loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="product-img-placeholder" style="display:none"><span>2026 메</span></div>
+          <span class="badge-instock">IN STOCK</span>
+        </div>
+        <div class="product-info">
+          <p class="product-brand">Canadian Mint</p>
+          <h3 class="product-name">2026 메이플 1oz</h3>
+          <div class="product-price-wrap">
+            <span class="product-price card-price"></span>
+          </div>
+          <div class="btn-cart-wrap">
+            <button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='coin-maple-2026.html'">상품 보기</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" onclick="location.href='coin-britannia-2026.html'" style="cursor:pointer;">
+        <div class="product-img-area">
+          <img src="images/products-britannia-2026.png" alt="2026 브리타니아 1oz" loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="product-img-placeholder" style="display:none"><span>2026 브</span></div>
+          <span class="badge-instock">IN STOCK</span>
+        </div>
+        <div class="product-info">
+          <p class="product-brand">Royal Mint</p>
+          <h3 class="product-name">2026 브리타니아 1oz</h3>
+          <div class="product-price-wrap">
+            <span class="product-price card-price"></span>
+          </div>
+          <div class="btn-cart-wrap">
+            <button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='coin-britannia-2026.html'">상품 보기</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" onclick="location.href='coin-kangaroo-2026.html'" style="cursor:pointer;">
+        <div class="product-img-area">
+          <img src="images/products-kangaroo-2026.png" alt="2026 캥거루 1oz" loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="product-img-placeholder" style="display:none"><span>2026 캥</span></div>
+          <span class="badge-instock">IN STOCK</span>
+        </div>
+        <div class="product-info">
+          <p class="product-brand">Perth Mint</p>
+          <h3 class="product-name">2026 캥거루 1oz</h3>
+          <div class="product-price-wrap">
+            <span class="product-price card-price"></span>
+          </div>
+          <div class="btn-cart-wrap">
+            <button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='coin-kangaroo-2026.html'">상품 보기</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card" onclick="location.href='coin-eagle-2026.html'" style="cursor:pointer;">
+        <div class="product-img-area">
+          <img src="images/products-eagle-2026.png" alt="2026 이글 1oz" loading="lazy"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="product-img-placeholder" style="display:none"><span>2026 이</span></div>
+          <span class="badge-instock">IN STOCK</span>
+        </div>
+        <div class="product-info">
+          <p class="product-brand">US Mint</p>
+          <h3 class="product-name">2026 이글 1oz</h3>
+          <div class="product-price-wrap">
+            <span class="product-price card-price"></span>
+          </div>
+          <div class="btn-cart-wrap">
+            <button class="btn-cart btn-buy" onclick="event.stopPropagation(); location.href='coin-eagle-2026.html'">상품 보기</button>
+          </div>
+        </div>
+      </div>
+          </div>
+        </div>
   </section>
 
   <footer id="site-footer"></footer>
