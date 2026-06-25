@@ -676,6 +676,7 @@
     function updateCardPricesFromSheet(krwPerOz) {
       currentKrwPrice = krwPerOz;
       document.querySelectorAll('.product-card').forEach(card => {
+        if (card.classList.contains('card-soldout')) return; // 품절 카드는 "품절" 텍스트 유지
         const premium = parseFloat(card.dataset.premium) || 1.03;
         const price = Math.round(krwPerOz * premium / 1000) * 1000;
         const priceEl = card.querySelector('.product-price');

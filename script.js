@@ -72,6 +72,7 @@ if (document.readyState === 'loading') {
 // 후 GitHub Actions 재실행으로 반영한다.
 function updateCardPricesFromSheet(krwPerOz) {
   document.querySelectorAll('.product-card').forEach(card => {
+    if (card.classList.contains('card-soldout')) return; // 품절 카드는 "품절" 텍스트 유지
     const premium = parseFloat(card.dataset.premium) || 1.03;
     const price = Math.round(krwPerOz * premium / 1000) * 1000;
     const priceEl = card.querySelector('.product-price');
