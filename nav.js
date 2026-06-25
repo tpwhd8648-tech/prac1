@@ -182,7 +182,8 @@
             </button>
             <div class="custom-dropdown-menu" id="dropdown-menu">
               <a class="custom-dropdown-item" href="coins.html">금화 보기</a>
-              <a class="custom-dropdown-item" href="gold-price.html">금 시세</a>
+              <a class="custom-dropdown-item" href="coins.html?instock">IN STOCK</a>
+              <a class="custom-dropdown-item" href="gold-price.html">실시간 시세</a>
               <a class="custom-dropdown-item" href="contact.html">구매 문의</a>
             </div>
           </div>
@@ -362,7 +363,9 @@
       <div class="nav-inner">
         <ul class="nav-list">
           <li class="nav-item"><a href="coins.html" class="nav-link${isActive('coins.html')}">금화 보기</a></li>
-          <li class="nav-item"><a href="gold-price.html" class="nav-link${isActive('gold-price.html')}">금 시세</a></li>
+          <li class="nav-item"><a href="coins.html?instock" class="nav-link${isActive('coins.html?instock')}">IN STOCK</a></li>
+          <li class="nav-item"><a href="gold-price.html" class="nav-link${isActive('gold-price.html')}">실시간 시세</a></li>
+          <li class="nav-item"><a href="coins.html?brand=1" class="nav-link${isActive('coins.html?brand=1')}">브랜드별</a></li>
           <li class="nav-item"><a href="contact.html" class="nav-link${isActive('contact.html')}">구매 문의</a></li>
         </ul>
       </div>`;
@@ -376,7 +379,9 @@
       <button class="mobile-menu-close" id="mobile-menu-close">✕</button>
       <ul>
         <li><a href="coins.html">금화 보기</a></li>
-        <li><a href="gold-price.html">금 시세</a></li>
+        <li><a href="coins.html?instock">IN STOCK</a></li>
+        <li><a href="gold-price.html">실시간 시세</a></li>
+        <li><a href="coins.html?brand=1">브랜드별</a></li>
         <li><a href="contact.html">구매 문의</a></li>
         <li><a href="#" id="mobile-auth-link" class="auth-btn-pending">로그인</a></li>
       </ul>`;

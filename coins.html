@@ -548,6 +548,14 @@
         menu.classList.toggle('open');
       });
       document.addEventListener('click', () => menu.classList.remove('open'));
+
+      // ?brand=1 파라미터가 있으면 드롭다운 자동 열기
+      if (urlParams.has('brand')) {
+        setTimeout(() => {
+          menu.classList.add('open');
+          btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
     })();
 
     // ===== 장바구니/TOAST 관련 함수: 장바구니 사이드바 제거에 따라
