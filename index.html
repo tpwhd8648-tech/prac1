@@ -436,12 +436,74 @@
       nextBtn.addEventListener('mouseenter', () => { nextBtn.style.background = '#C8A84B'; nextBtn.style.color = '#fff'; });
       nextBtn.addEventListener('mouseleave', () => { nextBtn.style.background = '#fff'; nextBtn.style.color = '#C8A84B'; });
     }
-    // 모바일 터치 스와이프 가로채기 로직 제거됨 (2026-06-25):
-    // X좌표 차이만으로 스와이프를 판단해 Y축(세로) 이동을 체크하지 않았음.
-    // 세로로 터치를 올려도 손가락의 미세한 가로 흔들림이 50px diff를 넘기면
-    // smoothScroll이 강제 호출되어 캐러셀이 옆으로 튀는 문제가 있었음.
-    // touch-action: pan-y CSS만으로는 이 JS가 위에서 가로채는 동작을 막을 수
-    // 없어, 로직 자체를 제거. 좌우 이동은 carousel-prev/next 버튼으로만 처리.
+
+    // 모바일 터치 스와이프 (2026-06-25 재구현, 같은 날 2차 수정):
+    // [1차 시도의 문제] touchmove에서 세로로 방향이 확정된 뒤에도 단순히
+    // "아무 동작 안 함(return)"으로만 처리했는데, wrap에 이미
+    // touch-action:pan-y가 CSS로 걸려 있는 상태에서 passive:false
+    // touchmove 리스너가 같은 요소에 함께 달려 있으면, 브라우저(특히
+    // Chrome/Android)가 "이 제스처는 JS가 막을 수도 있다"고 보고 세로
+    // 방향에 대한 네이티브 스크롤 가속/최적화 자체를 비활성화한다.
+    // 그 결과 세로로 스크롤하려 해도 합성 스레드가 아닌 메인 스레드에
+    // 종속되어 카드가 매끄럽게 스크롤되지 않고 흔들리듯 움직이는
+    // 현상이 발생함 — "카드가 세로로 움직인다"는 증상의 실제 원인.
+    // [2차 수정] 방향이 'vertical'로 확정되는 즉시 wrap.style.touchAction을
+    // 'auto'로 강제 전환해, 남은 제스처 구간 동안 브라우저가 이 요소의
+    // 터치를 완전히 네이티브로 처리하도록 넘긴다(JS는 더 이상 관여하지
+    // 않음 — preventDefault도 호출되지 않으므로 충돌 없음). touchend/
+    // touchcancel 시점에 다음 제스처를 위해 pan-y로 복원한다.
+    if (wrap) {
+      const DIRECTION_THRESHOLD = 10; // px: 이보다 작은 이동은 아직 방향 미확정(pending)
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let scrollStartLeft = 0;
+      let direction = 'pending'; // 'pending' | 'horizontal' | 'vertical'
+
+      function restoreTouchAction() {
+        wrap.style.touchAction = 'pan-y';
+      }
+
+      wrap.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        scrollStartLeft = wrap.scrollLeft;
+        direction = 'pending';
+        restoreTouchAction(); // 새 제스처 시작 시 항상 pan-y로 리셋
+      }, { passive: true });
+
+      wrap.addEventListener('touchmove', (e) => {
+        if (direction === 'vertical') return; // 브라우저에 위임된 상태, JS는 더 이상 개입하지 않음
+
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const dx = currentX - touchStartX;
+        const dy = currentY - touchStartY;
+
+        if (direction === 'pending') {
+          if (Math.abs(dx) < DIRECTION_THRESHOLD && Math.abs(dy) < DIRECTION_THRESHOLD) {
+            return; // 아직 방향 판단 불가 — 다음 touchmove까지 대기
+          }
+          direction = Math.abs(dx) >= Math.abs(dy) ? 'horizontal' : 'vertical';
+          if (direction === 'vertical') {
+            wrap.style.touchAction = 'auto'; // 이후 이 제스처 동안 브라우저 네이티브 스크롤에 완전히 위임
+            return;
+          }
+        }
+
+        // direction === 'horizontal'
+        e.preventDefault(); // 페이지(세로) 스크롤 차단, 캐러셀만 이동
+        wrap.scrollLeft = scrollStartLeft - dx;
+      }, { passive: false }); // horizontal일 때 preventDefault 호출하려면 passive:false 필수
+
+      wrap.addEventListener('touchend', () => {
+        direction = 'pending';
+        restoreTouchAction();
+      });
+      wrap.addEventListener('touchcancel', () => {
+        direction = 'pending';
+        restoreTouchAction();
+      });
+    }
   })();
   </script>
 
