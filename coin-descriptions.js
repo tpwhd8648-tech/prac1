@@ -20,7 +20,7 @@
 
 const COIN_DESCRIPTIONS = [
   {
-    keywords: ['2026 메이플', '2026 maple'],
+    keywords: ['2026 메이플리프', '2026 메이플 리프', '2026 메이플', '2026 maple'],
     detail: `캐나다 왕립 조폐국(Royal Canadian Mint)이 1979년부터 발행하는 세계적인 골드 불리온 코인입니다.\n순도 99.99%(.9999)의 고순도 금으로 제작되어 불리온 시장에서 가장 신뢰받는 코인 중 하나로 꼽힙니다.\n앞면에는 캐나다 예술가 Steven Rosati가 설계한 찰스 3세 국왕의 초상이 새겨져 있으며,\n뒷면에는 캐나다를 상징하는 단풍잎이 담겨 있습니다.\n3가지 보안 요소(방사형 미세 라인, 연도가 새겨진 마이크로 각인 단풍잎 프리비마크,\nBullion DNA™ 위변조 방지 기술)가 적용되어 업계 최고 수준의 위변조 방지력을 갖추고 있습니다.\n높은 순도와 전 세계적인 유동성 덕분에 초보 투자자부터 장기 보유자까지 폭넓게 선호합니다.`,
     specs: { year: '2026', mint: '캐나다 왕립 조폐국 (Royal Canadian Mint)', country: '캐나다', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '30mm', thickness: '2.87mm', condition: '미사용 (Brilliant Uncirculated)', verified: true }
   },
@@ -50,7 +50,7 @@ const COIN_DESCRIPTIONS = [
     specs: { year: '2026', mint: '오스트리아 민트 (Austrian Mint)', country: '오스트리아', purity: '99.99% (.9999) 순금', weight: '1oz (31.1g)', diameter: '37mm', thickness: '2.00mm', condition: '미사용 (Brilliant Uncirculated)', verified: true }
   },
   {
-    keywords: ['2026 크루거', '2026 krugerrand'],
+    keywords: ['2026 크루거랜드', '2026 크루거', '2026 krugerrand'],
     detail: `남아프리카공화국 조폐국(South African Mint)이 1967년부터 발행해온, 세계 최초의 현대\n골드 불리온 코인입니다. 앞면에는 남아공 공화국 대통령이었던 폴 크루거의 초상이,\n뒷면에는 남아공의 상징 동물인 스프링복(springbok)이 새겨져 있습니다.\n아메리칸이글과 마찬가지로 22K(91.67%) 합금으로 제작되어 내구성이 뛰어나며, 오랜 역사와\n압도적인 글로벌 유동성 덕분에 전 세계 불리온 시장의 기준점 역할을 하는 코인입니다.`,
     specs: { year: '2026', mint: '남아공 조폐국 (South African Mint)', country: '남아프리카공화국', purity: '91.67% (22K, 순금 1oz 함량 기준)', weight: '순금 1oz 함량 (총중량 약 33.93g)', diameter: '32.8mm', thickness: '2.84mm', condition: '미사용 (Brilliant Uncirculated)', verified: true }
   },

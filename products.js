@@ -33,13 +33,13 @@
 
 // ===== 상품명 → 이미지 파일명 매핑 =====
 const IMAGE_MAP = [
-  { keywords: ['2026 메이플', '2026 maple'],                           file: 'products-maple-2026.png' },
+  { keywords: ['2026 메이플리프', '2026 메이플 리프', '2026 메이플', '2026 maple'],         file: 'products-maple-2026.png' },
   { keywords: ['2026 브리타니아', '2026 britannia'],                   file: 'products-britannia-2026.png' },
   { keywords: ['2026 캥거루', '2026 kangaroo'],                        file: 'products-kangaroo-2026.png' },
   { keywords: ['2026 버팔로', '2026 buffalo'],                         file: 'products-buffalo-2026.png' },
   { keywords: ['2026 아메리칸이글', '2026 아메리칸 이글', '2026 eagle'],                             file: 'products-eagle-2026.png' },
   { keywords: ['2026 필하모닉', '2026 philharmonic'],                  file: 'products-philharmonic-2026.png' },
-  { keywords: ['2026 크루거', '2026 krugerrand'],                      file: 'products-krugerrand-2026.png' },
+  { keywords: ['2026 크루거랜드', '2026 크루거', '2026 krugerrand'],    file: 'products-krugerrand-2026.png' },
   { keywords: ['2026 판다', '2026 panda'],                             file: 'products-panda-2026.png' },
   { keywords: ['2026 성조지', '2026 세인트조지', '2026 george'],       file: 'products-st-george-2026.png' },
   { keywords: ['2026 퀸즈라이언', '2026 queens lion'],                 file: 'products-queens-lion-2026.png' },
