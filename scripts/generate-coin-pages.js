@@ -117,7 +117,9 @@ function buildCoinEntries(sheetRows) {
       continue;
     }
 
-    const slug = imageEntry.file.replace(/^products-/, '').replace(/\.png$/i, '');
+    // products/2026/maple.png → maple-2026 (coin-{slug}.html 파일명 유지)
+    const slugMatch = imageEntry.file.match(/products\/(\d{4})\/(.+)\.png$/i);
+    const slug = slugMatch ? `${slugMatch[2]}-${slugMatch[1]}` : imageEntry.file.replace(/^products-/, '').replace(/\.png$/i, '');
     entries.push({
       slug,
       keywords: desc.keywords,
@@ -826,7 +828,8 @@ function getSlugFromImageMap(name) {
   const lower = name.toLowerCase();
   for (const entry of IMAGE_MAP) {
     if (entry.keywords.some(k => lower.includes(k.toLowerCase()))) {
-      return entry.file.replace(/^products-/, '').replace(/\.png$/, '');
+      const m = entry.file.match(/products\/(\d{4})\/(.+)\.png$/i);
+      return m ? `${m[2]}-${m[1]}` : entry.file.replace(/^products-/, '').replace(/\.png$/, '');
     }
   }
   return null;

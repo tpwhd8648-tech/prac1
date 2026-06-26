@@ -13,7 +13,7 @@
   <meta property="og:url" content="https://tpwhd8648-tech.github.io/coins.html">
   <meta property="og:title" content="MIDAS BULLION | 금화·은화 전체보기">
   <meta property="og:description" content="캐나다 메이플리프, 미국 아메리칸이글, 남아공 크루거랜드 등 전 세계 정품 금화·은화를 한눈에 비교하고 구매하세요.">
-  <meta property="og:image" content="https://tpwhd8648-tech.github.io/images/products-maple-2026.png">
+  <meta property="og:image" content="https://tpwhd8648-tech.github.io/images/products/2026/maple.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta property="og:image:alt" content="MIDAS BULLION 귀금속 쇼핑몰">
@@ -23,7 +23,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="MIDAS BULLION | 금화·은화 전체보기">
   <meta name="twitter:description" content="캐나다 메이플리프, 미국 아메리칸이글, 남아공 크루거랜드 등 전 세계 정품 금화·은화를 한눈에 비교하고 구매하세요.">
-  <meta name="twitter:image" content="https://tpwhd8648-tech.github.io/images/products-maple-2026.png">
+  <meta name="twitter:image" content="https://tpwhd8648-tech.github.io/images/products/2026/maple.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
@@ -86,7 +86,7 @@
     <div class="product-card " data-category="gold" data-brand="Canadian Mint" data-premium="1.106"
       onclick="location.href='coin-maple-2026.html'">
       <div class="product-img-area">
-        <img src="images/products-maple-2026.png" alt="2026 메이플리프 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <img src="images/products/2026/maple.png" alt="2026 메이플리프 1oz" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="product-img-placeholder" style="display:none"><span>2026 메</span></div>
         <span class="badge-instock">IN STOCK</span>
       </div>
@@ -582,8 +582,9 @@
       const lower = name.toLowerCase();
       for (const entry of IMAGE_MAP) {
         if (entry.keywords.some(k => lower.includes(k))) {
-          // 'products-maple-2026.png' → 'maple-2026'
-          return entry.file.replace(/^products-/, '').replace(/\.png$/, '');
+          // 'products/2026/maple.png' → 'maple-2026'
+          const m = entry.file.match(/products\/(\d{4})\/(.+)\.png$/i);
+          return m ? `${m[2]}-${m[1]}` : entry.file.replace(/^products-/, '').replace(/\.png$/, '');
         }
       }
       return null;
