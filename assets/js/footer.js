@@ -7,7 +7,7 @@
       <div class="footer-col">
         <h4>카탈로그</h4>
         <ul>
-          <li><a href="coins.html">› 금화</a></li>
+          <li><a href="/coins.html">› 금화</a></li>
           <!-- 금화1~4: 실제 카테고리 없는 플레이스홀더라 삭제함 (2026-06-21).
                카테고리가 늘어나면 다시 추가. -->
         </ul>
@@ -17,7 +17,7 @@
       <div class="footer-col">
         <h4>문의 사항</h4>
         <ul>
-          <li><a href="mypage.html">› 내 계정</a></li>
+          <li><a href="/mypage.html">› 내 계정</a></li>
           <!-- "고객센터": 사용자 요청으로 삭제함 (2026-06-21).
                "주문 내역": 연결할 실제 페이지가 없어 삭제함 (2026-06-21).
                주문내역 페이지가 생기면 다시 추가. -->
@@ -29,9 +29,9 @@
                단순히 contact.html로만 이동시킴. 주소 확정되어 contact.html의
                지도 섹션 주석을 해제하면, 아래 href를
                "contact.html#contact-map"으로 다시 바꿀 것. -->
-          <li><a href="contact.html">› 오시는 길</a></li>
-          <li><a href="terms.html">› 이용약관</a></li>
-          <li><a href="privacy.html">› 개인정보처리방침</a></li>
+          <li><a href="/contact.html">› 오시는 길</a></li>
+          <li><a href="/terms.html">› 이용약관</a></li>
+          <li><a href="/privacy.html">› 개인정보처리방침</a></li>
           <!-- terms.html/privacy.html: 사업자 정보 미확정 상태에서 법적
                리스크(회원가입 시 개인정보 수집 중)를 없애기 위해 임시본으로
                생성함 (2026-06-26). 사업자 등록 완료 후 실제 정보로 교체할 것.

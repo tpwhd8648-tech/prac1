@@ -149,7 +149,7 @@
     header.className = 'header';
     header.innerHTML = `
       <div class="header-inner">
-        <a href="index.html" class="logo-wrap">
+        <a href="/index.html" class="logo-wrap">
           <svg class="logo-symbol" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <radialGradient id="petal1" cx="50%" cy="20%" r="70%"><stop offset="0%" stop-color="#F5E090"/><stop offset="50%" stop-color="#C8A84B"/><stop offset="100%" stop-color="#7A5C10" stop-opacity="0.7"/></radialGradient>
@@ -181,11 +181,11 @@
               <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
             </button>
             <div class="custom-dropdown-menu" id="dropdown-menu">
-              <a class="custom-dropdown-item" href="coins.html">금화 보기</a>
-              <a class="custom-dropdown-item" href="gold-price.html">실시간 시세</a>
-              <a class="custom-dropdown-item" href="coins.html?brand=1">브랜드별</a>
-              <a class="custom-dropdown-item" href="coins.html?instock">IN STOCK</a>
-              <a class="custom-dropdown-item" href="contact.html">구매 문의</a>
+              <a class="custom-dropdown-item" href="/coins.html">금화 보기</a>
+              <a class="custom-dropdown-item" href="/gold-price.html">실시간 시세</a>
+              <a class="custom-dropdown-item" href="/coins.html?brand=1">브랜드별</a>
+              <a class="custom-dropdown-item" href="/coins.html?instock">IN STOCK</a>
+              <a class="custom-dropdown-item" href="/contact.html">구매 문의</a>
             </div>
           </div>
           <input type="text" placeholder="금화 검색" class="search-input" autocomplete="off">
@@ -363,11 +363,11 @@
     nav.innerHTML = `
       <div class="nav-inner">
         <ul class="nav-list">
-          <li class="nav-item"><a href="coins.html" class="nav-link${isActive('coins.html')}">금화 보기</a></li>
-          <li class="nav-item"><a href="gold-price.html" class="nav-link${isActive('gold-price.html')}">실시간 시세</a></li>
-          <li class="nav-item"><a href="coins.html?brand=1" class="nav-link${isActive('coins.html?brand=1')}">브랜드별</a></li>
-          <li class="nav-item"><a href="coins.html?instock" class="nav-link${isActive('coins.html?instock')}">IN STOCK</a></li>
-          <li class="nav-item"><a href="contact.html" class="nav-link${isActive('contact.html')}">구매 문의</a></li>
+          <li class="nav-item"><a href="/coins.html" class="nav-link${isActive('coins.html')}">금화 보기</a></li>
+          <li class="nav-item"><a href="/gold-price.html" class="nav-link${isActive('gold-price.html')}">실시간 시세</a></li>
+          <li class="nav-item"><a href="/coins.html?brand=1" class="nav-link${isActive('coins.html?brand=1')}">브랜드별</a></li>
+          <li class="nav-item"><a href="/coins.html?instock" class="nav-link${isActive('coins.html?instock')}">IN STOCK</a></li>
+          <li class="nav-item"><a href="/contact.html" class="nav-link${isActive('contact.html')}">구매 문의</a></li>
         </ul>
       </div>`;
   }
@@ -379,11 +379,11 @@
     mobile.innerHTML = `
       <button class="mobile-menu-close" id="mobile-menu-close">✕</button>
       <ul>
-        <li><a href="coins.html">금화 보기</a></li>
-        <li><a href="gold-price.html">실시간 시세</a></li>
-        <li><a href="coins.html?brand=1">브랜드별</a></li>
-        <li><a href="coins.html?instock">IN STOCK</a></li>
-        <li><a href="contact.html">구매 문의</a></li>
+        <li><a href="/coins.html">금화 보기</a></li>
+        <li><a href="/gold-price.html">실시간 시세</a></li>
+        <li><a href="/coins.html?brand=1">브랜드별</a></li>
+        <li><a href="/coins.html?instock">IN STOCK</a></li>
+        <li><a href="/contact.html">구매 문의</a></li>
         <li><a href="#" id="mobile-auth-link" class="auth-btn-pending">로그인</a></li>
       </ul>`;
   }
@@ -532,8 +532,8 @@
           </label>
           <label class="auth-agree" id="auth-agree-wrap" style="display:none;">
             <input type="checkbox" id="auth-agree-checkbox">
-            <span><a href="terms.html" target="_blank" rel="noopener">이용약관</a> 및
-              <a href="privacy.html" target="_blank" rel="noopener">개인정보처리방침</a>에
+            <span><a href="/terms.html" target="_blank" rel="noopener">이용약관</a> 및
+              <a href="/privacy.html" target="_blank" rel="noopener">개인정보처리방침</a>에
               동의합니다. (필수)</span>
           </label>
           <div class="auth-error" id="auth-error" role="alert"></div>
