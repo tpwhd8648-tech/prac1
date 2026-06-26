@@ -262,8 +262,6 @@ img { max-width: 100%; display: block; }
 .btn-soldout { width: 100%; background: #C8A84B; color: #fff; border: none; padding: 10px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: background 0.2s, color 0.2s; letter-spacing: 1px; }
 .btn-soldout:hover { background: #F5E090; color: #1a1200; }
 
-.product-card { display: flex; flex-direction: column; cursor: pointer; }
-
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .brand-grid { grid-template-columns: repeat(3, 1fr); }
