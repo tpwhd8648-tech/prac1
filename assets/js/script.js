@@ -59,7 +59,10 @@ if (document.readyState === 'loading') {
 // IMAGE_MAP, getImageForProduct, getCategoryFilter, createProductCard,
 // SHEET_ID, fetchProductsFromSheet는 products.js(공용 파일)로 이동함.
 // (2026-06-25: index.html은 더 이상 이 함수들을 쓰지 않아 products.js
-//  로드를 제거함 — coins.html/coin-*.html은 여전히 사용 중이므로 그대로 둠)
+//  로드를 제거함 — coins.html은 createProductCard()를 직접 호출하므로
+//  여전히 사용 중. coin-detail.html/coins/*.html도 products.js를 로드는
+//  하지만 fetchProductsFromSheet()만 재사용할 뿐 createProductCard()/
+//  getImageForProduct()는 호출하지 않음 — 2026-06-27 전수조사로 확인)
 
 // ===== 메인페이지 상품 카드: SSG(GitHub Actions)가 만든 정적 카드를
 // 그대로 사용한다. 예전에는 loadProducts()가 페이지 로드 시 구글
