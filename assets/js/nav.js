@@ -123,10 +123,10 @@
   function goSearch(keyword) {
     const trimmed = (keyword || '').trim();
     if (!trimmed) {
-      location.href = 'coins.html';
+      location.href = '/coins.html';
       return;
     }
-    location.href = 'coins.html?q=' + encodeURIComponent(trimmed);
+    location.href = '/coins.html?q=' + encodeURIComponent(trimmed);
   }
 
   /* ── Top Bar ── */
@@ -703,7 +703,7 @@
   function goToMyPage() {
     const page = location.pathname.split('/').pop() || 'index.html';
     if (page === 'mypage.html') return;
-    location.href = 'mypage.html';
+    location.href = '/mypage.html';
   }
 
   /* ── 헤더 / 모바일 메뉴의 로그인 버튼 상태 토글 ── */
