@@ -43,11 +43,11 @@ function loadConstFromFile(filePath, constName) {
   return value;
 }
 
-const COIN_DESCRIPTIONS = loadConstFromFile(path.join(ROOT, 'coin-descriptions.js'), 'COIN_DESCRIPTIONS');
+const COIN_DESCRIPTIONS = loadConstFromFile(path.join(ROOT, 'assets/js/coin-descriptions.js'), 'COIN_DESCRIPTIONS');
 // IMAGE_MAP은 2026-06-25 products.js에서 coin-data.js로 분리됨
 // (index.html도 검색 자동완성에 IMAGE_MAP이 필요해져서 — coin-data.js
 // 상단 주석 참고). 이 빌드 스크립트도 같은 파일에서 읽도록 갱신.
-const IMAGE_MAP = loadConstFromFile(path.join(ROOT, 'coin-data.js'), 'IMAGE_MAP');
+const IMAGE_MAP = loadConstFromFile(path.join(ROOT, 'assets/js/coin-data.js'), 'IMAGE_MAP');
 
 // ── 2. 구글 시트 "상품" 탭에서 name/brand/premium/available을 가져온다.
 //      (컬럼 순서는 products.js의 fetchProductsFromSheet와 동일:
@@ -257,7 +257,7 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
   <style>
     .sub-page { padding: 48px 0 80px; background: #f9f8f5; min-height: calc(100vh - 200px); }
     .sub-page .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
@@ -563,11 +563,11 @@ ${relatedHtml}
 
   <footer id="site-footer"></footer>
 
-  <script type="module" src="../auth.js"></script>
-  <script src="../footer.js"></script>
-  <script src="../nav.js"></script>
-  <script src="../coin-data.js"></script>
-  <script src="../products.js"></script>
+  <script type="module" src="../assets/js/auth.js"></script>
+  <script src="../assets/js/footer.js"></script>
+  <script src="../assets/js/nav.js"></script>
+  <script src="../assets/js/coin-data.js"></script>
+  <script src="../assets/js/products.js"></script>
   <script>
     // ===== 이 코인의 매칭 키워드 (coin-descriptions.js / IMAGE_MAP과 동일 패턴) =====
     const COIN_KEYWORDS = ${keywordsJs};

@@ -38,7 +38,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
   <style>
     /* 카드 공통 CSS → style.css로 이동 */
     #products-grid { box-sizing: border-box; }
@@ -403,16 +403,16 @@
        coin-detail.html의 단일 "구매 문의하기"(카카오톡 연결) 버튼으로
        통일됨. (toast 알림 UI도 같이 정리함) -->
 
-  <script type="module" src="auth.js"></script>
-  <script src="footer.js"></script>
+  <script type="module" src="assets/js/auth.js"></script>
+  <script src="assets/js/footer.js"></script>
   <!-- coin-data.js: 검색 자동완성(nav.js)이 IMAGE_MAP 기반으로 코인명을
        자동 추출해 쓰도록 하기 위해 로드. index.html은 SSG 정적 카드를
        그대로 쓰므로 products.js(구글 시트 fetch, 카드 렌더링)는 필요
        없지만, 검색 자동완성용 IMAGE_MAP만큼은 필요해서 분리된 이
        파일만 가져옴 (2026-06-25, coin-data.js 상단 주석 참고). -->
-  <script src="coin-data.js"></script>
-  <script src="nav.js"></script>
-  <script src="script.js"></script>
+  <script src="assets/js/coin-data.js"></script>
+  <script src="assets/js/nav.js"></script>
+  <script src="assets/js/script.js"></script>
 
   <!-- 상품 캐러셀 -->
   <script>
