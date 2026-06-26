@@ -152,7 +152,7 @@ function escapeAttr(str) {
 function renderCoinPage(coin, krwPerOz, todayStr, relatedHtml = '') {
   const { slug, name, brand, detail, specs, imageFile, keywords, premium, available } = coin;
   const baseImg = imageFile.replace(/\.png$/i, '');
-  const pageUrl = `${SITE_URL}/coin-${slug}.html`;
+  const pageUrl = `${SITE_URL}/coins/coin-${slug}.html`;
   const mainImgUrl = `${SITE_URL}/images/${imageFile}`;
   const safeName = escapeHtml(name);
   const safeNameAttr = escapeAttr(name);
@@ -228,7 +228,7 @@ function renderCoinPage(coin, krwPerOz, todayStr, relatedHtml = '') {
   <title>MIDAS BULLION | ${safeName} - 투자 금화 구매</title>
   <meta name="description" content="${escapeAttr(shortDesc)} 중량, 순도, 발행처 등 상세 정보와 실시간 국제 시세를 확인하고 안전하게 구매하세요. MIDAS BULLION이 정품을 보증합니다.">
   <link rel="canonical" href="${pageUrl}">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preload" as="image" href="${mainImgUrl}" fetchpriority="high">
   <!-- Open Graph -->
   <meta property="og:type" content="product">
@@ -257,7 +257,7 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../style.css">
   <style>
     .sub-page { padding: 48px 0 80px; background: #f9f8f5; min-height: calc(100vh - 200px); }
     .sub-page .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
@@ -390,9 +390,9 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
   <section class="sub-page">
     <div class="container">
       <div class="page-header">
-        <a href="index.html">← 홈으로</a>
+        <a href="../index.html">← 홈으로</a>
         <span class="divider">/</span>
-        <a href="coins.html">금화 보기</a>
+        <a href="../coins.html">금화 보기</a>
         <span class="divider">/</span>
         <span class="crumb">${safeName}</span>
       </div>
@@ -401,7 +401,7 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
         <div class="product-detail">
           <div class="gallery">
             <div class="gallery-main">
-              <img id="gallery-main-img" src="images/${baseImg}.png" alt="${safeNameAttr} 앞면" fetchpriority="high"
+              <img id="gallery-main-img" src="../images/${baseImg}.png" alt="${safeNameAttr} 앞면" fetchpriority="high"
                 onerror="this.style.display='none';document.getElementById('gallery-no-img').style.display='flex'">
               <span class="badge-instock" id="stock-badge" style="display:none">IN STOCK</span>
               <span class="badge-presale" id="presale-badge" style="display:none">PRE SALE</span>
@@ -410,11 +410,11 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
             </div>
             <div class="gallery-thumbs" id="gallery-thumbs">
               <div class="gallery-thumb active" onclick="switchImage(0)" data-index="0">
-                <img src="images/${baseImg}.png" alt="${safeNameAttr} 앞면" loading="lazy"
+                <img src="../images/${baseImg}.png" alt="${safeNameAttr} 앞면" loading="lazy"
                   onerror="this.parentElement.style.display='none'">
               </div>
               <div class="gallery-thumb" onclick="switchImage(1)" data-index="1">
-                <img src="images/${baseImg}-back.png" alt="${safeNameAttr} 뒷면" loading="lazy"
+                <img src="../images/${baseImg}-back.png" alt="${safeNameAttr} 뒷면" loading="lazy"
                   onerror="this.parentElement.style.display='none'">
               </div>
             </div>
@@ -429,7 +429,7 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
             </div>
             <div>
               <a href="https://open.kakao.com/o/sB6Gduni" target="_blank" rel="noopener noreferrer" class="btn-inquiry" id="inquiry-btn">구매 문의하기</a>
-              <a href="coins.html" class="btn-back-coins">← 목록으로 돌아가기</a>
+              <a href="../coins.html" class="btn-back-coins">← 목록으로 돌아가기</a>
             </div>
           </div>
         </div>
@@ -563,11 +563,11 @@ ${relatedHtml}
 
   <footer id="site-footer"></footer>
 
-  <script type="module" src="auth.js"></script>
-  <script src="footer.js"></script>
-  <script src="nav.js"></script>
-  <script src="coin-data.js"></script>
-  <script src="products.js"></script>
+  <script type="module" src="../auth.js"></script>
+  <script src="../footer.js"></script>
+  <script src="../nav.js"></script>
+  <script src="../coin-data.js"></script>
+  <script src="../products.js"></script>
   <script>
     // ===== 이 코인의 매칭 키워드 (coin-descriptions.js / IMAGE_MAP과 동일 패턴) =====
     const COIN_KEYWORDS = ${keywordsJs};
@@ -915,7 +915,7 @@ function renderRelatedCoins(currentSlug, allEntries, sheetRows) {
 
   const cards = related.map(({ entry, row }) => {
     const linkUrl = `coin-${entry.slug}.html`;
-    const imgSrc = `images/${entry.imageFile}`;
+    const imgSrc = `../images/${entry.imageFile}`;
     const isCurrent = entry.slug === currentSlug;
     return `
       <div class="product-card${isCurrent ? ' related-card-current' : ''}" onclick="location.href='${linkUrl}'" style="cursor:pointer;">
@@ -942,7 +942,7 @@ function renderRelatedCoins(currentSlug, allEntries, sheetRows) {
         <div class="related-coins-section">
           <div class="related-coins-header">
             <h2 class="related-coins-title">당일수령 가능 금화</h2>
-            <a href="coins.html?instock" class="related-coins-more">당일수령 더보기 ›</a>
+            <a href="../coins.html?instock" class="related-coins-more">당일수령 더보기 ›</a>
           </div>
           <div class="related-coins-grid">
             ${cards}
@@ -961,7 +961,7 @@ function renderIndexGrid(sheetRows) {
 
   return products.map(p => {
     const slug = getSlugFromImageMap(p.name);
-    const linkUrl = slug ? `coin-${slug}.html` : `coin-detail.html?name=${encodeURIComponent(p.name)}`;
+    const linkUrl = slug ? `coins/coin-${slug}.html` : `coin-detail.html?name=${encodeURIComponent(p.name)}`;
     return renderProductCard(p, linkUrl, {});
   }).join('\n');
 }
@@ -977,7 +977,7 @@ function renderCoinsGrid(sheetRows) {
 
   return products.map(p => {
     const slug = getSlugFromImageMap(p.name);
-    const linkUrl = slug ? `coin-${slug}.html` : `coin-detail.html?name=${encodeURIComponent(p.name)}`;
+    const linkUrl = slug ? `coins/coin-${slug}.html` : `coin-detail.html?name=${encodeURIComponent(p.name)}`;
     return renderProductCard(p, linkUrl, { soldoutBtnText: '상품 보기' });
   }).join('\n');
 }
@@ -1004,7 +1004,7 @@ function renderSitemap(coinEntries, todayStr) {
     { loc: `${SITE_URL}/contact.html`, changefreq: 'monthly', priority: '0.5' },
   ];
   const coinUrls = coinEntries.map(c => ({
-    loc: `${SITE_URL}/coin-${c.slug}.html`,
+    loc: `${SITE_URL}/coins/coin-${c.slug}.html`,
     changefreq: 'daily',
     priority: '0.7',
   }));
@@ -1046,7 +1046,7 @@ async function main() {
 
   let changedCount = 0;
   for (const coin of entries) {
-    const filePath = path.join(ROOT, `coin-${coin.slug}.html`);
+    const filePath = path.join(ROOT, 'coins', `coin-${coin.slug}.html`);
     const relatedHtml = renderRelatedCoins(coin.slug, entries, sheetRows);
     const html = renderCoinPage(coin, krwPerOz, kstDate, relatedHtml);
     const prev = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : null;
