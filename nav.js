@@ -530,6 +530,12 @@
             <span>비밀번호 확인</span>
             <input type="password" id="auth-password-confirm" autocomplete="new-password" placeholder="비밀번호를 한 번 더 입력">
           </label>
+          <label class="auth-agree" id="auth-agree-wrap" style="display:none;">
+            <input type="checkbox" id="auth-agree-checkbox">
+            <span><a href="terms.html" target="_blank" rel="noopener">이용약관</a> 및
+              <a href="privacy.html" target="_blank" rel="noopener">개인정보처리방침</a>에
+              동의합니다. (필수)</span>
+          </label>
           <div class="auth-error" id="auth-error" role="alert"></div>
           <button type="submit" class="auth-submit-btn" id="auth-submit-btn">로그인</button>
         </form>
@@ -542,6 +548,13 @@
     const passwordInput = overlay.querySelector('#auth-password');
     const confirmWrap = overlay.querySelector('#auth-confirm-wrap');
     const confirmInput = overlay.querySelector('#auth-password-confirm');
+    const agreeWrap = overlay.querySelector('#auth-agree-wrap');
+    const agreeCheckbox = overlay.querySelector('#auth-agree-checkbox');
+    /* 약관/방침 링크 클릭이 label 클릭 전파로 체크박스를 같이 토글시키는
+       부작용 방지 (링크 클릭 ≠ 동의로 취급되지 않도록) */
+    agreeWrap.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function (e) { e.stopPropagation(); });
+    });
     const errorBox = overlay.querySelector('#auth-error');
     const submitBtn = overlay.querySelector('#auth-submit-btn');
     const title = overlay.querySelector('#auth-modal-title');
@@ -571,6 +584,7 @@
         title.textContent = 'MIDAS BULLION 회원가입';
         passwordInput.autocomplete = 'new-password';
         confirmWrap.style.display = 'flex';
+        agreeWrap.style.display = 'flex';
         submitBtn.textContent = '회원가입';
       } else {
         tabSignin.classList.add('active');
@@ -578,6 +592,7 @@
         title.textContent = 'MIDAS BULLION 로그인';
         passwordInput.autocomplete = 'current-password';
         confirmWrap.style.display = 'none';
+        agreeWrap.style.display = 'none';
         submitBtn.textContent = '로그인';
       }
     }
@@ -644,6 +659,10 @@
         }
         if (password !== confirm) {
           showError('비밀번호가 일치하지 않습니다.');
+          return;
+        }
+        if (!agreeCheckbox.checked) {
+          showError('이용약관 및 개인정보처리방침에 동의해 주세요.');
           return;
         }
       }

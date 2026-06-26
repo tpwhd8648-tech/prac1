@@ -403,6 +403,24 @@ img { max-width: 100%; display: block; }
 }
 .auth-field input:focus { border-color: var(--gold); }
 
+.auth-agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--gray);
+  line-height: 1.5;
+}
+.auth-agree input[type="checkbox"] {
+  margin-top: 2px;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  accent-color: var(--gold);
+}
+.auth-agree a { color: var(--gold); text-decoration: underline; }
+.auth-agree a:hover { opacity: 0.8; }
+
 .auth-error {
   display: none;
   font-size: 13px;
