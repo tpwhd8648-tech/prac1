@@ -645,7 +645,7 @@
         const banner = document.createElement('div');
         banner.id = 'query-filter-banner';
         banner.style.cssText = 'grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:13px;color:#666;font-family:"Noto Sans KR",sans-serif;';
-        banner.innerHTML = `<span>'${escapeHTML(queryKeyword)}' 검색 결과</span><a href="coins.html" style="color:#C8A84B;text-decoration:none;">전체 상품 보기 ›</a>`;
+        banner.innerHTML = `<span>'${escapeHTML(queryKeyword)}' 검색 결과</span><a href="/pages/coins.html" style="color:#C8A84B;text-decoration:none;">전체 상품 보기 ›</a>`;
         grid.parentNode.insertBefore(banner, grid);
       }
 
