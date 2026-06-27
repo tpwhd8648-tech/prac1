@@ -390,9 +390,9 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
   <section class="sub-page">
     <div class="container">
       <div class="page-header">
-        <a href="../index.html">← 홈으로</a>
+        <a href="../../index.html">← 홈으로</a>
         <span class="divider">/</span>
-        <a href="../coins.html">금화 보기</a>
+        <a href="../../pages/coins.html">금화 보기</a>
         <span class="divider">/</span>
         <span class="crumb">${safeName}</span>
       </div>
@@ -429,7 +429,7 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
             </div>
             <div>
               <a href="https://open.kakao.com/o/sB6Gduni" target="_blank" rel="noopener noreferrer" class="btn-inquiry" id="inquiry-btn">구매 문의하기</a>
-              <a href="../coins.html" class="btn-back-coins">← 목록으로 돌아가기</a>
+              <a href="../../pages/coins.html" class="btn-back-coins">← 목록으로 돌아가기</a>
             </div>
           </div>
         </div>
@@ -942,7 +942,7 @@ function renderRelatedCoins(currentSlug, allEntries, sheetRows) {
         <div class="related-coins-section">
           <div class="related-coins-header">
             <h2 class="related-coins-title">당일수령 가능 금화</h2>
-            <a href="../coins.html?instock" class="related-coins-more">당일수령 더보기 ›</a>
+            <a href="../../pages/coins.html?instock" class="related-coins-more">당일수령 더보기 ›</a>
           </div>
           <div class="related-coins-grid">
             ${cards}
@@ -999,9 +999,9 @@ function injectGrid(html, gridHtml) {
 function renderSitemap(coinEntries, todayStr) {
   const fixedUrls = [
     { loc: `${SITE_URL}/`, changefreq: 'daily', priority: '1.0' },
-    { loc: `${SITE_URL}/coins.html`, changefreq: 'daily', priority: '0.8' },
-    { loc: `${SITE_URL}/gold-price.html`, changefreq: 'daily', priority: '0.8' },
-    { loc: `${SITE_URL}/contact.html`, changefreq: 'monthly', priority: '0.5' },
+    { loc: `${SITE_URL}/pages/coins.html`, changefreq: 'daily', priority: '0.8' },
+    { loc: `${SITE_URL}/pages/gold-price.html`, changefreq: 'daily', priority: '0.8' },
+    { loc: `${SITE_URL}/pages/contact.html`, changefreq: 'monthly', priority: '0.5' },
   ];
   const coinUrls = coinEntries.map(c => ({
     loc: `${SITE_URL}/coins/coin-${c.slug}.html`,

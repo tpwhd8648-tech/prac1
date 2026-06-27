@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MIDAS BULLION | 구매 문의 - 상담 및 견적 안내</title>
+  <meta name="description" content="금화 구매 관련 문의사항을 남겨주시면 MIDAS BULLION이 빠르게 상담해드립니다.">
+  <link rel="canonical" href="https://tpwhd8648-tech.github.io/pages/contact.html">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tpwhd8648-tech.github.io/pages/contact.html">
+  <meta property="og:title" content="MIDAS BULLION | 매장 안내 및 문의">
+  <meta property="og:description" content="MIDAS BULLION 매장 위치, 영업시간, 연락처를 확인하세요.">
+  <meta property="og:image" content="https://tpwhd8648-tech.github.io/images/products/2026/maple.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta property="og:image:alt" content="MIDAS BULLION 귀금속 쇼핑몰">
+  <meta property="og:site_name" content="MIDAS BULLION">
+  <meta property="og:locale" content="ko_KR">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="MIDAS BULLION | 매장 안내 및 문의">
+  <meta name="twitter:description" content="MIDAS BULLION 매장 위치, 영업시간, 연락처를 확인하세요.">
+  <meta name="twitter:image" content="https://tpwhd8648-tech.github.io/images/products/2026/maple.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    * { box-sizing: border-box; }
+    .sub-page { padding: 48px 0 100px; background: #f9f8f5; min-height: calc(100vh - 200px); }
+    .sub-page .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    .page-header { margin-bottom: 48px; display: flex; align-items: center; gap: 16px; }
+    .page-header a { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #C8A84B; font-family: 'Noto Sans KR', sans-serif; text-decoration: none; transition: opacity 0.2s; }
+    .page-header a:hover { opacity: 0.7; }
+    .page-header h1 { font-family: 'Noto Serif KR', serif; font-size: 26px; font-weight: 600; color: #1a1a1a; }
+    .page-header .divider { color: #ccc; }
+    .contact-title { text-align: center; margin-bottom: 48px; }
+    .contact-title h2 { font-family: 'Cinzel', serif; font-size: 28px; font-weight: 600; color: #1a1a1a; letter-spacing: 3px; margin-bottom: 12px; }
+    .contact-title .gold-bar { display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .contact-title .gold-bar::before,
+    .contact-title .gold-bar::after { content: ''; display: block; width: 60px; height: 1px; background: linear-gradient(90deg, transparent, #C8A84B); }
+    .contact-title .gold-bar::after { background: linear-gradient(90deg, #C8A84B, transparent); }
+    .contact-title .gold-bar span { color: #C8A84B; font-size: 14px; }
+    .contact-title p { margin-top: 14px; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: #888; line-height: 1.8; }
+    .contact-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; align-items: start; }
+    @media (max-width: 768px) { .contact-layout { grid-template-columns: 1fr; } }
+    .contact-info { display: flex; flex-direction: column; gap: 16px; }
+    .info-card { background: #fff; border: 1px solid #e8e3d8; padding: 24px; transition: border-color 0.2s; }
+    .info-card:hover { border-color: #C8A84B; }
+    .info-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .info-icon { width: 36px; height: 36px; background: rgba(200,168,75,0.08); border: 1px solid rgba(200,168,75,0.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .info-icon svg { width: 18px; height: 18px; }
+    .info-card-header h3 { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 2px; color: #C8A84B; }
+    .info-card p { font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: #333; line-height: 1.7; }
+    .info-card .info-value { font-size: 16px; font-weight: 500; color: #1a1a1a; margin-bottom: 4px; }
+    .info-card .info-sub { font-size: 12px; color: #aaa; }
+    .kakao-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: #FEE500; border: none; padding: 14px; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 700; color: #3C1E1E; letter-spacing: 1px; transition: opacity 0.2s, transform 0.15s; text-decoration: none; }
+    .kakao-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 20px; margin-top: 4px; }
+    .hours-row { display: flex; justify-content: space-between; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; color: #555; padding: 4px 0; border-bottom: 1px solid #f0ece2; }
+    .hours-row .day { color: #888; }
+    .hours-row .time { color: #333; font-weight: 500; }
+    .hours-row.closed .time { color: #C8A84B; }
+    .accordion-wrap { display: flex; flex-direction: column; gap: 0; }
+    .accordion-wrap .acc-title-block { font-family: 'Noto Serif KR', serif; font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid #e8e3d8; letter-spacing: 1px; }
+    .acc-item { border: 1px solid #e8e3d8; margin-bottom: -1px; background: #fff; }
+    .acc-btn { width: 100%; display: flex; align-items: center; gap: 16px; padding: 20px 24px; cursor: pointer; background: none; border: none; text-align: left; transition: background 0.2s; }
+    .acc-btn:hover { background: #faf8f2; }
+    .acc-btn.active { background: #faf8f2; border-left: 3px solid #C8A84B; }
+    .acc-num { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #C8A84B; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', serif; font-size: 12px; color: #C8A84B; flex-shrink: 0; transition: all 0.2s; }
+    .acc-btn.active .acc-num { background: #C8A84B; color: #fff; }
+    .acc-btn-text { flex: 1; }
+    .acc-btn-text strong { display: block; font-family: 'Noto Serif KR', serif; font-size: 15px; font-weight: 600; color: #1a1a1a; margin-bottom: 3px; }
+    .acc-btn-text span { font-family: 'Noto Sans KR', sans-serif; font-size: 12px; color: #aaa; }
+    .acc-arrow { font-size: 18px; color: #C8A84B; transition: transform 0.3s; flex-shrink: 0; }
+    .acc-btn.active .acc-arrow { transform: rotate(180deg); }
+    .acc-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+    .acc-body.open { max-height: 600px; }
+    .acc-body-inner { padding: 0 24px 24px 72px; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: #555; line-height: 1.9; border-top: 1px solid #f0ece2; padding-top: 18px; }
+    .acc-body-inner ul { padding-left: 16px; margin: 0; }
+    .acc-body-inner ul li { margin-bottom: 6px; }
+    .acc-body-inner .acc-step { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+    .acc-body-inner .step-row { display: flex; align-items: flex-start; gap: 12px; }
+    .acc-body-inner .step-dot { width: 8px; height: 8px; border-radius: 50%; background: #C8A84B; flex-shrink: 0; margin-top: 6px; }
+    .acc-body-inner .step-text strong { display: block; font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+    .acc-body-inner .step-text span { font-size: 12px; color: #aaa; }
+  </style>
+</head>
+<body>
+  <div class="top-bar" id="nav-topbar"></div>
+  <header id="nav-header"></header>
+  <nav id="nav-main"></nav>
+  <div id="nav-mobile"></div>
+
+  <section class="sub-page">
+    <div class="container">
+      <div class="page-header">
+        <a href="../index.html">← 홈으로</a>
+        <span class="divider">/</span>
+        <h1>구매 문의</h1>
+      </div>
+
+      <div class="contact-title">
+        <h2>CONTACT US</h2>
+        <div class="gold-bar"><span>★</span></div>
+        <p>금화 구매 및 투자 관련 문의는 아래 채널로 연락주시거나<br>문의 양식을 통해 남겨주시면 빠르게 답변드리겠습니다.</p>
+      </div>
+
+      <div class="contact-layout">
+        <div class="contact-info">
+
+          <!-- 카카오톡 -->
+          <div class="info-card">
+            <div class="info-card-header">
+              <div class="info-icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 3C6.48 3 2 6.92 2 11.75c0 2.99 1.87 5.63 4.72 7.19l-.96 3.56a.4.4 0 0 0 .59.46l4.32-2.89c.42.04.85.06 1.33.06 5.52 0 10-3.92 10-8.75S17.52 3 12 3z" fill="#C8A84B"/>
+                </svg>
+              </div>
+              <h3>KAKAO TALK</h3>
+            </div>
+            <p class="info-value">미다스불리온</p>
+            <a href="https://open.kakao.com/o/sB6Gduni" target="_blank" rel="noopener" class="kakao-btn" style="margin-top:14px;">
+              <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M16 2C8.27 2 2 7.37 2 14c0 4.2 2.65 7.9 6.67 10.1L7.1 28.8a.6.6 0 0 0 .84.76l6.4-4.27c.54.05 1.09.08 1.66.08 7.73 0 14-5.37 14-12S23.73 2 16 2z" fill="#3C1E1E"/></svg>
+              카카오톡으로 문의하기
+            </a>
+          </div>
+
+          <!-- 실제 전화번호 확정 전까지 숨김 (2026-06-23).
+               확정되면 아래 블록 주석 해제 후 실제 번호로 교체할 것.
+          <div class="info-card">
+            <div class="info-card-header">
+              <div class="info-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#C8A84B" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.17h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+              </div>
+              <h3>PHONE</h3>
+            </div>
+            <p class="info-value">02-1234-5678</p>
+            <p class="info-sub">평일 10:00 ~ 18:00</p>
+          </div>
+          -->
+
+          <!-- 이메일 -->
+          <div class="info-card">
+            <div class="info-card-header">
+              <div class="info-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#C8A84B" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <h3>EMAIL</h3>
+            </div>
+            <p class="info-value">info@midasbullion.kr</p>
+            <p class="info-sub">24시간 접수 · 영업일 기준 1일 내 답변</p>
+          </div>
+
+          <!-- 운영시간 -->
+          <div class="info-card">
+            <div class="info-card-header">
+              <div class="info-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#C8A84B" stroke-width="1.8" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </div>
+              <h3>HOURS</h3>
+            </div>
+            <div class="hours-grid">
+              <div class="hours-row"><span class="day">월 — 금</span><span class="time">10:00 – 18:00</span></div>
+              <div class="hours-row"><span class="day">점심시간</span><span class="time">12:00 – 13:00</span></div>
+              <div class="hours-row closed"><span class="day">토 · 일</span><span class="time">휴무</span></div>
+              <div class="hours-row closed"><span class="day">공휴일</span><span class="time">휴무</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 오른쪽: 구매 안내 아코디언 -->
+        <div class="accordion-wrap">
+          <p class="acc-title-block">구매 안내</p>
+
+          <div class="acc-item">
+            <button class="acc-btn" onclick="toggleAcc(this)">
+              <div class="acc-num">1</div>
+              <div class="acc-btn-text">
+                <strong>자주 묻는 질문 (FAQ)</strong>
+                <span>구매 전 꼭 확인하세요</span>
+              </div>
+              <span class="acc-arrow">▾</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-body-inner">
+                <ul>
+                  <li>금화는 법정화폐로 인정되며 투자 및 수집 목적으로 구매 가능합니다.</li>
+                  <li>모든 상품은 공인 조폐국 발행 정품이며 진품 보증서가 포함됩니다.</li>
+                  <li>부가세(VAT)는 금 투자 상품에 한해 면세 적용됩니다.</li>
+                  <li>소량(1oz 미만)부터 대량 구매까지 모두 상담 가능합니다.</li>
+                  <li>재고 상황에 따라 당일 발송 또는 2~5영업일 내 발송됩니다.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button class="acc-btn" onclick="toggleAcc(this)">
+              <div class="acc-num">2</div>
+              <div class="acc-btn-text">
+                <strong>가격 및 시세 안내</strong>
+                <span>금화 가격은 어떻게 결정되나요?</span>
+              </div>
+              <span class="acc-arrow">▾</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-body-inner">
+                <ul>
+                  <li>금화 가격은 국제 금 현물 시세(XAU/USD)에 연동됩니다.</li>
+                  <li>환율 및 프리미엄(제조·유통 비용)이 반영된 최종 가격으로 안내드립니다.</li>
+                  <li>실시간 시세는 문의 시점 기준으로 확인 후 안내드립니다.</li>
+                  <li>대량 구매 시 별도 협의 가격 적용이 가능합니다.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button class="acc-btn" onclick="toggleAcc(this)">
+              <div class="acc-num">3</div>
+              <div class="acc-btn-text">
+                <strong>구매 절차</strong>
+                <span>문의부터 수령까지의 과정</span>
+              </div>
+              <span class="acc-arrow">▾</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-body-inner">
+                <div class="acc-step">
+                  <div class="step-row">
+                    <div class="step-dot"></div>
+                    <div class="step-text">
+                      <strong>1단계 · 문의 및 상담</strong>
+                      <span>카카오톡으로 원하시는 상품과 수량 문의</span>
+                    </div>
+                  </div>
+                  <div class="step-row">
+                    <div class="step-dot"></div>
+                    <div class="step-text">
+                      <strong>2단계 · 견적 확인</strong>
+                      <span>실시간 시세 기반 최종 가격 안내</span>
+                    </div>
+                  </div>
+                  <div class="step-row">
+                    <div class="step-dot"></div>
+                    <div class="step-text">
+                      <strong>3단계 · 결제</strong>
+                      <span>계좌이체 또는 협의된 결제 방식으로 진행</span>
+                    </div>
+                  </div>
+                  <div class="step-row">
+                    <div class="step-dot"></div>
+                    <div class="step-text">
+                      <strong>4단계 · 발송 및 수령</strong>
+                      <span>안전 포장 후 등기 발송 · 직접 수령 협의 가능</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button class="acc-btn" onclick="toggleAcc(this)">
+              <div class="acc-num">4</div>
+              <div class="acc-btn-text">
+                <strong>배송 안내</strong>
+                <span>안전하게 받아보시는 방법</span>
+              </div>
+              <span class="acc-arrow">▾</span>
+            </button>
+            <div class="acc-body">
+              <div class="acc-body-inner">
+                <ul>
+                  <li>모든 금화는 전문 안전 포장재로 이중 포장 후 발송됩니다.</li>
+                  <li>등기 특송 또는 보험 택배로 발송되며 분실 시 전액 보상됩니다.</li>
+                  <li>배송비는 구매 금액 및 수량에 따라 별도 안내드립니다.</li>
+                  <li>직접 방문 수령을 원하시면 사전 예약 후 가능합니다.</li>
+                  <li>해외 배송은 별도 문의 바랍니다.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 실제 주소 확정 전까지 지도 섹션 숨김 (2026-06-23).
+           확정되면 아래 블록 주석 해제 후 실제 주소·embed URL로 교체할 것.
+           함께 처리할 것: footer.js의 "오시는 길" 링크(href="contact.html")를
+           href="contact.html#contact-map"으로 다시 바꿀 것 — 지금은 이 블록이
+           주석 처리돼 앵커가 없어서 footer.js 쪽도 임시로 앵커를 뺀 상태임.
+      <div id="contact-map" style="margin-top:60px; scroll-margin-top:130px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;">
+          <div style="width:3px;height:24px;background:#C8A84B;"></div>
+          <h3 style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;color:#1a1a1a;">LOCATION</h3>
+          <span style="font-family:'Noto Sans KR',sans-serif;font-size:13px;color:#aaa;margin-left:4px;">서울특별시 종로구 종로 1가 1번지 (임시 주소)</span>
+        </div>
+        <div style="width:100%;height:380px;border:1px solid #e8e3d8;overflow:hidden;position:relative;">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.4674338371!2d126.97930!3d37.57037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2e4a6b4c285%3A0x5e3b4c2e2b1e4b5a!2z7IiY66-467KV7J207YyF!5e0!3m2!1sko!2skr!4v1680000000000!5m2!1sko!2skr"
+            width="100%" height="100%" style="border:0;display:block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+      -->
+
+    </div>
+  </section>
+
+  <footer id="site-footer"></footer>
+
+  <script type="module" src="../assets/js/auth.js"></script>
+  <script src="../assets/js/footer.js"></script>
+  <script src="../assets/js/nav.js"></script>
+  <script>
+    function toggleAcc(btn) {
+      const body = btn.nextElementSibling;
+      const isOpen = body.classList.contains('open');
+      document.querySelectorAll('.acc-body').forEach(b => b.classList.remove('open'));
+      document.querySelectorAll('.acc-btn').forEach(b => b.classList.remove('active'));
+      if (!isOpen) {
+        body.classList.add('open');
+        btn.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -163,7 +163,7 @@
       <div class="page-header">
         <a href="index.html">← 홈으로</a>
         <span class="divider">/</span>
-        <a href="coins.html">금화 보기</a>
+        <a href="pages/coins.html">금화 보기</a>
         <span class="divider">/</span>
         <span class="crumb" id="breadcrumb-name">상품 상세</span>
       </div>
@@ -446,7 +446,7 @@
             </div>
             <div>
               ${inquiryBtn}
-              <a href="coins.html" class="btn-back-coins">← 목록으로 돌아가기</a>
+              <a href="pages/coins.html" class="btn-back-coins">← 목록으로 돌아가기</a>
             </div>
           </div>
         </div>
@@ -645,7 +645,7 @@
 
         if (!product) {
           document.getElementById('detail-content').innerHTML =
-            `<div class="error-msg"><p>상품을 찾을 수 없습니다.</p><a href="coins.html" style="color:#C8A84B;">← 목록으로 돌아가기</a></div>`;
+            `<div class="error-msg"><p>상품을 찾을 수 없습니다.</p><a href="pages/coins.html" style="color:#C8A84B;">← 목록으로 돌아가기</a></div>`;
           return;
         }
 
@@ -667,7 +667,7 @@
       } catch (e) {
         console.error('상품 로딩 오류:', e);
         document.getElementById('detail-content').innerHTML =
-          `<div class="error-msg"><p>상품 정보를 불러오는 중 오류가 발생했습니다.</p><a href="coins.html" style="color:#C8A84B;">← 목록으로 돌아가기</a></div>`;
+          `<div class="error-msg"><p>상품 정보를 불러오는 중 오류가 발생했습니다.</p><a href="pages/coins.html" style="color:#C8A84B;">← 목록으로 돌아가기</a></div>`;
       }
     }
 
@@ -676,7 +676,7 @@
 
     if (!productName) {
       document.getElementById('detail-content').innerHTML =
-        `<div class="error-msg"><p>상품 정보가 없습니다.</p><a href="coins.html" style="color:#C8A84B;">← 목록으로 돌아가기</a></div>`;
+        `<div class="error-msg"><p>상품 정보가 없습니다.</p><a href="pages/coins.html" style="color:#C8A84B;">← 목록으로 돌아가기</a></div>`;
     } else {
       loadProduct(decodeURIComponent(productName));
     }
