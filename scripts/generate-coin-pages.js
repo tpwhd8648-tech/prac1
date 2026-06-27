@@ -203,7 +203,7 @@ function renderCoinPage(coin, krwPerOz, todayStr, relatedHtml = '') {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: '홈으로', item: `${SITE_URL}/` },
-      { '@type': 'ListItem', position: 2, name: '금화 보기', item: `${SITE_URL}/coins.html` },
+      { '@type': 'ListItem', position: 2, name: '금화 보기', item: `${SITE_URL}/pages/coins.html` },
       { '@type': 'ListItem', position: 3, name: name, item: pageUrl },
     ],
   };

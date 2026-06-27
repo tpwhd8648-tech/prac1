@@ -7,7 +7,7 @@
   <meta name="description" content="캐나다 메이플리프, 미국 아메리칸이글, 남아공 크루거랜드 등 전 세계 정품 금화를 구매하세요. 실시간 국제 시세 기반 가격으로 투명하게 판매합니다.">
   <meta name="google-site-verification" content="76EhyhK0fgMyPDsYtU9PHzXFB7V7gg0f6aaH07O8EkM">
   <link rel="canonical" href="https://tpwhd8648-tech.github.io/pages/coins.html">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://tpwhd8648-tech.github.io/pages/coins.html">
@@ -596,7 +596,7 @@
     const COINS_CARD_OPTIONS = {
       linkTemplate: (product) => {
         const slug = getSlugForProduct(product.name);
-        return slug ? `coins/coin-${slug}.html` : `coin-detail.html?name=${encodeURIComponent(product.name)}`;
+        return slug ? `../coins/coin-${slug}.html` : `../coin-detail.html?name=${encodeURIComponent(product.name)}`;
       },
       loadingPriceText: '로딩중...',
       lazyImage: true,
