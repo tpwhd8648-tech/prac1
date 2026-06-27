@@ -390,9 +390,9 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
   <section class="sub-page">
     <div class="container">
       <div class="page-header">
-        <a href="../../index.html">← 홈으로</a>
+        <a href="../index.html">← 홈으로</a>
         <span class="divider">/</span>
-        <a href="../../pages/coins.html">금화 보기</a>
+        <a href="../pages/coins.html">금화 보기</a>
         <span class="divider">/</span>
         <span class="crumb">${safeName}</span>
       </div>
@@ -429,7 +429,7 @@ ${JSON.stringify(breadcrumbJsonLd, null, 2)}
             </div>
             <div>
               <a href="https://open.kakao.com/o/sB6Gduni" target="_blank" rel="noopener noreferrer" class="btn-inquiry" id="inquiry-btn">구매 문의하기</a>
-              <a href="../../pages/coins.html" class="btn-back-coins">← 목록으로 돌아가기</a>
+              <a href="../pages/coins.html" class="btn-back-coins">← 목록으로 돌아가기</a>
             </div>
           </div>
         </div>
@@ -835,11 +835,13 @@ function getSlugFromImageMap(name) {
   return null;
 }
 
-function getImageFileFromImageMap(name) {
+// pathPrefix: 이 함수를 호출하는 HTML 파일의 루트 기준 depth에 맞춘 접두사.
+// index.html(depth 0)은 ''(빈 문자열), pages/coins.html(depth 1)은 '../'를 전달한다.
+function getImageFileFromImageMap(name, pathPrefix = '') {
   const lower = name.toLowerCase();
   for (const entry of IMAGE_MAP) {
     if (entry.keywords.some(k => lower.includes(k.toLowerCase()))) {
-      return `images/${entry.file}`;
+      return `${pathPrefix}images/${entry.file}`;
     }
   }
   return null;
@@ -857,7 +859,7 @@ function getCategoryFilter(category) {
 
 function renderProductCard(product, linkUrl, opts = {}) {
   const { name, brand, category, premium, available, same_day } = product;
-  const imgSrc = getImageFileFromImageMap(name);
+  const imgSrc = getImageFileFromImageMap(name, opts.pathPrefix || '');
   const filterCategory = getCategoryFilter(category);
   const isSameDay = same_day === true;
   const isAvailable = available === true;
@@ -942,7 +944,7 @@ function renderRelatedCoins(currentSlug, allEntries, sheetRows) {
         <div class="related-coins-section">
           <div class="related-coins-header">
             <h2 class="related-coins-title">당일수령 가능 금화</h2>
-            <a href="../../pages/coins.html?instock" class="related-coins-more">당일수령 더보기 ›</a>
+            <a href="../pages/coins.html?instock" class="related-coins-more">당일수령 더보기 ›</a>
           </div>
           <div class="related-coins-grid">
             ${cards}
@@ -966,7 +968,7 @@ function renderIndexGrid(sheetRows) {
   }).join('\n');
 }
 
-// coins.html용: visible='coins' or 'all', 클릭 시 coin-{slug}.html 이동
+// pages/coins.html용 (depth 1): visible='coins' or 'all', 클릭 시 ../coins/coin-{slug}.html 이동
 function renderCoinsGrid(sheetRows) {
   const products = sheetRows
     .filter(p => ['all', 'coins'].includes(p.visible))
@@ -977,8 +979,8 @@ function renderCoinsGrid(sheetRows) {
 
   return products.map(p => {
     const slug = getSlugFromImageMap(p.name);
-    const linkUrl = slug ? `coins/coin-${slug}.html` : `coin-detail.html?name=${encodeURIComponent(p.name)}`;
-    return renderProductCard(p, linkUrl, { soldoutBtnText: '상품 보기' });
+    const linkUrl = slug ? `../coins/coin-${slug}.html` : `../coin-detail.html?name=${encodeURIComponent(p.name)}`;
+    return renderProductCard(p, linkUrl, { soldoutBtnText: '상품 보기', pathPrefix: '../' });
   }).join('\n');
 }
 
@@ -1066,10 +1068,10 @@ async function main() {
     changedCount++;
   }
 
-  // ── index.html / coins.html 상품 그리드 정적 주입 ──
+  // ── index.html / pages/coins.html 상품 그리드 정적 주입 ──
   const gridFiles = [
-    { file: 'index.html',  gridFn: renderIndexGrid,  label: 'index.html 상품 그리드' },
-    { file: 'coins.html',  gridFn: renderCoinsGrid,  label: 'coins.html 상품 그리드' },
+    { file: 'index.html',        gridFn: renderIndexGrid,  label: 'index.html 상품 그리드' },
+    { file: 'pages/coins.html',  gridFn: renderCoinsGrid,  label: 'pages/coins.html 상품 그리드' },
   ];
   for (const { file, gridFn, label } of gridFiles) {
     const filePath = path.join(ROOT, file);
