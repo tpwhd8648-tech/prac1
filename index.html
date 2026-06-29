@@ -92,14 +92,15 @@
     // ===== 히어로 슬라이드 데이터 =====
     // 슬라이드 추가/교체는 이 배열만 수정하면 됩니다. HTML/dot/슬라이더 로직은 자동 반영됩니다.
     // image: null이면 slide-1의 기본 골드 그라데이션 배경을 사용합니다.
-    // keyword: coins.html?q= 뒤에 붙는 검색어. 다른 코인명과 겹치지 않는 표현을 쓰세요
-    //          (예: '이글' 대신 '아메리칸 이글'처럼 구체적으로 — '라이언이글'과의 오매칭 방지).
+    // slug: coins/ 폴더의 파일명에서 'coin-' 제거한 값 (예: 'buffalo-2026').
+    //       slug가 있으면 coins/coin-{slug}.html로 직접 이동.
+    //       slug가 없으면 coins.html?q={keyword}로 폴백 (시리즈 탐색 등 여러 상품 묶음용).
     const heroSlides = [
       {
         image: null,
         badge: 'THE ROYAL MINT® · THE ORIGINAL MAKER',
         title: '성 조지와 용<br>2026년 귀금속 시리즈',
-        subtitle: '2026년 투자형 금은화 시리즈<br>영원히 새로운 용기의 상징<br>비범한 공예의 영원한 전승',
+        subtitle: '2026년 투자형 금화 시리즈<br>영원히 새로운 용기의 상징<br>비범한 공예의 영원한 전승',
         btnText: '시리즈 상품 탐색 ›',
         keyword: '성조지'
       },
@@ -109,7 +110,7 @@
         title: '아메리칸 이글<br>골드 코인 2026',
         subtitle: '미국 최고 권위의 투자용 금화<br>리걸 텐더 법정화폐 보증',
         btnText: '상품 보기 ›',
-        keyword: '아메리칸이글'
+        slug: 'eagle-2026'
       },
       {
         image: 'images/header-slide-buffalo.jpg',
@@ -117,7 +118,7 @@
         title: '아메리칸 버팔로<br>골드 코인 2026',
         subtitle: '미국 최고 순도의 투자용 금화<br>대평원의 위용을 담은 전설적 디자인',
         btnText: '상품 보기 ›',
-        keyword: '버팔로'
+        slug: 'buffalo-2026'
       },
       {
         image: 'images/header-slide-kangaroo.jpg',
@@ -125,7 +126,7 @@
         title: '오스트레일리아 캥거루<br>골드 코인 2026',
         subtitle: '퍼스 민트의 정품 투자 금화<br>울루루의 대지가 품은 황금',
         btnText: '상품 보기 ›',
-        keyword: '캥거루'
+        slug: 'kangaroo-2026'
       },
       {
         image: 'images/header-slide-philharmonic.jpg',
@@ -133,7 +134,7 @@
         title: '빈 필하모닉<br>골드 코인 2026',
         subtitle: '세계에서 가장 많이 팔리는 유럽 금화<br>비엔나 필하모닉의 선율을 담은 황금',
         btnText: '상품 보기 ›',
-        keyword: '필하모닉'
+        slug: 'philharmonic-2026'
       }
     ];
 
@@ -146,14 +147,16 @@
           ? ` style="background:linear-gradient(105deg, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0.2) 100%), url('${s.image}') center/cover no-repeat;"`
           : '';
         const slideClass = s.image ? 'slide' : 'slide slide-1';
-        const q = encodeURIComponent(s.keyword || '');
+        const href = s.slug
+          ? `coins/coin-${s.slug}.html`
+          : `pages/coins.html?q=${encodeURIComponent(s.keyword || '')}`;
         return `
       <div class="${slideClass}"${bgStyle}>
         <div class="slide-content">
           <div class="slide-badge">${s.badge}</div>
           <h1 class="slide-title">${s.title}</h1>
           <p class="slide-subtitle">${s.subtitle}</p>
-          <a href="pages/coins.html?q=${q}" class="slide-btn">${s.btnText}</a>
+          <a href="${href}" class="slide-btn">${s.btnText}</a>
         </div>
       </div>`;
       }).join('');
