@@ -724,7 +724,24 @@
 
       grid.innerHTML = sorted.map(p => createProductCard(p, currentKrwPrice, COINS_CARD_OPTIONS)).join('');
       // grid를 통째로 다시 그렸으므로 origIndex(기본순 복원용 기준값)도 새로 매겨준다.
-      grid.querySelectorAll('.product-card').forEach((card, i) => { card.dataset.origIndex = i; });
+      // 주의: currentSort가 가격순일 때 sorted는 이미 가격순으로 정렬되어 있으므로,
+      // 그 순서를 그대로 origIndex로 쓰면 "기본순" 복원 시 가격순이 그대로 남는 버그가 된다.
+      // origIndex는 항상 currentSort와 무관하게 "재고우선 + 시트 order" 기준으로 매겨야 한다.
+      // sorted 배열 순서 == 방금 그려진 카드 DOM 순서(1:1 대응)이므로, sorted를 기준으로
+      // "재고우선+order" 인덱스를 구해 같은 위치의 카드에 그대로 매핑한다.
+      const baseRank = new Map(
+        [...sorted]
+          .sort((a, b) => {
+            const aAvail = a.available === 'TRUE';
+            const bAvail = b.available === 'TRUE';
+            if (aAvail !== bAvail) return aAvail ? -1 : 1;
+            return a.order - b.order;
+          })
+          .map((p, i) => [p, i])
+      );
+      grid.querySelectorAll('.product-card').forEach((card, i) => {
+        card.dataset.origIndex = baseRank.get(sorted[i]);
+      });
 
       const activeTab = document.querySelector('.ptab.active');
       if (activeTab) applyTabFilter(activeTab.dataset.filter);
