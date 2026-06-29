@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<!--
+  이 페이지는 평소에 아무도 들어오지 않는 "안전망" 페이지입니다.
+
+  pages/coins.html에서 상품명으로 코인 slug를 찾는 로직(getSlugForProduct)이
+  실패했을 때만 이동되는 fallback 경로입니다. 현재 등록된 코인 20개는 전부
+  매칭에 성공해서 이 페이지로 오는 경우가 0건이지만, 나중에 새 코인을
+  추가할 때 IMAGE_MAP에 키워드를 빠뜨리는 등의 실수로 매칭이 깨지면,
+  사용자가 완전히 끊긴 링크(404) 대신 이 페이지로라도 도달하게 해줍니다.
+
+  → 일부러 지우지 않고 유지하기로 결정했습니다(2026-06-29). 검색엔진에
+    노출될 위험은 <meta name="robots" content="noindex, follow">로 막아둔
+    상태입니다. 추가 작업 필요 없음 — 새 코인 추가 시 fallback 코드
+    (pages/coins.html, scripts/generate-coin-pages.js)와 함께 그대로
+    유지하면 됩니다.
+-->
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
