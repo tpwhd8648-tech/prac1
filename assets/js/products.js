@@ -58,7 +58,7 @@ function getCategoryFilter(category) {
 //   - lazyImage: true면 <img loading="lazy"> 적용
 function createProductCard(product, krwPrice, options) {
   const opts = options || {};
-  const linkTemplate = opts.linkTemplate || (() => 'coins.html');
+  const linkTemplate = opts.linkTemplate || (() => '/pages/coins.html');
   const loadingPriceText = opts.loadingPriceText !== undefined ? opts.loadingPriceText : '';
   const lazyImage = !!opts.lazyImage;
 
