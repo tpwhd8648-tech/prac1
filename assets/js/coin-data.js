@@ -50,7 +50,7 @@ function getImageForProduct(name) {
   const lower = name.toLowerCase();
   for (const entry of IMAGE_MAP) {
     if (entry.keywords.some(k => lower.includes(k))) {
-      return `images/${entry.file}`;
+      return `../images/${entry.file}`;
     }
   }
   return null;
