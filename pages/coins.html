@@ -60,6 +60,14 @@
           <button class="ptab ptab-brand-btn" id="ptab-brand-btn" type="button">브랜드별 <span class="ptab-arrow">▾</span></button>
           <div class="ptab-brand-menu" id="ptab-brand-menu"></div>
         </div>
+        <div class="ptab-brand-wrap ptab-sort-wrap" id="ptab-sort-wrap">
+          <button class="ptab ptab-brand-btn" id="ptab-sort-btn" type="button">기본순 <span class="ptab-arrow">▾</span></button>
+          <div class="ptab-brand-menu" id="ptab-sort-menu">
+            <button class="ptab-brand-item" data-sort="default">기본순</button>
+            <button class="ptab-brand-item" data-sort="price-asc">가격 낮은순</button>
+            <button class="ptab-brand-item" data-sort="price-desc">가격 높은순</button>
+          </div>
+        </div>
       </div>
       <div class="products-grid" id="products-grid">
 <!-- SSG_GRID_START -->
@@ -508,6 +516,67 @@
       });
     }
 
+    // ===== 가격 정렬 =====
+    // 실시간 시세(krwPrice)는 모든 코인에 동일하게 곱해지는 양수 상수이므로,
+    // 시세 도착 전에도 data-premium 값만으로 가격의 상대적 순서를 바로 계산할 수 있다.
+    // (가격 = krwPrice × premium → premium이 크면 가격도 항상 더 크다)
+    // 재고 있음/품절 그룹 순서(기존 정책)는 그대로 유지하고, 각 그룹 내부에서만 가격 정렬한다.
+    let currentSort = 'default'; // 'default' | 'price-asc' | 'price-desc'
+
+    function applySortOrder() {
+      const grid = document.getElementById('products-grid');
+      const cards = Array.from(grid.querySelectorAll('.product-card'));
+      if (!cards.length) return;
+
+      let sorted;
+      if (currentSort === 'default') {
+        // 기본순(SSG/서버 정렬 = 재고 있음 우선 + 시트 order)을 그대로 복원하기 위해
+        // 카드의 원래 DOM 등장 순서를 data-order로 기억해 둔 값 기준 재정렬한다.
+        sorted = cards.slice().sort((a, b) => Number(a.dataset.origIndex) - Number(b.dataset.origIndex));
+      } else {
+        sorted = cards.slice().sort((a, b) => {
+          const aSoldout = a.classList.contains('card-soldout');
+          const bSoldout = b.classList.contains('card-soldout');
+          if (aSoldout !== bSoldout) return aSoldout ? 1 : -1; // 재고 있음 우선 유지
+
+          const aPremium = parseFloat(a.dataset.premium) || 0;
+          const bPremium = parseFloat(b.dataset.premium) || 0;
+          return currentSort === 'price-asc' ? aPremium - bPremium : bPremium - aPremium;
+        });
+      }
+
+      sorted.forEach(card => grid.appendChild(card));
+    }
+
+    function initSortDropdown() {
+      // 정렬 복원을 위해 카드별 원래 순서를 기억해 둔다 (검색/필터로 grid가
+      // 다시 그려진 뒤에도 안전하게 동작하도록, 매 렌더링 후 다시 호출됨)
+      document.querySelectorAll('#products-grid .product-card').forEach((card, i) => {
+        card.dataset.origIndex = i;
+      });
+
+      const btn = document.getElementById('ptab-sort-btn');
+      const menu = document.getElementById('ptab-sort-menu');
+      if (!btn || !menu) return;
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('open');
+      });
+      document.addEventListener('click', () => menu.classList.remove('open'));
+
+      menu.querySelectorAll('.ptab-brand-item').forEach(item => {
+        item.addEventListener('click', () => {
+          currentSort = item.dataset.sort;
+          const labelMap = { default: '기본순', 'price-asc': '가격 낮은순', 'price-desc': '가격 높은순' };
+          btn.innerHTML = labelMap[currentSort] + ' <span class="ptab-arrow">▾</span>';
+          menu.classList.remove('open');
+          applySortOrder();
+        });
+      });
+    }
+    initSortDropdown();
+
     document.querySelectorAll('.ptab:not(.ptab-brand-btn)').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
@@ -625,6 +694,10 @@
         const aAvail = a.available === 'TRUE';
         const bAvail = b.available === 'TRUE';
         if (aAvail !== bAvail) return aAvail ? -1 : 1;
+        // currentSort가 가격 정렬이면 재고그룹 내부를 premium 기준으로 정렬,
+        // 'default'면 기존과 동일하게 시트 order 기준 유지.
+        if (currentSort === 'price-asc') return a.premium - b.premium;
+        if (currentSort === 'price-desc') return b.premium - a.premium;
         return a.order - b.order;
       });
 
@@ -650,6 +723,8 @@
       }
 
       grid.innerHTML = sorted.map(p => createProductCard(p, currentKrwPrice, COINS_CARD_OPTIONS)).join('');
+      // grid를 통째로 다시 그렸으므로 origIndex(기본순 복원용 기준값)도 새로 매겨준다.
+      grid.querySelectorAll('.product-card').forEach((card, i) => { card.dataset.origIndex = i; });
 
       const activeTab = document.querySelector('.ptab.active');
       if (activeTab) applyTabFilter(activeTab.dataset.filter);
